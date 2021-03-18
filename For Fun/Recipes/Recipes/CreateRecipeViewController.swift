@@ -1,16 +1,17 @@
 //
-//  CreateUserViewController.swift
+//  CreateRecipeViewController.swift
 //  Recipes
 //
-//  Created by Ryan Bitner on 2/23/21.
+//  Created by Ryan Bitner on 3/10/21.
 //
 
 import UIKit
 
-class CreateUserViewController: UIViewController {
+class CreateRecipeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
     
@@ -25,14 +26,4 @@ class CreateUserViewController: UIViewController {
     }
     */
 
-}
-
-
-struct User {
-    let username: String
-    let password: String
-    var recipes: [String]
-    static var Users: [String: String] = [:]
-    
-    
 }
