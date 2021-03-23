@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddRegistrationTableViewController: UITableViewController {
+class AddRegistrationTableViewController: UITableViewController, SelectRoomTypeTableViewControllerDelegate {
     
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -30,6 +30,10 @@ class AddRegistrationTableViewController: UITableViewController {
     @IBOutlet weak var childrenStepper: UIStepper!
     
     @IBOutlet weak var wifiSwitch: UISwitch!
+    
+    @IBOutlet weak var roomTypeLabel: UILabel!
+    
+    var roomType: RoomType?
     
     let checkInDateLabelIndexPath = IndexPath(row: 0, section: 1)
     let checkInDatePickerCellIndexPath = IndexPath(row: 1, section: 1)
@@ -56,6 +60,7 @@ class AddRegistrationTableViewController: UITableViewController {
         checkInDatePicker.date = midnightToday
         updateDateView()
         updateNumberOfGuests()
+        updateRoomType()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -127,6 +132,19 @@ class AddRegistrationTableViewController: UITableViewController {
     
     @IBAction func wifiSwitchChanged(_ sender: UISwitch) {
         
+    }
+    
+    func updateRoomType() {
+        if let roomType = roomType {
+            roomTypeLabel.text = roomType.name
+        } else {
+            roomTypeLabel.text = "Not Set"
+        }
+    }
+    
+    func selectRoomTypeTableViewController(_ controller: SelectRoomTypeTableViewController, didSelect roomType: RoomType) {
+        self.roomType = roomType
+        updateRoomType()
     }
     
 }
