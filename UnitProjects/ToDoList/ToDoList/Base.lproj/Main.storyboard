@@ -23,6 +23,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="ZSr-EX-THi" kind="presentation" id="mb1-cn-3tw"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -218,12 +221,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="MF9-eC-whX" kind="relationship" relationship="rootViewController" id="sWO-Rf-r2m"/>
+                        <segue destination="MF9-eC-whX" kind="relationship" relationship="rootViewController" destinationCreationSelector="editToDo:sender:" id="sWO-Rf-r2m"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FAu-6T-UJj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1725" y="86"/>
+            <point key="canvasLocation" x="1699" y="86"/>
         </scene>
         <!--To Do List-->
         <scene sceneID="qid-2T-9ae">
@@ -244,6 +247,9 @@
             <point key="canvasLocation" x="-33.333333333333336" y="86.383928571428569"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="NsC-r9-sne"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
