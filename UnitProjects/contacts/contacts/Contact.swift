@@ -7,10 +7,13 @@
 
 import Foundation
 
-struct Contact: Codable {
+struct Contact: Codable, Equatable {
     var name: String
     var number: String
     var email: String?
     var isFriend: Bool
     
+    static func == (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.name == rhs.name
+    }
 }

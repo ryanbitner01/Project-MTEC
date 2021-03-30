@@ -32,6 +32,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="8MI-Pt-ABA" kind="show" id="njS-44-qt5"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -129,6 +132,9 @@
                                                     <rect key="frame" x="20" y="11" width="374" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="done"/>
+                                                    <connections>
+                                                        <action selector="textFieldChanged:" destination="fX8-oP-LoB" eventType="editingDidEnd" id="NC3-bP-fPD"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -161,6 +167,9 @@
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3HZ-e9-CXt">
                                                             <rect key="frame" x="345" y="0.0" width="51" height="23.5"/>
+                                                            <connections>
+                                                                <action selector="isFriendSwitchChanged:" destination="fX8-oP-LoB" eventType="valueChanged" id="pkI-uk-sjw"/>
+                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                 </stackView>
@@ -190,7 +199,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="pAY-wg-0Cz">
                             <connections>
                                 <action selector="saveButtonPressed:" destination="fX8-oP-LoB" id="xGs-pO-1Cn"/>
-                                <segue destination="Bcn-W6-P3i" kind="unwind" unwindAction="unwindFromContactDetailWithUnwindSegue:" id="GLy-RY-wF8"/>
+                                <segue destination="Bcn-W6-P3i" kind="unwind" identifier="saveUnwind" unwindAction="unwindFromContactDetailWithUnwindSegue:" id="GLy-RY-wF8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -237,7 +246,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fX8-oP-LoB" kind="relationship" relationship="rootViewController" id="PTr-JJ-JFr"/>
+                        <segue destination="fX8-oP-LoB" kind="relationship" relationship="rootViewController" destinationCreationSelector="editContact:sender:" id="PTr-JJ-JFr"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mSa-1O-Ab4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -245,6 +254,9 @@
             <point key="canvasLocation" x="1615.9420289855075" y="-105.13392857142857"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="njS-44-qt5"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

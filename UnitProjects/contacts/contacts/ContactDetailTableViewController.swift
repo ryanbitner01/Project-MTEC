@@ -10,13 +10,7 @@ import UIKit
 class ContactDetailTableViewController: UITableViewController, UITextFieldDelegate {
     //MARK: Outlets
     
-    var contact: Contact? {
-        guard let name = nameTextField.text, let number = numberTextField.text else {return nil}
-        let email = emailTextField.text ?? nil
-        let isFriend = isFriendSwitch.isOn
-        
-        return Contact(name: name, number: number, email: email, isFriend: isFriend)
-    }
+    var contact: Contact?
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var numberTextField: UITextField!
@@ -28,11 +22,13 @@ class ContactDetailTableViewController: UITableViewController, UITextFieldDelega
         super.viewDidLoad()
         updateSaveButton()
         configureTextFields()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if let contact = contact {
+            navigationItem.title = "Contact"
+            nameTextField.text = contact.name
+            numberTextField.text = contact.number
+            emailTextField.text = contact.email ?? ""
+            isFriendSwitch.isOn = contact.isFriend
+        }
     }
     
     func updateSaveButton() {
@@ -51,10 +47,28 @@ class ContactDetailTableViewController: UITableViewController, UITextFieldDelega
         emailTextField.delegate = self
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        guard segue.identifier == "saveUnwind" else {return}
+        
+        let name = nameTextField.text!
+        let number = numberTextField.text!
+        let email = emailTextField.text ?? nil
+        let isFriend = isFriendSwitch.isOn
+        
+        contact = Contact(name: name, number: number, email: email, isFriend: isFriend)
+    }
+    
     //MARK: Actions
     @IBAction func textFieldChanged(_ sender: UITextField) {
         updateSaveButton()
     }
+    
+    @IBAction func isFriendSwitchChanged(_ sender: UISwitch) {
+        updateSaveButton()
+    }
+    
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
