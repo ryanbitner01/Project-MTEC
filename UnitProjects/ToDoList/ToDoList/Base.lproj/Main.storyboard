@@ -16,14 +16,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="GUo-J9-W7t">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="GUo-J9-W7t" customClass="ToDoCellTableViewCell" customModule="ToDoList" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="49.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GUo-J9-W7t" id="mim-mH-Gwe">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DnH-3u-KnI">
+                                            <rect key="frame" x="20" y="11" width="374" height="27.5"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rU2-eS-feC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="27.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="gfa-C8-MwD"/>
+                                                    </constraints>
+                                                    <state key="normal" image="circle" catalog="system">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
+                                                    </state>
+                                                    <state key="selected" image="checkmark.circle.fill" catalog="system">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="completeButtonTapped:" destination="GUo-J9-W7t" eventType="touchUpInside" id="sBM-bd-yrG"/>
+                                                        <action selector="isCompleteButtonTapped:" destination="MF9-eC-whX" eventType="touchUpInside" id="Sa2-Ua-ixi"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoh-gg-IRZ">
+                                                    <rect key="frame" x="58" y="0.0" width="316" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="DnH-3u-KnI" firstAttribute="leading" secondItem="mim-mH-Gwe" secondAttribute="leadingMargin" id="Xtu-2D-gab"/>
+                                        <constraint firstItem="DnH-3u-KnI" firstAttribute="top" secondItem="mim-mH-Gwe" secondAttribute="topMargin" id="iYH-6x-7lu"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="DnH-3u-KnI" secondAttribute="bottom" id="qHy-n8-qBh"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="DnH-3u-KnI" secondAttribute="trailing" id="sgI-T9-MXt"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="isCompleteButton" destination="rU2-eS-feC" id="wGy-lX-3Av"/>
+                                    <outlet property="titleLabel" destination="aoh-gg-IRZ" id="eGP-5E-qRi"/>
                                     <segue destination="ZSr-EX-THi" kind="presentation" id="mb1-cn-3tw"/>
                                 </connections>
                             </tableViewCell>

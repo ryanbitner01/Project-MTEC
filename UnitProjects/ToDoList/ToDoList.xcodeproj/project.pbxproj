@@ -15,6 +15,7 @@
 		1E1CE67726010A19001E5DCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1CE67526010A19001E5DCC /* LaunchScreen.storyboard */; };
 		1E1CE68126010B1E001E5DCC /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1CE68026010B1E001E5DCC /* ToDo.swift */; };
 		1E1CE68426010BB2001E5DCC /* ToDoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1CE68326010BB2001E5DCC /* ToDoTableViewController.swift */; };
+		1E6DF4D9261375600017C817 /* ToDoCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6DF4D8261375600017C817 /* ToDoCellTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		1E1CE67826010A19001E5DCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E1CE68026010B1E001E5DCC /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		1E1CE68326010BB2001E5DCC /* ToDoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewController.swift; sourceTree = "<group>"; };
+		1E6DF4D8261375600017C817 /* ToDoCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCellTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		1E1CE66926010A18001E5DCC /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				1E6DF4D8261375600017C817 /* ToDoCellTableViewCell.swift */,
 				1E1CE66A26010A18001E5DCC /* AppDelegate.swift */,
 				1E1CE66C26010A18001E5DCC /* SceneDelegate.swift */,
 				1E1CE67026010A18001E5DCC /* Main.storyboard */,
@@ -148,6 +151,7 @@
 				1E1CE68426010BB2001E5DCC /* ToDoTableViewController.swift in Sources */,
 				1E1CE66B26010A18001E5DCC /* AppDelegate.swift in Sources */,
 				1E1CE66D26010A18001E5DCC /* SceneDelegate.swift in Sources */,
+				1E6DF4D9261375600017C817 /* ToDoCellTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

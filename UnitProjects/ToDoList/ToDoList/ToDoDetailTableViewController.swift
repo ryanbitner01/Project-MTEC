@@ -53,7 +53,14 @@ class ToDoDetailTableViewController: UITableViewController {
         let dueDate = dueDatePicker.date
         let notes = notesTextView.text
         
-        todo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
+        if let todo = todo {
+            var existingtodo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
+            existingtodo.id = todo.id
+            self.todo = existingtodo
+        } else {
+            todo = ToDo(title: title, isComplete: isComplete, dueDate: dueDate, notes: notes)
+        }
+
     }
     
     //MARK: Methods

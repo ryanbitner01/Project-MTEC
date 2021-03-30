@@ -7,7 +7,17 @@
 
 import UIKit
 
-class ToDoTableViewController: UITableViewController {
+class ToDoTableViewController: UITableViewController, ToDoCellDegegate {
+    func checkmarkTapped(sender: ToDoCellTableViewCell) {
+        if let indexPath = tableView.indexPath(for: sender) {
+            var todo = todos[indexPath.row]
+            todo.isComplete.toggle()
+            todos[indexPath.row] = todo
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            ToDo.saveToDos(todos)
+        }
+    }
+    
     
     var todos = [ToDo]()
 
@@ -30,10 +40,12 @@ class ToDoTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath) as! ToDoCellTableViewCell
         let todo = todos[indexPath.row]
-        cell.textLabel?.text = todo.title
-
+        cell.titleLabel?.text = todo.title
+        cell.isCompleteButton.isSelected = todo.isComplete
+        cell.delegate = self
+        
         return cell
     }
 
@@ -45,6 +57,7 @@ class ToDoTableViewController: UITableViewController {
         if editingStyle == .delete {
             todos.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            ToDo.saveToDos(todos)
         }
     }
     
@@ -56,8 +69,14 @@ class ToDoTableViewController: UITableViewController {
         if let todo = sourceViewController.todo {
             if let indexOfExistingToDo = todos.firstIndex(of: todo) {
                 todos[indexOfExistingToDo] = todo
+                tableView.reloadRows(at: [IndexPath(row: indexOfExistingToDo, section: 0)], with: .automatic)
+            } else {
+                let newIndexPath = IndexPath(row: todos.count, section: 0)
+                todos.append(todo)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
         }
+        ToDo.saveToDos(todos)
     }
     
     //MARK: Actions
