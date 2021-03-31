@@ -9,10 +9,25 @@ import UIKit
 
 class ContactListTableViewController: UITableViewController {
     
-    var contacts = [Contact]()
-    let defaultContactList: [Contact] = [
-        Contact(name: "Ryan Bitner" , number: "8018224576", email: nil, isFriend: true)
-    ]
+    var allContacts = [Contact]()
+    var friendsContacts: [Contact] {
+        allContacts.filter({
+            $0.isFriend
+        })
+    }
+    
+    var notFriendContacts: [Contact] {
+        allContacts.filter({!$0.isFriend}
+        )
+    }
+    
+    func contactIndex(indexPath: IndexPath) -> Contact {
+        if indexPath.section == 0 {
+             return friendsContacts[indexPath.row]
+        } else {
+            return notFriendContacts[indexPath.row]
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +38,7 @@ class ContactListTableViewController: UITableViewController {
         let propertyDecoder = PropertyListDecoder()
         
         if let retreivedContacts = try? Data(contentsOf: archiveURL), let decodedContacts = try? propertyDecoder.decode(Array<Contact>.self, from: retreivedContacts) {
-            contacts = decodedContacts
+            allContacts = decodedContacts
             
         
         }
@@ -40,28 +55,40 @@ class ContactListTableViewController: UITableViewController {
         
         let propertyListEncoder = PropertyListEncoder()
         
-        let encodedContacts = try? propertyListEncoder.encode(contacts)
+        let encodedContacts = try? propertyListEncoder.encode(allContacts)
         try? encodedContacts?.write(to: archiveURL, options: .noFileProtection)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return contacts.count
+        if section == 0 {
+            return friendsContacts.count
+        } else {
+            return notFriendContacts.count
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Friends"
+        } else {
+            return "Not Friends"
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath)
-        let contact = contacts[indexPath.row]
-        let name = contact.name
-        
-        cell.textLabel?.text = name
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
+        let contact: Contact
+        contact = contactIndex(indexPath: indexPath)
+        cell.contact = contact
+        cell.updateCell()
+        cell.delegate = self
         return cell
     }
     
@@ -71,7 +98,10 @@ class ContactListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            contacts.remove(at: indexPath.row)
+            let contact = contactIndex(indexPath: indexPath)
+            if let index = allContacts.firstIndex(of: contact) {
+                allContacts.remove(at: index)
+            }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
@@ -80,12 +110,12 @@ class ContactListTableViewController: UITableViewController {
    @IBAction func unwindFromContactDetail(unwindSegue: UIStoryboardSegue) {
         guard let contactDetailTableViewController = unwindSegue.source as? ContactDetailTableViewController, let contact = contactDetailTableViewController.contact else {return}
         
-        if let indexOfExistingContact = contacts.firstIndex(of: contact) {
-            contacts[indexOfExistingContact] = contact
-            tableView.reloadRows(at: [IndexPath(row: indexOfExistingContact, section: 0)], with: .automatic)
+        if let indexOfExistingContact = allContacts.firstIndex(of: contact) {
+            allContacts[indexOfExistingContact] = contact
+            tableView.reloadData()
         } else {
-            let newIndexPath = IndexPath(row: contacts.count, section: 0)
-            contacts.append(contact)
+            let newIndexPath = IndexPath(row: allContacts.count, section: 0)
+            allContacts.append(contact)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
@@ -95,9 +125,25 @@ class ContactListTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let contactDetailTableViewController = ContactDetailTableViewController(coder: coder)
-        contactDetailTableViewController?.contact = contacts[indexPath.row]
+        contactDetailTableViewController?.contact = allContacts[indexPath.row]
         return contactDetailTableViewController
     }
     
 
+}
+
+extension ContactListTableViewController: ContactCellDelegate {
+    func switchChanged(_ sender: ContactCell) {
+        if let indexPath = tableView.indexPath(for: sender) {
+            var contact = contactIndex(indexPath: indexPath)
+            contact.isFriend.toggle()
+            if let index = allContacts.firstIndex(of: contact) {
+                allContacts[index] = contact
+                tableView.reloadData()
+                //tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
+    }
+    
+    
 }
