@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import MessageUI
+import CallKit
 
-class ContactDetailTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ContactDetailTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate {
+    
     //MARK: Outlets
     
     var contact: Contact?
     
+    @IBOutlet weak var phoneButton: UIButton!
+    @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var contactImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var numberTextField: UITextField!
@@ -60,7 +65,7 @@ class ContactDetailTableViewController: UITableViewController, UITextFieldDelega
         let isFriend = isFriendSwitch.isOn
         let email = emailTextField.text ?? ""
         guard let contactPhoto = contactImageView.image else {return}
-        let imageData: Data = contactPhoto.pngData()!
+        let imageData: Data = contactPhoto.jpegData(compressionQuality: 0.9)!
         
         if let contact = self.contact {
             var editedContact = Contact(name: name, number: number, email: email, isFriend: isFriend, contactPhoto: imageData)
@@ -72,6 +77,30 @@ class ContactDetailTableViewController: UITableViewController, UITextFieldDelega
     }
     
     //MARK: Actions
+    
+    @IBAction func phoneButtonTapped(_ sender: UIButton) {
+        guard let number = numberTextField.text else {return}
+        if let url = URL(string: "tel://\(number)"), UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                print("Calling not available")
+            }
+        }
+    }
+    
+    @IBAction func emailButtonTapped(_ sender: Any) {
+        guard MFMailComposeViewController.canSendMail() else {
+            print("Can't send mail")
+            return
+        }
+        
+        let mailComposer = MFMailComposeViewController()
+        mailComposer.mailComposeDelegate = self
+        guard let email = emailTextField.text else {return}
+        mailComposer.setToRecipients([email])
+        present(mailComposer, animated: true, completion: nil)
+    }
     
     @IBAction func contactTapped(_ sender: UITapGestureRecognizer) {
         let imagePicker = UIImagePickerController()
@@ -130,6 +159,15 @@ class ContactDetailTableViewController: UITableViewController, UITextFieldDelega
         contactImageView.image = selectedImage
         dismiss(animated: true, completion: nil)
     }
+    // MARK: Mail Composer Delegate
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: CXProvider Delegate
+    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
+        action.fulfill()
+    }
+
     
 }
-
