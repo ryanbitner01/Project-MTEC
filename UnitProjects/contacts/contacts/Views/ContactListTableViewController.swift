@@ -22,7 +22,7 @@ class ContactListTableViewController: UITableViewController {
     }
     
     func contactIndex(indexPath: IndexPath) -> Contact {
-        if indexPath.section == 0 {
+        if indexPath.section == 1 {
              return friendsContacts[indexPath.row]
         } else {
             return notFriendContacts[indexPath.row]
@@ -62,34 +62,42 @@ class ContactListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 0 {
+        if section == 1 {
             return friendsContacts.count
-        } else {
+        } else if section == 2{
             return notFriendContacts.count
+        } else {
+            return 1
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
+        if section == 1 {
             return "Friends"
-        } else {
+        } else if section == 2 {
             return "Not Friends"
+        } else {
+            return "Quick Add"
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactCell
-        let contact: Contact
-        contact = contactIndex(indexPath: indexPath)
-        cell.contact = contact
-        cell.updateCell()
-        cell.delegate = self
-        return cell
+        if indexPath.section == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "addContactCell") as? AddContactCell else {return UITableViewCell()}
+            cell.delegate = self
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell") as? ContactCell else {return UITableViewCell()}
+            cell.contact = contactIndex(indexPath: indexPath)
+            cell.delegate = self
+            cell.updateCell()
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -143,6 +151,18 @@ extension ContactListTableViewController: ContactCellDelegate {
                 //tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
+    }
+    
+    
+}
+
+extension ContactListTableViewController: AddContactCellDelegate {
+    func newContact(_ sender: AddContactCell) {
+        if let contact = sender.contact {
+            allContacts.append(contact)
+            tableView.reloadData()
+        }
+        
     }
     
     

@@ -16,8 +16,62 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCell" id="8M8-J0-k0e" customClass="ContactCell" customModule="contacts" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addContactCell" id="eUl-Qe-O6F" customClass="AddContactCell" customModule="contacts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="70.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eUl-Qe-O6F" id="g3m-Hx-gvv" customClass="Ce">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hv4-b0-4zR">
+                                            <rect key="frame" x="10" y="10" width="394" height="50.5"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default contact photo" translatesAutoresizingMaskIntoConstraints="NO" id="L4X-cz-xEg">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50.5"/>
+                                                    <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="05Z-rM-oOP"/>
+                                                        <constraint firstAttribute="width" constant="50" id="GrM-FP-4l6"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-xO-qd2">
+                                                    <rect key="frame" x="58" y="0.0" width="303" height="50.5"/>
+                                                    <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="28"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r0A-PN-JNW">
+                                                    <rect key="frame" x="369" y="0.0" width="25" height="50.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="bmg-9D-l9H"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <state key="normal" image="plus.circle" catalog="system">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addButtonPressed:" destination="eUl-Qe-O6F" eventType="touchUpInside" id="OhU-wU-amg"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="r0A-PN-JNW" firstAttribute="leading" secondItem="m1i-xO-qd2" secondAttribute="trailing" constant="8" id="3rQ-M6-6JF"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Hv4-b0-4zR" firstAttribute="leading" secondItem="g3m-Hx-gvv" secondAttribute="leading" constant="10" id="4Rq-M2-nDg"/>
+                                        <constraint firstAttribute="bottom" secondItem="Hv4-b0-4zR" secondAttribute="bottom" constant="10" id="BHr-EE-doE"/>
+                                        <constraint firstAttribute="trailing" secondItem="Hv4-b0-4zR" secondAttribute="trailing" constant="10" id="G38-gd-yXG"/>
+                                        <constraint firstItem="Hv4-b0-4zR" firstAttribute="top" secondItem="g3m-Hx-gvv" secondAttribute="top" constant="10" id="LiQ-qM-Vt9"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contactImageView" destination="L4X-cz-xEg" id="KtM-E5-mh9"/>
+                                    <outlet property="nameTextField" destination="m1i-xO-qd2" id="QAX-3u-ydG"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCell" id="8M8-J0-k0e" customClass="ContactCell" customModule="contacts" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="126" width="414" height="70.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8M8-J0-k0e" id="Ckk-Vm-gzY" customClass="Ce">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="70.5"/>
@@ -380,6 +434,7 @@
         <image name="default contact photo" width="800" height="800"/>
         <image name="envelope.fill" catalog="system" width="128" height="93"/>
         <image name="phone.fill" catalog="system" width="128" height="114"/>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

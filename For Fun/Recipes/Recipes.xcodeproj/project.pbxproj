@@ -9,25 +9,21 @@
 /* Begin PBXBuildFile section */
 		1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D4E25F92836004B87DB /* AppDelegate.swift */; };
 		1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5025F92836004B87DB /* SceneDelegate.swift */; };
-		1EFB1D5325F92836004B87DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5225F92836004B87DB /* ViewController.swift */; };
 		1EFB1D5625F92836004B87DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5425F92836004B87DB /* Main.storyboard */; };
 		1EFB1D5825F92837004B87DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5725F92837004B87DB /* Assets.xcassets */; };
 		1EFB1D5B25F92837004B87DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5925F92837004B87DB /* LaunchScreen.storyboard */; };
 		1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D6325F928D6004B87DB /* Recipe.swift */; };
-		1EFB1D6725F92D07004B87DB /* CreateRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D6625F92D07004B87DB /* CreateRecipeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1EFB1D4B25F92836004B87DB /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB1D4E25F92836004B87DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EFB1D5025F92836004B87DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1EFB1D5225F92836004B87DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1EFB1D5525F92836004B87DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1EFB1D5725F92837004B87DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1EFB1D5A25F92837004B87DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EFB1D5C25F92837004B87DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EFB1D6325F928D6004B87DB /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
-		1EFB1D6625F92D07004B87DB /* CreateRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +58,8 @@
 			children = (
 				1EFB1D4E25F92836004B87DB /* AppDelegate.swift */,
 				1EFB1D5025F92836004B87DB /* SceneDelegate.swift */,
-				1EFB1D5225F92836004B87DB /* ViewController.swift */,
 				1EFB1D6325F928D6004B87DB /* Recipe.swift */,
 				1EFB1D5425F92836004B87DB /* Main.storyboard */,
-				1EFB1D6625F92D07004B87DB /* CreateRecipeViewController.swift */,
 				1EFB1D5725F92837004B87DB /* Assets.xcassets */,
 				1EFB1D5925F92837004B87DB /* LaunchScreen.storyboard */,
 				1EFB1D5C25F92837004B87DB /* Info.plist */,
@@ -143,8 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EFB1D6725F92D07004B87DB /* CreateRecipeViewController.swift in Sources */,
-				1EFB1D5325F92836004B87DB /* ViewController.swift in Sources */,
 				1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */,
 				1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */,
 				1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */,

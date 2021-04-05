@@ -9,6 +9,8 @@ import Foundation
 
 struct Recipe {
     var name: String
+    var image: Data?
+    var instruction: String?
 }
 
 var recipes: [Recipe] = []
