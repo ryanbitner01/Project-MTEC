@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E2DDC0B261B6220005D1466 /* AddRecipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2DDC0A261B6220005D1466 /* AddRecipeTableViewController.swift */; };
+		1E2DDC0E261B6DE9005D1466 /* RecipeListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2DDC0D261B6DE9005D1466 /* RecipeListTableViewController.swift */; };
 		1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D4E25F92836004B87DB /* AppDelegate.swift */; };
 		1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5025F92836004B87DB /* SceneDelegate.swift */; };
 		1EFB1D5625F92836004B87DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5425F92836004B87DB /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E2DDC0A261B6220005D1466 /* AddRecipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeTableViewController.swift; sourceTree = "<group>"; };
+		1E2DDC0D261B6DE9005D1466 /* RecipeListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListTableViewController.swift; sourceTree = "<group>"; };
 		1EFB1D4B25F92836004B87DB /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB1D4E25F92836004B87DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EFB1D5025F92836004B87DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 				1EFB1D5025F92836004B87DB /* SceneDelegate.swift */,
 				1EFB1D6325F928D6004B87DB /* Recipe.swift */,
 				1EFB1D5425F92836004B87DB /* Main.storyboard */,
+				1E2DDC0D261B6DE9005D1466 /* RecipeListTableViewController.swift */,
+				1E2DDC0A261B6220005D1466 /* AddRecipeTableViewController.swift */,
 				1EFB1D5725F92837004B87DB /* Assets.xcassets */,
 				1EFB1D5925F92837004B87DB /* LaunchScreen.storyboard */,
 				1EFB1D5C25F92837004B87DB /* Info.plist */,
@@ -137,7 +143,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E2DDC0E261B6DE9005D1466 /* RecipeListTableViewController.swift in Sources */,
 				1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */,
+				1E2DDC0B261B6220005D1466 /* AddRecipeTableViewController.swift in Sources */,
 				1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */,
 				1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */,
 			);

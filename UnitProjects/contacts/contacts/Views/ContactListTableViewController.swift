@@ -122,9 +122,11 @@ class ContactListTableViewController: UITableViewController {
             allContacts[indexOfExistingContact] = contact
             tableView.reloadData()
         } else {
-            let newIndexPath = IndexPath(row: allContacts.count, section: 0)
+//            let newIndexPath = IndexPath(row: allContacts.count, section: 0)
+//            allContacts.append(contact)
+//            tableView.insertRows(at: [newIndexPath], with: .automatic)
             allContacts.append(contact)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.reloadData()
         }
     }
     
