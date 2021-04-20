@@ -37,6 +37,13 @@ class MenuDetailViewController: UIViewController {
         self.nameLabel.text = menuItem.name
         self.priceLabel.text = MenuItem.priceFormatter.string(from: NSNumber(value: menuItem.price))
         self.detailTextLabel.text = menuItem.detailText
+        
+        MenuController.shared.fetchImage(url: menuItem.imageURL) { (image) in
+            guard let image = image else {return}
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
     }
 
     @IBAction func orderButtonTapped(_ sender: UIButton) {
@@ -44,5 +51,7 @@ class MenuDetailViewController: UIViewController {
             self.addToOrderButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
             self.addToOrderButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }, completion: nil)
+        
+        MenuController.shared.order.menuItems.append(menuItem)
     }
 }
