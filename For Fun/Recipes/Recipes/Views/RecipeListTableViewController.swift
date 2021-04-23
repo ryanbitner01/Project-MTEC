@@ -28,13 +28,13 @@ class RecipeListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return recipes.count
+        return Recipe.recipes.count
     }
 
     @IBAction func unwindFromAddRecipe(unwindSegue: UIStoryboardSegue) {
         guard let addRecipeController = unwindSegue.source as? AddRecipeTableViewController, let recipe = addRecipeController.recipe else {return}
-        let newIndex = IndexPath(row: recipes.count, section: 0)
-        recipes.append(recipe)
+        let newIndex = IndexPath(row: Recipe.recipes.count, section: 0)
+        Recipe.recipes.append(recipe)
         tableView.insertRows(at: [newIndex], with: .automatic)
     }
 

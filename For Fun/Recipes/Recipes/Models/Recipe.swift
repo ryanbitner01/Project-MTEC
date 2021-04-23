@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Recipe {
+struct Recipe: Codable {
     var name: String
     var image: Data?
-    var instruction: String?
+    var instruction: [Instruction]
+    
+    static var recipes = [Recipe]()
 }
-
-var recipes: [Recipe] = []

@@ -61,8 +61,8 @@ class AddRecipeTableViewController: UITableViewController, UIImagePickerControll
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        guard let name = nameTextField.text, let image = imageView.image, let imageData = image.jpegData(compressionQuality: 0.9), let instruction = instructionTextView.text else {return}
-        recipe = Recipe(name: name, image: imageData, instruction: instruction)
+        //guard let name = nameTextField.text, let image = imageView.image, let imageData = image.jpegData(compressionQuality: 0.9), let instruction = instructionTextView.text else {return}
+        //recipe = Recipe(name: name, image: imageData, instruction: instruction)
     }
     
     
