@@ -25,6 +25,15 @@ class InstructionTableView: UITableView, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 1:
+            return "Add Instruction"
+        default:
+            return "Instructions"
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -34,7 +43,7 @@ class InstructionTableView: UITableView, UITableViewDataSource {
             cell.detailTextLabel?.text = recipe.instruction[indexPath.row].descrtiption
             return cell
         default:
-            let cell = dequeueReusableCell(withIdentifier: "addInstructionCell", for: indexPath)
+            guard let cell = dequeueReusableCell(withIdentifier: "addInstructionCell") else {return UITableViewCell()}
             return cell
         }
     }

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E400671263305A20023556D /* RepSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E400670263305A20023556D /* RepSearchTableViewCell.swift */; };
+		1E40067426330C140023556D /* RepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40067326330C140023556D /* RepViewController.swift */; };
+		1E40067C263317BB0023556D /* NobelPrize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40067B263317BB0023556D /* NobelPrize.swift */; };
+		1E40067F26331B340023556D /* NobelPrizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40067E26331B340023556D /* NobelPrizeViewController.swift */; };
+		1E400682263328080023556D /* NobelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E400681263328080023556D /* NobelTableViewCell.swift */; };
 		1EBE30B02631B43900EF4F73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30AF2631B43900EF4F73 /* AppDelegate.swift */; };
 		1EBE30B22631B43900EF4F73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30B12631B43900EF4F73 /* SceneDelegate.swift */; };
 		1EBE30B42631B43900EF4F73 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30B32631B43900EF4F73 /* ViewController.swift */; };
@@ -15,12 +20,16 @@
 		1EBE30BC2631B43A00EF4F73 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EBE30BA2631B43A00EF4F73 /* LaunchScreen.storyboard */; };
 		1EBE30C52631B4DB00EF4F73 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30C42631B4DB00EF4F73 /* APIController.swift */; };
 		1EBE30CC2631BBAC00EF4F73 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30CB2631BBAC00EF4F73 /* ResponseModel.swift */; };
-		1EBE30CF2631C62800EF4F73 /* RepTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30CE2631C62800EF4F73 /* RepTableViewController.swift */; };
 		1EBE30D22631C6A100EF4F73 /* Representative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30D12631C6A100EF4F73 /* Representative.swift */; };
 		1EBE30D52631C8F700EF4F73 /* RepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE30D42631C8F700EF4F73 /* RepTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E400670263305A20023556D /* RepSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepSearchTableViewCell.swift; sourceTree = "<group>"; };
+		1E40067326330C140023556D /* RepViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepViewController.swift; sourceTree = "<group>"; };
+		1E40067B263317BB0023556D /* NobelPrize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NobelPrize.swift; sourceTree = "<group>"; };
+		1E40067E26331B340023556D /* NobelPrizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NobelPrizeViewController.swift; sourceTree = "<group>"; };
+		1E400681263328080023556D /* NobelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NobelTableViewCell.swift; sourceTree = "<group>"; };
 		1EBE30AC2631B43900EF4F73 /* API Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "API Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EBE30AF2631B43900EF4F73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EBE30B12631B43900EF4F73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,7 +40,6 @@
 		1EBE30BD2631B43A00EF4F73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EBE30C42631B4DB00EF4F73 /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		1EBE30CB2631BBAC00EF4F73 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
-		1EBE30CE2631C62800EF4F73 /* RepTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepTableViewController.swift; sourceTree = "<group>"; };
 		1EBE30D12631C6A100EF4F73 /* Representative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Representative.swift; sourceTree = "<group>"; };
 		1EBE30D42631C8F700EF4F73 /* RepTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,10 +78,14 @@
 				1EBE30B12631B43900EF4F73 /* SceneDelegate.swift */,
 				1EBE30B32631B43900EF4F73 /* ViewController.swift */,
 				1EBE30B52631B43900EF4F73 /* Main.storyboard */,
-				1EBE30CE2631C62800EF4F73 /* RepTableViewController.swift */,
+				1E400681263328080023556D /* NobelTableViewCell.swift */,
+				1E40067E26331B340023556D /* NobelPrizeViewController.swift */,
+				1E40067326330C140023556D /* RepViewController.swift */,
+				1E400670263305A20023556D /* RepSearchTableViewCell.swift */,
 				1EBE30D42631C8F700EF4F73 /* RepTableViewCell.swift */,
 				1EBE30D12631C6A100EF4F73 /* Representative.swift */,
 				1EBE30C42631B4DB00EF4F73 /* APIController.swift */,
+				1E40067B263317BB0023556D /* NobelPrize.swift */,
 				1EBE30B82631B43A00EF4F73 /* Assets.xcassets */,
 				1EBE30BA2631B43A00EF4F73 /* LaunchScreen.storyboard */,
 				1EBE30BD2631B43A00EF4F73 /* Info.plist */,
@@ -154,11 +166,15 @@
 			files = (
 				1EBE30C52631B4DB00EF4F73 /* APIController.swift in Sources */,
 				1EBE30B42631B43900EF4F73 /* ViewController.swift in Sources */,
+				1E40067426330C140023556D /* RepViewController.swift in Sources */,
 				1EBE30B02631B43900EF4F73 /* AppDelegate.swift in Sources */,
 				1EBE30D52631C8F700EF4F73 /* RepTableViewCell.swift in Sources */,
+				1E40067C263317BB0023556D /* NobelPrize.swift in Sources */,
+				1E40067F26331B340023556D /* NobelPrizeViewController.swift in Sources */,
 				1EBE30D22631C6A100EF4F73 /* Representative.swift in Sources */,
-				1EBE30CF2631C62800EF4F73 /* RepTableViewController.swift in Sources */,
+				1E400671263305A20023556D /* RepSearchTableViewCell.swift in Sources */,
 				1EBE30CC2631BBAC00EF4F73 /* ResponseModel.swift in Sources */,
+				1E400682263328080023556D /* NobelTableViewCell.swift in Sources */,
 				1EBE30B22631B43900EF4F73 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -52,6 +52,26 @@ class APIController {
         }
         task.resume()
     }
+    
+    func fetchNobelPrizeWinner(year: String, category: String, completion: @escaping (Result<[NobelPrize], Error>) -> Void) {
+        let baseURL = "http://api.nobelprize.org/v1/prize.json"
+        let queryItems = ["year": year, "yearTo": year, "category": category].map {URLQueryItem(name: $0.key, value: $0.value)}
+        var url = URLComponents(string: baseURL)!
+        url.queryItems = queryItems
+        
+        let task = URLSession.shared.dataTask(with: url.url!) {(data, response, error) in
+            if let data = data {
+                //data.prettyPrintedJSONString()
+                let jsonDecoder = JSONDecoder()
+                guard let decodedData = try? jsonDecoder.decode(NobelResponse.self, from: data) else {return}
+                print(decodedData.prizes)
+                completion(.success(decodedData.prizes))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
 }
 
 
