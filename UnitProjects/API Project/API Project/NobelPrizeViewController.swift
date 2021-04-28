@@ -15,12 +15,13 @@ class NobelPrizeViewController: UIViewController {
     @IBOutlet weak var categoryTF: UITextField!
     @IBOutlet weak var yearTF: UITextField!
     @IBOutlet weak var nobelTableView: UITableView!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         nobelTableView.dataSource = self
         nobelTableView.delegate = self
-        updateUI(year: "2010", category: "chemistry")
+        updateSearchState()
     }
     
     func updateUI(year: String, category: String) {
@@ -37,6 +38,11 @@ class NobelPrizeViewController: UIViewController {
         }
     }
     
+    @IBAction func editingTF(_ sender: UITextField) {
+        updateSearchState()
+    }
+    
+    
 
     /*
     // MARK: - Navigation
@@ -47,7 +53,19 @@ class NobelPrizeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func searchButtonPressed(_ sender: UIBarButtonItem) {
+        guard let categoryText = self.categoryTF.text, let yearText = yearTF.text else {return}
+        updateUI(year: yearText, category: categoryText)
+    }
+    
+    func updateSearchState() {
+        if let categoryText = categoryTF.text, let yearText = yearTF.text, !categoryText.isEmpty, !yearText.isEmpty {
+            searchButton.isEnabled = true
+        } else {
+            searchButton.isEnabled = false
+        }
+    }
+    
 }
 
 
@@ -69,5 +87,7 @@ extension NobelPrizeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 114
     }
+    
+    
     
 }
