@@ -10,8 +10,9 @@ import Foundation
 struct Journal: Codable, Equatable {
     var entry: String
     var date: String
+    var uuid = UUID()
     
     static func == (lhs: Journal, rhs: Journal) -> Bool {
-        return lhs.date == rhs.date
+        return lhs.uuid == rhs.uuid
     }
 }

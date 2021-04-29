@@ -28,6 +28,7 @@ class JournalEntryTableViewController: UITableViewController {
         if let journalEntry = journalEntry {
             
             dateLabel.text = journalEntry.date
+            entryTextView.text = journalEntry.entry
         } else {
             date = Date()
             dateLabel.text = dateFormatter.string(from: date!)
@@ -42,8 +43,13 @@ class JournalEntryTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let entryTextView = entryTextView.text, let date = dateLabel.text else {return}
-        
-        journalEntry = Journal(entry: entryTextView, date: date)
+        if let journal = journalEntry {
+            var updatedJournal = Journal(entry: entryTextView, date: date)
+            updatedJournal.uuid = journal.uuid
+            self.journalEntry = updatedJournal
+        } else {
+            journalEntry = Journal(entry: entryTextView, date: date)
+        }
     }
     
 }

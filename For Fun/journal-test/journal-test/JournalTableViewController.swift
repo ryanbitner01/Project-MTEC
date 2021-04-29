@@ -10,6 +10,7 @@ import UIKit
 class JournalTableViewController: UITableViewController {
     
     var entries = [Journal]()
+    let dataController = DataController()
     
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -20,7 +21,17 @@ class JournalTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        dataController.fetchJournalEntries { (result) in
+            switch result {
+            case .success(let entries):
+                DispatchQueue.main.async {
+                    self.entries = entries
+                    self.tableView.reloadData()
+                }
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -43,9 +54,17 @@ class JournalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "journalEntryCell", for: indexPath)
         let entry = entries[indexPath.row]
-        cell.textLabel?.text = dateFormatter.string(from: entry.date)
+        cell.textLabel?.text = entry.date
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let deletedEntry = entries.remove(at: indexPath.row)
+            tableView.reloadData()
+            dataController.deleteEntry(deletedEntry.uuid.uuidString)
+        }
     }
     
     @IBAction func unwindToJournalTableView(_ unwindSegue: UIStoryboardSegue) {
@@ -54,9 +73,11 @@ class JournalTableViewController: UITableViewController {
         if let existingJournalEntry = entries.firstIndex(of: journal) {
             entries[existingJournalEntry] = journal
             tableView.reloadData()
+            dataController.addEntry(journal)
         } else {
             entries.append(journal)
             tableView.reloadData()
+            dataController.addEntry(journal)
         }
         // Use data from the view controller which initiated the unwind segue
     }
