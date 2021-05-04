@@ -11,6 +11,7 @@ class JournalTableViewController: UITableViewController {
     
     var entries = [Journal]()
     let dataController = DataController()
+    var user: User?
     
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -19,33 +20,19 @@ class JournalTableViewController: UITableViewController {
         return dateFormatter
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataController.fetchJournalEntries { (result) in
-            switch result {
-            case .success(let entries):
-                DispatchQueue.main.async {
-                    self.entries = entries
-                    self.tableView.reloadData()
-                }
-            case.failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        fetchJournal()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return entries.count
@@ -55,29 +42,29 @@ class JournalTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "journalEntryCell", for: indexPath)
         let entry = entries[indexPath.row]
         cell.textLabel?.text = entry.date
-
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let deletedEntry = entries.remove(at: indexPath.row)
+            //let deletedEntry = entries.remove(at: indexPath.row)
             tableView.reloadData()
-            dataController.deleteEntry(deletedEntry.uuid.uuidString)
+            //dataController.deleteEntry(deletedEntry.uuid.uuidString)
         }
     }
     
     @IBAction func unwindToJournalTableView(_ unwindSegue: UIStoryboardSegue) {
-        guard let sourceViewController = unwindSegue.source as? JournalEntryTableViewController, let journal = sourceViewController.journalEntry else {return}
+        guard let sourceViewController = unwindSegue.source as? JournalEntryTableViewController, let journal = sourceViewController.journalEntry, let user = user else {return}
         
         if let existingJournalEntry = entries.firstIndex(of: journal) {
             entries[existingJournalEntry] = journal
             tableView.reloadData()
-            dataController.addEntry(journal)
+            dataController.addEntry(user: user, journal: journal)
         } else {
             entries.append(journal)
             tableView.reloadData()
-            dataController.addEntry(journal)
+            dataController.addEntry(user: user, journal: journal)
         }
         // Use data from the view controller which initiated the unwind segue
     }
@@ -88,6 +75,23 @@ class JournalTableViewController: UITableViewController {
         journalEntryTableViewController?.journalEntry = entries[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         return journalEntryTableViewController
+    }
+    
+    // MARK: Methods
+    
+    func fetchJournal() {
+        guard let user = user else {return}
+        dataController.fetchJournalEntries(user.ID.uuidString) { result in
+            switch result {
+            case .success(let entries):
+                self.entries = entries
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case.failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

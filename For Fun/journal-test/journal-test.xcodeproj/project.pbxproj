@@ -12,12 +12,14 @@
 		1E3371942639ABD20078B557 /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3371932639ABD20078B557 /* JournalTableViewController.swift */; };
 		1E3371972639B2500078B557 /* JournalEntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3371962639B2500078B557 /* JournalEntryTableViewController.swift */; };
 		1E33719A2639BD930078B557 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3371992639BD930078B557 /* DataController.swift */; };
+		1E3FB89A263C5E020046697E /* LoginUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3FB899263C5E020046697E /* LoginUserViewController.swift */; };
 		1E971BEF26385C2800A5FB5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E971BEE26385C2800A5FB5F /* AppDelegate.swift */; };
 		1E971BF126385C2800A5FB5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E971BF026385C2800A5FB5F /* SceneDelegate.swift */; };
 		1E971BF626385C2800A5FB5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E971BF426385C2800A5FB5F /* Main.storyboard */; };
 		1E971BF826385C2900A5FB5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E971BF726385C2900A5FB5F /* Assets.xcassets */; };
 		1E971BFB26385C2900A5FB5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E971BF926385C2900A5FB5F /* LaunchScreen.storyboard */; };
 		1E971C0426385CE600A5FB5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E971C0326385CE600A5FB5F /* GoogleService-Info.plist */; };
+		1EEA1E8A263C44EA00BB34F4 /* CreateUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA1E89263C44EA00BB34F4 /* CreateUserTableViewController.swift */; };
 		30BA43AC1C6954FC67CEA21B /* Pods_journal_test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C7399A56C77E225FAB712CE /* Pods_journal_test.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +29,7 @@
 		1E3371932639ABD20078B557 /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTableViewController.swift; sourceTree = "<group>"; };
 		1E3371962639B2500078B557 /* JournalEntryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntryTableViewController.swift; sourceTree = "<group>"; };
 		1E3371992639BD930078B557 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		1E3FB899263C5E020046697E /* LoginUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserViewController.swift; sourceTree = "<group>"; };
 		1E971BEB26385C2800A5FB5F /* journal-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "journal-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E971BEE26385C2800A5FB5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E971BF026385C2800A5FB5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +38,7 @@
 		1E971BFA26385C2900A5FB5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E971BFC26385C2900A5FB5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E971C0326385CE600A5FB5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1EEA1E89263C44EA00BB34F4 /* CreateUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTableViewController.swift; sourceTree = "<group>"; };
 		3C7399A56C77E225FAB712CE /* Pods_journal_test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_journal_test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B7C14395593986BC55EAC1 /* Pods-journal-test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-journal-test.debug.xcconfig"; path = "Target Support Files/Pods-journal-test/Pods-journal-test.debug.xcconfig"; sourceTree = "<group>"; };
 		953D8670B630F9399595D990 /* Pods-journal-test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-journal-test.release.xcconfig"; path = "Target Support Files/Pods-journal-test/Pods-journal-test.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 				1E3371932639ABD20078B557 /* JournalTableViewController.swift */,
 				1E3371962639B2500078B557 /* JournalEntryTableViewController.swift */,
 				1E3371992639BD930078B557 /* DataController.swift */,
+				1EEA1E89263C44EA00BB34F4 /* CreateUserTableViewController.swift */,
+				1E3FB899263C5E020046697E /* LoginUserViewController.swift */,
 			);
 			path = "journal-test";
 			sourceTree = "<group>";
@@ -221,9 +227,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EEA1E8A263C44EA00BB34F4 /* CreateUserTableViewController.swift in Sources */,
 				1E33719A2639BD930078B557 /* DataController.swift in Sources */,
 				1E33718F2639A6D80078B557 /* Journal.swift in Sources */,
 				1E33718C2639A6890078B557 /* User.swift in Sources */,
+				1E3FB89A263C5E020046697E /* LoginUserViewController.swift in Sources */,
 				1E3371972639B2500078B557 /* JournalEntryTableViewController.swift in Sources */,
 				1E3371942639ABD20078B557 /* JournalTableViewController.swift in Sources */,
 				1E971BEF26385C2800A5FB5F /* AppDelegate.swift in Sources */,
