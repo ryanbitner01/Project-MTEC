@@ -9,21 +9,24 @@ import UIKit
 
 class ToDoDetailViewController: UIViewController {
 
+    @IBOutlet weak var nameTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
-    */
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let name = nameTextField.text else { return }
+        let todo = Todo(name: name, completed: false)
+        todoController.updateTodo(todo: todo)
+        dismiss(animated: true, completion: nil)
+        
+    }
 
 }

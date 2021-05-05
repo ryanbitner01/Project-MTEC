@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E1887E2264188ED0071611D /* CreateUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1887E1264188ED0071611D /* CreateUserTableViewController.swift */; };
+		1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D362642D98A00137B73 /* CreateUserViewController.swift */; };
+		1E051D392642DA3A00137B73 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D382642DA3A00137B73 /* User.swift */; };
+		1E051D3B2642DAF300137B73 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D3A2642DAF300137B73 /* Book.swift */; };
+		1E051D3D2642DC8200137B73 /* UserControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D3C2642DC8200137B73 /* UserControllerTest.swift */; };
 		1E1887E626418A4A0071611D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E1887E526418A4A0071611D /* GoogleService-Info.plist */; };
 		1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA60EE02633B8D100878D81 /* LoginViewController.swift */; };
 		1EAF0B5F262F31D8002E4830 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EAF0B5E262F31D8002E4830 /* Instruction.swift */; };
@@ -21,7 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E1887E1264188ED0071611D /* CreateUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTableViewController.swift; sourceTree = "<group>"; };
+		1E051D362642D98A00137B73 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
+		1E051D382642DA3A00137B73 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1E051D3A2642DAF300137B73 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		1E051D3C2642DC8200137B73 /* UserControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControllerTest.swift; sourceTree = "<group>"; };
 		1E1887E526418A4A0071611D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1EA60EE02633B8D100878D81 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		1EAF0B5E262F31D8002E4830 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
@@ -50,11 +56,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E051D352642D8D200137B73 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1E051D3C2642DC8200137B73 /* UserControllerTest.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		1EAF0B66262F353B002E4830 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				1EFB1D6325F928D6004B87DB /* Recipe.swift */,
 				1EAF0B5E262F31D8002E4830 /* Instruction.swift */,
+				1E051D382642DA3A00137B73 /* User.swift */,
+				1E051D3A2642DAF300137B73 /* Book.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -63,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				1EA60EE02633B8D100878D81 /* LoginViewController.swift */,
-				1E1887E1264188ED0071611D /* CreateUserTableViewController.swift */,
+				1E051D362642D98A00137B73 /* CreateUserViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -89,7 +105,7 @@
 		1EFB1D4D25F92836004B87DB /* Recipes */ = {
 			isa = PBXGroup;
 			children = (
-				1E1887E526418A4A0071611D /* GoogleService-Info.plist */,
+				1E051D352642D8D200137B73 /* Controller */,
 				1EAF0B67262F3543002E4830 /* Views */,
 				1EAF0B66262F353B002E4830 /* Models */,
 				1EFB1D4E25F92836004B87DB /* AppDelegate.swift */,
@@ -98,6 +114,7 @@
 				1EFB1D5725F92837004B87DB /* Assets.xcassets */,
 				1EFB1D5925F92837004B87DB /* LaunchScreen.storyboard */,
 				1EFB1D5C25F92837004B87DB /* Info.plist */,
+				1E1887E526418A4A0071611D /* GoogleService-Info.plist */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -116,7 +133,6 @@
 				8DC7FDFD990A2B23DB8C6AF3 /* Pods-Recipes.debug.xcconfig */,
 				807D8F4BEF07996216550A98 /* Pods-Recipes.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -235,12 +251,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E051D3D2642DC8200137B73 /* UserControllerTest.swift in Sources */,
+				1E051D3B2642DAF300137B73 /* Book.swift in Sources */,
 				1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */,
 				1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */,
 				1EAF0B5F262F31D8002E4830 /* Instruction.swift in Sources */,
 				1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */,
-				1E1887E2264188ED0071611D /* CreateUserTableViewController.swift in Sources */,
 				1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */,
+				1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */,
+				1E051D392642DA3A00137B73 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

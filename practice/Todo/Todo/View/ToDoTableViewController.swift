@@ -8,26 +8,27 @@
 import UIKit
 
 class ToDoTableViewController: UITableViewController {
-    
-    let todoController = MockToDoController()
-    var todos: [Todo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        todos = todoController.fetchTodos()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return todos.count
+        return todoController.todos.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoTableViewCell
-        let todo = todos[indexPath.row]
+        let todo = todoController.todos[indexPath.row]
         
         cell.delegate = self
         cell.setTodo(todo: todo)
@@ -42,7 +43,6 @@ extension ToDoTableViewController: TodoCellDelegate {
         var changedTodo = todo
         changedTodo.completed.toggle()
         todoController.updateTodo(todo: changedTodo)
-        todos = todoController.fetchTodos()
         tableView.reloadData()
     }
     

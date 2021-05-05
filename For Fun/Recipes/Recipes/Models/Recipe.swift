@@ -12,5 +12,4 @@ struct Recipe: Codable {
     var image: Data?
     var instruction: [Instruction]
     
-    static var recipes = [Recipe]()
 }
