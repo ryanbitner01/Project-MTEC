@@ -8,4 +8,6 @@ target 'Recipes' do
   # Pods for Recipes
   # add pods for desired Firebase products
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
 end

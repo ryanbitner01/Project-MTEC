@@ -7,6 +7,12 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
+import FirebaseAuth
+
+let db = Firestore.firestore()
+let storage = Storage.storage()
+let auth = Auth.auth()
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
