@@ -20,6 +20,8 @@ enum BookError: Error {
 class BookController {
 
     //var delegate: BookControllerDelegate?
+    
+    static let colors: [String] = ["Lavender", "Green", "Red", "Blue", "Orange"]
 
     let usersDirectory = db.collection("Users")
     static let shared = BookController()

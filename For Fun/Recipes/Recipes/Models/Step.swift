@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Instruction: Codable {
+struct Step: Codable {
     var order: Int
     var descrtiption: String
 }

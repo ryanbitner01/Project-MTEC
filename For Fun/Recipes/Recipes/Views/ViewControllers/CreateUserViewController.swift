@@ -9,7 +9,7 @@ import UIKit
 
 class CreateUserViewController: UIViewController {
 
-    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var otherPasswordTextField: UITextField!
@@ -30,9 +30,8 @@ class CreateUserViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
         saveUser()
-        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func textFieldChanged(_ sender: UITextField) {
@@ -89,7 +88,17 @@ class CreateUserViewController: UIViewController {
     }
     
     func saveUser() {
-        UserControllerAuth.shared.createUser(email: emailTextField.text!, password: passwordTextField.text!)
+        UserControllerAuth.shared.createUser(email: emailTextField.text!, password: passwordTextField.text!) {err in
+            if let err = err {
+                DispatchQueue.main.async {
+                    self.showAlert(err: err)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
         
     }
     

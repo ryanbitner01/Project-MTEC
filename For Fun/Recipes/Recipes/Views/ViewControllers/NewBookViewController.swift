@@ -17,8 +17,9 @@ class NewBookViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var image: UIImage?
-    
-    let colors: [UIColor] = [.black, .blue, .systemPink, .systemOrange, .red]
+    var colorName: String?
+    var book: Book?
+    //let colors: [UIColor] = [.black, .blue, .systemPink, .systemOrange, .red]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,18 +31,24 @@ class NewBookViewController: UIViewController {
     
     @IBAction func colorPickerButtonSelected(_ sender: UIButton) {
         selectColorButton.isSelected.toggle()
-        print(selectColorButton.isSelected)
+        //print(selectColorButton.isSelected)
         updateUI()
     }
     
     @IBAction func savePressed(_ sender: Any) {
         guard let user = UserControllerAuth.shared.user else {return}
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
-            BookController.shared.addBookImage(user, book: Book(name: nameTextField.text ?? "", image: imageData), new: true)
+            var book = Book(name: nameTextField.text ?? "", image: imageData)
+            BookController.shared.addBookImage(user, book: book, new: true)
+            book.image = imageData
+            self.book = book
         } else {
-            BookController.shared.addBook(user, book: Book(name: nameTextField.text ?? "", bookColor: getColorString(color: bookImageView.tintColor)))
+            let book = Book(name: nameTextField.text ?? "", bookColor: colorName ?? "")
+            BookController.shared.addBook(user, book: book)
+            self.book = book
         }
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: "SaveBook", sender: self)
+        
     }
     
     @IBAction func textEdited(_ sender: UITextField) {
@@ -99,34 +106,36 @@ class NewBookViewController: UIViewController {
         //print(colorsCollectionView.isHidden)
     }
     
-    func getColorString(color: UIColor) -> String {
-        switch color {
-        case .black:
-            return "black"
-        case .blue:
-            return "blue"
-        case .systemPink:
-            return "pink"
-        case .systemOrange:
-            return "orange"
-        case .red:
-            return "red"
-        default:
-            return "black"
-        }
-    }
+//    func getColorString(color: UIColor) -> String {
+//        switch color {
+//        case .black:
+//            return "black"
+//        case .blue:
+//            return "blue"
+//        case .systemPink:
+//            return "pink"
+//        case .systemOrange:
+//            return "orange"
+//        case .red:
+//            return "red"
+//        default:
+//            return "black"
+//        }
+//    }
     
 }
 
 extension NewBookViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        colors.count
+        BookController.colors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCell", for: indexPath) as! ColorCell
-        cell.color = colors[indexPath.row]
+        let color = UIColor(named: BookController.colors[indexPath.row])
+        cell.color = color
+        cell.colorName = BookController.colors[indexPath.row]
         cell.updateCell()
         return cell
     }
@@ -135,6 +144,7 @@ extension NewBookViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
         bookImageView.tintColor = cell.color
         bookImageView.image = UIImage(systemName: "book.closed.fill")
+        colorName = cell.colorName
         image = nil
         updateUI()
     }

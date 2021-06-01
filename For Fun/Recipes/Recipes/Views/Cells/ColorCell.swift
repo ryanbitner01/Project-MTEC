@@ -10,6 +10,7 @@ import UIKit
 class ColorCell: UICollectionViewCell {
     
     var color: UIColor?
+    var colorName: String?
     
     @IBOutlet weak var colorImage: UIImageView!
     

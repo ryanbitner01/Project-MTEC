@@ -11,6 +11,7 @@ enum UserControllerError: Error {
     case passwordLength
     case passwordMatch
     case invalidUser
+    case duplicateEmail
 }
 
 extension UserControllerError: LocalizedError {
@@ -22,6 +23,8 @@ extension UserControllerError: LocalizedError {
             return "Password fields do not match."
         case .invalidUser:
             return "Invalid email or password"
+        case .duplicateEmail:
+            return "Email already in use"
         }
     }
 }
@@ -31,8 +34,14 @@ class UserControllerAuth {
     var user: User?
     static let shared = UserControllerAuth()
     
-    func createUser(email: String, password: String) {
-        auth.createUser(withEmail: email, password: password)
+    func createUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {
+        auth.createUser(withEmail: email, password: password) {authResult, error in
+            if error != nil {
+                completion(.duplicateEmail)
+            } else {
+                completion(nil)
+            }
+        }
     }
     
     func loginUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {
