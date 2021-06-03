@@ -23,14 +23,43 @@ class BookDetailViewController: UIViewController {
             bookNameLabel.text = book.name
             setupBookImage()
         }
+        getRecipes()
         // Do any additional setup after loading the view.
     }
+    @IBSegueAction func segueToRecipeDetailViewController(_ coder: NSCoder, sender: Any?) -> RecipeDetailViewController? {
+        guard let cell = sender as? RecipeCell, let indexPath = recipeCollectionView.indexPath(for: cell) else {return nil}
+        let recipeDetailVC = RecipeDetailViewController(coder: coder)
+        recipeDetailVC?.book = book
+        recipeDetailVC?.recipe = recipes[indexPath.row]
+        return recipeDetailVC
+    }
     
+    @IBSegueAction func segueToNewRecipe(_ coder: NSCoder, sender: Any?) -> CreateRecipeViewController? {
+        guard let book = self.book else {return nil}
+        let createRecipeVC = CreateRecipeViewController(coder: coder)
+        createRecipeVC?.book = book
+        return createRecipeVC
+    }
     @IBSegueAction func editBook(_ coder: NSCoder) -> NewBookViewController? {
         let newBookVC = NewBookViewController(coder: coder)
         guard let book = self.book else {return nil}
         newBookVC?.book = book
         return newBookVC
+    }
+    
+    func getRecipes() {
+        guard let book = book else {return}
+        RecipeController.shared.fetchRecipes(book: book) { result in
+            switch result {
+            case .success(let recipes):
+                self.recipes = recipes
+                DispatchQueue.main.async {
+                    self.recipeCollectionView.reloadData()
+                }
+            case .failure(let err):
+                print(err)
+            }
+        }
     }
     
     func setupBookImage() {
@@ -64,6 +93,19 @@ class BookDetailViewController: UIViewController {
         }
     }
     
+    @IBAction func unwindToBookDetail(_ unwindSegue: UIStoryboardSegue) {
+        if let sourceVC = unwindSegue.source as? CreateRecipeViewController {
+            guard let recipe = sourceVC.recipe else {return}
+            if let indexPath = recipes.firstIndex(where: {$0.id == recipe.id}) {
+                recipes[indexPath] = recipe
+            } else {
+                recipes.append(recipe)
+            }
+            recipeCollectionView.reloadData()
+        }
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
     /*
      // MARK: - Navigation
      
@@ -84,6 +126,7 @@ extension BookDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecipeCell", for: indexPath) as! RecipeCell
         cell.recipe = recipes[indexPath.row]
+        cell.updateCell()
         return cell
         
     }

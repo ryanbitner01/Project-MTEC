@@ -12,14 +12,16 @@ struct Recipe: Codable {
     var name: String
     var image: Data?
     var imageURL: String?
-    var instruction: [Instruction]
+    var instruction: [Step]
+    var ingredients: [Ingredient]
     
-    init(id: UUID = UUID(), name: String, image: Data? = nil, imageURL: String = "", instruction: [Instruction] = []) {
+    init(id: UUID = UUID(), name: String, image: Data? = nil, imageURL: String = "", instruction: [Step] = [], ingredients: [Ingredient] = []) {
         self.id = id
         self.name = name
         self.image = image
         self.imageURL = imageURL
         self.instruction = instruction
+        self.ingredients = ingredients
     }
     
 }

@@ -33,9 +33,9 @@ class RecipeController {
     
     func fetchRecipes(book: Book, completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
         guard let user = UserControllerAuth.shared.user else {return}
-        let book = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString)
+        let bookDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString)
         
-        book.collection("Recipes").getDocuments { qs, err in
+        bookDirectory.collection("Recipes").getDocuments { qs, err in
             if let qs = qs {
                 let recipes = qs.documents.compactMap { doc -> Recipe? in
                     let data = doc.data()
@@ -51,6 +51,42 @@ class RecipeController {
         }
     }
     
+    func getInstructions(user: User, recipe: Recipe, book: Book, completion: @escaping (Result<[Step], Error>) -> Void) {
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        let instructionsDoc = recipeDirectory.collection("Instructions")
+        instructionsDoc.getDocuments { querySnapshot, err in
+            if let err = err {
+                completion(.failure(err))
+            } else if let querySnapshot = querySnapshot {
+                let instructions = querySnapshot.documents.compactMap { doc -> Step? in
+                    let data = doc.data()
+                    guard let description = data["Description"] as? String, let id = Int(doc.documentID) else {return nil}
+                    let newStep = Step(order: id, description: description)
+                    return newStep
+                }
+                completion(.success(instructions))
+            }
+        }
+    }
+    
+    func getIngredients(user: User, recipe: Recipe, book: Book, completion: @escaping (Result<[Ingredient], Error>) -> Void) {
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        let ingredientsDoc = recipeDirectory.collection("Ingredients")
+        ingredientsDoc.getDocuments { querySnapshot, err in
+            if let err = err {
+                completion(.failure(err))
+            } else if let querySnapshot = querySnapshot {
+                let ingredients = querySnapshot.documents.compactMap { doc -> Ingredient? in
+                    let data = doc.data()
+                    guard let id = Int(doc.documentID), let name = data["Name"] as? String else {return nil}
+                    let newIngredient = Ingredient(name: name, count: id)
+                    return newIngredient
+                }
+                completion(.success(ingredients))
+            }
+        }
+    }
+    
     func getRecipeImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let url = URL(string: url)
         guard let url = url, let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {
@@ -60,7 +96,7 @@ class RecipeController {
         completion(.success(image))
     }
     
-    func addRecipeImage(recipe: Recipe, book: Book, instructions: [Instruction]?) {
+    func addRecipeImage(recipe: Recipe, book: Book, instructions: [Step]?, ingredients: [Ingredient]?) {
         guard let imageData = recipe.image else {return}
         let storageRef = storage.reference()
         let imageRef = storageRef.child(recipe.id.uuidString)
@@ -69,7 +105,7 @@ class RecipeController {
                 if let err = err {
                     print(err.localizedDescription)
                 } else if let url = url{
-                    self.addRecipe(recipe: recipe, book: book, imageURL: url.absoluteString, instructions: instructions)
+                    self.addRecipe(recipe: recipe, book: book, imageURL: url.absoluteString, instructions: instructions, ingredients: ingredients)
                 }
             }
         }
@@ -77,7 +113,7 @@ class RecipeController {
 
     }
     
-    func addRecipe(recipe: Recipe, book: Book, imageURL: String = "", instructions: [Instruction]?) {
+    func addRecipe(recipe: Recipe, book: Book, imageURL: String = "", instructions: [Step]?, ingredients: [Ingredient]?) {
         guard let user = UserControllerAuth.shared.user else {return}
         
         let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes")
@@ -92,13 +128,27 @@ class RecipeController {
                 addInstruction(instruction: instruction, book: book, recipe: recipe)
             }
         }
+        
+        if let ingredients = ingredients {
+            for ingredient in ingredients {
+                addIngredients(ingredient: ingredient, book: book, recipe: recipe)
+            }
+        }
     }
     
-    func addInstruction(instruction: Instruction, book: Book, recipe: Recipe) {
+    func addInstruction(instruction: Step, book: Book, recipe: Recipe) {
         guard let user = UserControllerAuth.shared.user else {return}
         let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Instructions").document("\(instruction.order)").setData([
-            "Description": instruction.descrtiption
+            "Description": instruction.description
+        ])
+    }
+    
+    func addIngredients(ingredient: Ingredient, book: Book, recipe: Recipe) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        recipeDirectory.collection("Ingredients").document("\(ingredient.count)").setData([
+            "Name": ingredient.name
         ])
     }
 }

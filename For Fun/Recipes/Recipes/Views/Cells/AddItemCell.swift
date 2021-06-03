@@ -37,6 +37,7 @@ class AddItemCell: UITableViewCell {
 
     @IBAction func addItem(_ sender: Any) {
         delegate?.addItem(text: descriptionTextField.text!, sender: self)
+        descriptionTextField.text = ""
     }
 }
 

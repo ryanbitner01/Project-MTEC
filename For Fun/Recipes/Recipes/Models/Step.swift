@@ -9,5 +9,5 @@ import Foundation
 
 struct Step: Codable {
     var order: Int
-    var descrtiption: String
+    var description: String
 }

@@ -1,20 +1,25 @@
 //
-//  StepCell.swift
+//  IngredientCellEdit.swift
 //  Recipes
 //
-//  Created by Ryan Bitner on 6/1/21.
+//  Created by Ryan Bitner on 6/3/21.
 //
 
 import UIKit
 
-class StepCell: UITableViewCell {
+class IngredientCellEdit: UITableViewCell {
 
-    @IBOutlet weak var stepImageView: UIImageView!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    
+    var ingredient: Ingredient?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func updateCell() {
+        nameTextField.text = ingredient?.name
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -7,155 +7,6 @@
 
 import UIKit
 
-//enum SectionInt: Int {
-//    case instruction
-//    case addInstruction
-//
-//}
-//
-//class CreateRecipeViewController: UIViewController {
-//
-//    var recipe: Recipe?
-//    var instructions: [Instruction] = []
-//    var image: UIImage?
-//    var book: Book?
-//
-//    @IBOutlet weak var instructionTableView: UITableView!
-//    @IBOutlet weak var recipeImageView: UIImageView!
-//    @IBOutlet weak var nameTextField: UITextField!
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        instructionTableView.dataSource = self
-//        if let recipe = recipe {
-//            instructions = recipe.instruction
-//        }
-//        // Do any additional setup after loading the view.
-//    }
-//
-//    @IBAction func savedTapped(_ sender: Any) {
-//        saveRecipe()
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @IBAction func cancelTapped(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @IBAction func recipeImageTapped(_ sender: UITapGestureRecognizer) {
-//        print("IMAGE TAPPED")
-//        let imagePicker = UIImagePickerController()
-//        imagePicker.delegate = self
-//
-//        let alertController = UIAlertController(title: "Image Source", message: nil, preferredStyle: .actionSheet)
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertController.addAction(cancelAction)
-//
-//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-//            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-//                imagePicker.sourceType = .camera
-//                self.present(imagePicker, animated: true, completion: nil)
-//            })
-//            alertController.addAction(cameraAction)
-//        }
-//        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-//            let libraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-//                imagePicker.sourceType = .photoLibrary
-//                self.present(imagePicker, animated: true, completion: nil)
-//            })
-//            alertController.addAction(libraryAction)
-//        }
-//
-//        alertController.popoverPresentationController?.sourceView = self.view
-//
-//        present(alertController, animated: true, completion: nil)
-//    }
-//
-//    func saveRecipe() {
-//        guard let book = book else {return}
-//        if let image = image {
-//            let data = image.jpegData(compressionQuality: 0.9)
-//            let recipe = Recipe(name: nameTextField.text!, image: data, instruction: instructions)
-//            RecipeController.shared.addRecipeImage(recipe: recipe, book: book, instructions: instructions)
-//            self.recipe = recipe
-//        } else {
-//            let recipe = Recipe(name: nameTextField.text!, instruction: instructions)
-//            RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: instructions)
-//            self.recipe = recipe
-//        }
-//
-//    }
-//
-//
-//    /*
-//     // MARK: - Navigation
-//
-//     // In a storyboard-based application, you will often want to do a little preparation before navigation
-//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//     // Get the new view controller using segue.destination.
-//     // Pass the selected object to the new view controller.
-//     }
-//     */
-//
-//}
-//
-//extension CreateRecipeViewController: UITableViewDataSource {
-//
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        switch section {
-//        case SectionInt.instruction.rawValue:
-//            return instructions.count
-//        case SectionInt.addInstruction.rawValue:
-//            return 1
-//        default:
-//            return 0
-//        }
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        switch indexPath.section {
-//        case SectionInt.instruction.rawValue:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "InstructionCell", for: indexPath) as! InstructionCell
-//            cell.instruction = instructions[indexPath.row]
-//            cell.updateCell()
-//            return cell
-//        case SectionInt.addInstruction.rawValue:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "AddInstruction") as! AddInstructionCell
-//            cell.delegate = self
-//            return cell
-//        default:
-//            return UITableViewCell()
-//        }
-//    }
-//}
-//
-//extension CreateRecipeViewController: AddInstructionCellDelegate {
-//    func addInstruction(description: String, sender: Any) {
-//        instructions.append(Instruction(order: instructions.count + 1, descrtiption: description))
-//        instructionTableView.reloadData()
-//    }
-//
-//
-//}
-//
-//extension CreateRecipeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        guard let selectedImage = info[.originalImage] as? UIImage else {return}
-//
-//        recipeImageView.image = selectedImage
-//        recipeImageView.layer.cornerRadius = 25
-//        image = selectedImage
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//}
-
-
 class CreateRecipeViewController: UIViewController {
     enum Section: Int, CaseIterable {
         case ingredients
@@ -164,12 +15,15 @@ class CreateRecipeViewController: UIViewController {
         //case addStep
     }
     
+    @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var componentTableView: UITableView!
     @IBOutlet weak var nameTextField: UITextField!
     
     var ingredients = [Ingredient]()
     var steps = [Step]()
-    
+    var image: UIImage?
+    var recipe: Recipe?
+    var book: Book?
     
     let ingredientSection = 0
     let stepSection = 1
@@ -177,15 +31,115 @@ class CreateRecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         componentTableView.dataSource = self
+        updateUI()
         // Do any additional setup after loading the view.
     }
+    
+    func saveRecipe() {
+        guard let book = book else {return}
+        if let image = image {
+            let data = image.jpegData(compressionQuality: 0.9)
+            var recipe = Recipe(name: nameTextField.text!, image: data, instruction: steps, ingredients: ingredients)
+            recipe.image = data
+            RecipeController.shared.addRecipeImage(recipe: recipe, book: book, instructions: steps, ingredients: ingredients)
+            self.recipe = recipe
+        } else {
+            let recipe = Recipe(name: nameTextField.text!, instruction: steps, ingredients: ingredients)
+            RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: steps, ingredients: ingredients)
+            self.recipe = recipe
+            
+        }
+        
+    }
+    
+    func updateUI() {
+        nameTextField.text = recipe?.name ?? ""
+//        fetchInstructions()
+//        fetchIngredients()
+        setupImageView()
+    }
+    
+    func setupImageView() {
+        guard let recipe = recipe, let imageURL = recipe.imageURL else {return}
+        RecipeController.shared.getRecipeImage(url: imageURL) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.recipeImageView.image = image
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+//    func fetchInstructions() {
+//        guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
+//        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book) { result in
+//            switch result {
+//            case .success(let steps):
+//                self.steps = steps
+//                DispatchQueue.main.async {
+//                    self.componentTableView.reloadData()
+//                }
+//            case .failure(let err):
+//                print(err.localizedDescription)
+//            }
+//        }
+//    }
+//
+//    func fetchIngredients() {
+//        guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
+//        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book) { result in
+//            switch result {
+//            case .success(let ingredients):
+//                self.ingredients = ingredients
+//                DispatchQueue.main.async {
+//                    self.componentTableView.reloadData()
+//                }
+//            case .failure(let err):
+//                print(err.localizedDescription)
+//            }
+//        }
+//    }
     
     @IBAction func cancelTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func savePressed(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        saveRecipe()
+        performSegue(withIdentifier: "unwindToBookDetail", sender: self)
+    }
+    
+    @IBAction func imageButtonPressed(_ sender: Any) {
+        print("IMAGE TAPPED")
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        
+        let alertController = UIAlertController(title: "Image Source", message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                imagePicker.sourceType = .camera
+                self.present(imagePicker, animated: true, completion: nil)
+            })
+            alertController.addAction(cameraAction)
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let libraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true, completion: nil)
+            })
+            alertController.addAction(libraryAction)
+        }
+        
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        present(alertController, animated: true, completion: nil)
     }
     /*
      // MARK: - Navigation
@@ -224,7 +178,10 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
         case .ingredients:
             if indexPath.row < ingredients.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as! IngredientCellEdit
-                cell.nameTextField.text = ingredients[indexPath.row].name
+                let ingredient = ingredients[indexPath.row]
+                cell.ingredient = ingredient
+                cell.updateCell()
+                //cell.nameTextField.text = ingredients[indexPath.row].name
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addItemCell", for: indexPath) as! AddItemCell
@@ -236,8 +193,8 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
             if indexPath.row < steps.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath) as! StepCellEdit
                 let step = steps[indexPath.row]
-                cell.stepImageView?.image = UIImage(systemName: "\(step.count).circle")
-                cell.descriptionTextField.text = step.descripton
+                cell.step = step
+                cell.updateCell()
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addItemCell", for: indexPath) as! AddItemCell
@@ -260,7 +217,7 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
     
 }
 
-extension NewRecipeViewController: AddItemCellDelegate {
+extension CreateRecipeViewController: AddItemCellDelegate {
     func addItem(text: String, sender: Any) {
         if let cell = sender as? AddItemCell {
             switch cell.itemType {
@@ -269,7 +226,7 @@ extension NewRecipeViewController: AddItemCellDelegate {
                 ingredients.append(ingredient)
                 componentTableView.reloadData()
             case .step:
-                let step = Step(descripton: text, count: steps.count + 1)
+                let step = Step(order: steps.count + 1, description: text)
                 steps.append(step)
                 componentTableView.reloadData()
             case .none:
@@ -279,4 +236,16 @@ extension NewRecipeViewController: AddItemCellDelegate {
     }
     
     
+}
+
+extension CreateRecipeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else {return}
+
+        recipeImageView.image = selectedImage
+        recipeImageView.layer.cornerRadius = 25
+        image = selectedImage
+        dismiss(animated: true, completion: nil)
+    }
+
 }

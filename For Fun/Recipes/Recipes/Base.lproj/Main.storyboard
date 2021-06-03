@@ -322,11 +322,9 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="imageView" destination="2e1-C5-zdg" id="k3N-ey-qgt"/>
-                                            <outlet property="nameLabel" destination="qdV-PD-U6G" id="3eq-lA-dTN"/>
                                             <outlet property="recipeImageView" destination="2e1-C5-zdg" id="E54-7E-iOw"/>
                                             <outlet property="recipeLabel" destination="qdV-PD-U6G" id="5yI-c7-p6k"/>
-                                            <segue destination="14H-VA-veD" kind="show" id="hQP-Fr-VTs"/>
+                                            <segue destination="14H-VA-veD" kind="show" destinationCreationSelector="segueToRecipeDetailViewController:sender:" id="hQP-Fr-VTs"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -337,6 +335,9 @@
                                 <state key="normal" image="trash.fill" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
                                 </state>
+                                <connections>
+                                    <segue destination="cvr-9W-9PL" kind="unwind" identifier="DELETE" unwindAction="unwindToBooks:" id="Pju-XH-GRa"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qKa-Lk-s90">
                                 <rect key="frame" x="325" y="726" width="59" height="57"/>
@@ -388,6 +389,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="unw-dF-A07" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="cvr-9W-9PL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3113.04347826087" y="1329.9107142857142"/>
         </scene>
@@ -420,6 +422,7 @@
                                 </state>
                                 <connections>
                                     <action selector="editButtonPressed:" destination="14H-VA-veD" eventType="touchUpInside" id="Jzp-Qa-6pr"/>
+                                    <segue destination="Ew4-5v-uvi" kind="show" id="sqX-8z-j2u"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-B1-erB">
@@ -467,7 +470,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="nameLabel" destination="rq3-M7-bzd" id="680-q2-a7J"/>
+                                            <outlet property="nameLabel" destination="rq3-M7-bzd" id="sVe-Hf-vZ6"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="stepCell" id="0DR-cn-Gf3" customClass="StepCell" customModule="Recipes" customModuleProvider="target">
@@ -503,8 +506,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="descriptionLabel" destination="zyt-RV-qfN" id="FDP-Lk-s9T"/>
-                                            <outlet property="stepImageView" destination="Gva-Ck-Zq5" id="Hzk-NX-uW8"/>
+                                            <outlet property="descriptionLabel" destination="zyt-RV-qfN" id="5e1-e2-Ikw"/>
+                                            <outlet property="stepImageView" destination="Gva-Ck-Zq5" id="qKL-Jc-Ba1"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -532,8 +535,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="cdL-h9-KxS"/>
                     <connections>
-                        <outlet property="contentTableView" destination="KWA-1H-OI6" id="npt-t7-xyF"/>
+                        <outlet property="contentTableView" destination="KWA-1H-OI6" id="uMY-VU-ohf"/>
                         <outlet property="nameLabel" destination="SDG-bW-1QS" id="7Vo-IM-yhO"/>
+                        <outlet property="recipeImageView" destination="tG4-wV-sOK" id="7Uo-4x-UCc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4b-GX-dm6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -566,6 +570,9 @@
                                 <state key="normal" image="photo.fill.on.rectangle.fill" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
                                 </state>
+                                <connections>
+                                    <action selector="imageButtonPressed:" destination="CUB-lw-bz3" eventType="touchUpInside" id="Xzq-kZ-oWO"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xbZ-Qh-mpI">
                                 <rect key="frame" x="10" y="348.5" width="394" height="464.5"/>
@@ -573,7 +580,7 @@
                                 <color key="tintColor" name="tintColor"/>
                                 <color key="separatorColor" name="tintColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="stepCell" id="NxG-8R-mIG" customClass="StepCell" customModule="Recipes" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="stepCell" id="NxG-8R-mIG" customClass="StepCellEdit" customModule="Recipes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="49.5" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NxG-8R-mIG" id="y8l-xF-rsC">
@@ -603,8 +610,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="descriptionTextField" destination="gRJ-k3-jsT" id="jjB-HK-zLM"/>
-                                            <outlet property="stepImageView" destination="yv1-hT-FHa" id="g7j-ua-ry7"/>
+                                            <outlet property="descriptionTextField" destination="gRJ-k3-jsT" id="bIK-Je-vjq"/>
+                                            <outlet property="stepImageView" destination="yv1-hT-FHa" id="W0H-8P-Fxw"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addItemCell" id="FPM-an-Ht2" customClass="AddItemCell" customModule="Recipes" customModuleProvider="target">
@@ -647,7 +654,7 @@
                                             <outlet property="descriptionTextField" destination="CPK-S5-4by" id="8QE-vJ-9Cj"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ingredientCell" id="vzf-im-lEk" customClass="IngredientCell" customModule="Recipes" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ingredientCell" id="vzf-im-lEk" customClass="IngredientCellEdit" customModule="Recipes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="137.5" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vzf-im-lEk" id="bQg-md-G1l">
@@ -716,9 +723,12 @@
                     <connections>
                         <outlet property="componentTableView" destination="xbZ-Qh-mpI" id="bCO-Hy-qRb"/>
                         <outlet property="nameTextField" destination="PJ3-yX-XdC" id="Zwo-U4-qIh"/>
+                        <outlet property="recipeImageView" destination="KY9-gL-AZ7" id="NyI-pg-5Jv"/>
+                        <segue destination="olW-9h-HMd" kind="unwind" identifier="unwindToBookDetail" unwindAction="unwindToBookDetail:" id="PxL-8Y-9Xr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gC-4H-fXr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="olW-9h-HMd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4928.985507246377" y="1344.6428571428571"/>
         </scene>
@@ -773,7 +783,7 @@
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KiA-4S-ckG">
-                                <rect key="frame" x="93" y="478" width="228" height="384"/>
+                                <rect key="frame" x="93" y="478" width="228" height="335"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Oiu-Tp-2GC">
                                     <size key="itemSize" width="100" height="100"/>
@@ -1035,6 +1045,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Ew4-5v-uvi" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="DCZ-RP-7hm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z2k-Pp-0S0">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1042,7 +1053,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="CUB-lw-bz3" kind="relationship" relationship="rootViewController" id="y4X-tt-CTD"/>
+                        <segue destination="CUB-lw-bz3" kind="relationship" relationship="rootViewController" destinationCreationSelector="segueToEditRecipe:sender:" id="y4X-tt-CTD"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8tr-gy-dSv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1051,7 +1062,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1MD-sI-BUA"/>
+        <segue reference="sqX-8z-j2u"/>
+        <segue reference="rKT-FA-aQq"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book.closed.fill" catalog="system" width="115" height="128"/>
