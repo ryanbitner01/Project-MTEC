@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol StepCellEditDelegate {
+    func editStep(sender: Any)
+}
+
 class StepCellEdit: UITableViewCell {
 
     @IBOutlet weak var stepImageView: UIImageView!
-    @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     var step: Step?
+    var delegate: StepCellEditDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,8 +25,8 @@ class StepCellEdit: UITableViewCell {
     }
     
     func updateCell() {
-        stepImageView.image = UIImage(systemName: "\(step?.order ?? 0).circle.fill")
-        descriptionTextField.text = step?.description
+        stepImageView.image = UIImage(systemName: "\(step?.order ?? 0).circle")
+        descriptionLabel.text = step?.description
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -29,5 +34,8 @@ class StepCellEdit: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    @IBAction func editButtonPressed(_ sender: Any) {
+        delegate?.editStep(sender: self)
+    }
 }

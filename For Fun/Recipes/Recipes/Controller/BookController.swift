@@ -11,6 +11,18 @@ import UIKit
 
 enum BookError: Error {
     case noImage
+    case failedToDelete
+}
+
+extension BookError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .noImage:
+            return "Can't Find Image"
+        case .failedToDelete:
+            return "Couldn't delete File"
+        }
+    }
 }
 
 //protocol BookControllerDelegate {
@@ -21,7 +33,7 @@ class BookController {
 
     //var delegate: BookControllerDelegate?
     
-    static let colors: [String] = ["Lavender", "Green", "Red", "Blue", "Orange"]
+    static let colors: [String] = ["Lavender", "Green", "Red", "Blue", "Orange", "Pink"]
 
     let usersDirectory = db.collection("Users")
     static let shared = BookController()
@@ -84,13 +96,17 @@ class BookController {
         }
     }
 
-    func deleteBook(book: Book) {
+    func deleteBook(book: Book, completion: @escaping (BookError?) -> Void) {
         guard let user = UserControllerAuth.shared.user else {return}
         let albumDirectory = usersDirectory.document(user.id).collection("Album")
         if book.imageURL != " " {
             deleteBookImage(book: book)
         }
-        albumDirectory.document(book.id.uuidString).delete()
+        albumDirectory.document(book.id.uuidString).delete { err in
+            if err != nil {
+                completion(.failedToDelete)
+            }
+        }
     }
 
     func updateBook(book: Book, imageURL: String = " ") {
@@ -105,7 +121,7 @@ class BookController {
         //print("Updated Book")
     }
 
-    func addBook(_ user: User, book: Book, imageUrl: String = " ") {
+    func addBook(_ user: User, book: Book, imageUrl: String = "") {
         let albumDirectory = usersDirectory.document(user.id).collection("Album")
         albumDirectory.document(book.id.uuidString).setData([
             "name": book.name,

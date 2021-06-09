@@ -78,8 +78,8 @@ class RecipeController {
             } else if let querySnapshot = querySnapshot {
                 let ingredients = querySnapshot.documents.compactMap { doc -> Ingredient? in
                     let data = doc.data()
-                    guard let id = Int(doc.documentID), let name = data["Name"] as? String else {return nil}
-                    let newIngredient = Ingredient(name: name, count: id)
+                    guard let id = Int(doc.documentID), let name = data["Name"] as? String, let unit = data["Unit"] as? String, let quantity = data["Quantity"] as? String else {return nil}
+                    let newIngredient = Ingredient(name: name, unit: unit, quantity: quantity, count: id)
                     return newIngredient
                 }
                 completion(.success(ingredients))
@@ -136,6 +136,18 @@ class RecipeController {
         }
     }
     
+    func deleteInstruction(instruction: Step, book: Book, recipe: Recipe) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        recipeDirectory.collection("Instructions").document("\(instruction.order)").delete()
+    }
+    
+    func deleteIngredient(ingredeint: Ingredient, book: Book, recipe: Recipe) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        recipeDirectory.collection("Ingredients").document("\(ingredeint.count)").delete()
+    }
+    
     func addInstruction(instruction: Step, book: Book, recipe: Recipe) {
         guard let user = UserControllerAuth.shared.user else {return}
         let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
@@ -148,7 +160,50 @@ class RecipeController {
         guard let user = UserControllerAuth.shared.user else {return}
         let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Ingredients").document("\(ingredient.count)").setData([
-            "Name": ingredient.name
+            "Name": ingredient.name,
+            "Unit": ingredient.unit ?? "",
+            "Quantity": ingredient.quantity ?? ""
         ])
+    }
+    
+    func deleteRecipe(recipe: Recipe, book: Book) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        if recipe.imageURL != " " {
+            self.deleteRecipeImage(recipe: recipe)
+        }
+        getIngredients(user: user, recipe: recipe, book: book) { result in
+            switch result {
+            case .success(let ingredients):
+                for ingredient in ingredients {
+                    self.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+        getInstructions(user: user, recipe: recipe, book: book) { result in
+            switch result {
+            case .success(let steps):
+                for step in steps {
+                    self.deleteInstruction(instruction: step, book: book, recipe: recipe)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+        recipeDirectory.delete()
+    }
+    
+    func deleteRecipeImage(recipe: Recipe) {
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child(recipe.id.uuidString)
+        imageRef.delete { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Image Deleted")
+            }
+        }
     }
 }

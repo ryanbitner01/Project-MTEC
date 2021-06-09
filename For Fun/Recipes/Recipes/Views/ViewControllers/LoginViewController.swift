@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //initUsers()
+        alertLabel.isHidden = true
     }
     
     func showAlert(message: String) {
@@ -53,6 +53,13 @@ class LoginViewController: UIViewController {
         //        }
         
         
+    }
+    
+    @IBAction func logoutUnwind(_ unwindSegue: UIStoryboardSegue) {
+        UserControllerAuth.shared.logoutUser()
+        usernameTextField.text = ""
+        passwordTextField.text = ""
+        // Use data from the view controller which initiated the unwind segue
     }
     
     @IBAction func donePressed(_ sender: UITextField) {

@@ -25,7 +25,7 @@ class BookCell: UICollectionViewCell {
             imageView.image = UIImage(data: image)
             imageView.layer.cornerRadius = 25
         } else {
-            guard let imageUrl = book?.imageURL, imageUrl != " " else {
+            guard let imageUrl = book?.imageURL, imageUrl != "" else {
                 label.text = book?.name
                 imageView.image = UIImage(systemName: "book.closed.fill")
                 if let book = book {

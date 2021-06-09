@@ -8,7 +8,7 @@
 import UIKit
 
 class RecipeDetailViewController: UIViewController {
-
+    
     enum Section: Int, CaseIterable {
         case ingredients
         case steps
@@ -38,18 +38,24 @@ class RecipeDetailViewController: UIViewController {
         }
         fetchIngredients()
         fetchInstructions()
+        setupImageView()
     }
     
     func setupImageView() {
-        guard let recipe = recipe, let imageURL = recipe.imageURL else {return}
-        RecipeController.shared.getRecipeImage(url: imageURL) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    self.recipeImageView.image = image
+        recipeImageView.layer.cornerRadius = 25
+        guard let recipe = recipe else {return}
+        if let image = recipe.image {
+            recipeImageView.image = UIImage(data: image)
+        } else if let imageURL = recipe.imageURL, imageURL != "" {
+            RecipeController.shared.getRecipeImage(url: imageURL) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.recipeImageView.image = image
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-            case .failure(let err):
-                print(err.localizedDescription)
             }
         }
     }
@@ -84,14 +90,15 @@ class RecipeDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func editButtonPressed(_ sender: Any) {
-    }
-    
     @IBSegueAction func segueToEditRecipe(_ coder: NSCoder, sender: Any?) -> CreateRecipeViewController? {
         let recipe = self.recipe
         let createRecipeViewController = CreateRecipeViewController(coder: coder)
         createRecipeViewController?.recipe = recipe
+        createRecipeViewController?.book = book
         createRecipeViewController?.ingredients = ingredients
+        if recipe?.image != nil {
+            createRecipeViewController?.image = recipeImageView.image
+        }
         createRecipeViewController?.steps = steps
         return createRecipeViewController
     }
@@ -127,7 +134,9 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
         switch tableSection {
         case .ingredients:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as! IngredientCell
-            cell.nameLabel.text = ingredients[indexPath.row].name
+            let unit = ingredients[indexPath.row].unit ?? ""
+            let quantity = ingredients[indexPath.row].quantity ?? ""
+            cell.nameLabel.text =  "\(quantity) \(unit) \(ingredients[indexPath.row].name)"
             //cell.nameLabel.isUserInteractionEnabled = false
             return cell
         case .steps:

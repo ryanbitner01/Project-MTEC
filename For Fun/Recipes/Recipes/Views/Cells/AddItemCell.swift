@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AddItemCellDelegate {
-    func addItem(text: String, sender: Any)
+    func addItem(sender: Any)
 }
 
 class AddItemCell: UITableViewCell {
@@ -19,7 +19,6 @@ class AddItemCell: UITableViewCell {
     }
 
     @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var descriptionTextField: UITextField!
     
     var delegate: AddItemCellDelegate?
     var itemType: itemType?
@@ -36,8 +35,8 @@ class AddItemCell: UITableViewCell {
     }
 
     @IBAction func addItem(_ sender: Any) {
-        delegate?.addItem(text: descriptionTextField.text!, sender: self)
-        descriptionTextField.text = ""
+        delegate?.addItem(sender: self)
     }
+
 }
 

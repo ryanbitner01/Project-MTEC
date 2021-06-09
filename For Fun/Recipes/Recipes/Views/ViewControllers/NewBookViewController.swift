@@ -26,7 +26,33 @@ class NewBookViewController: UIViewController {
         updateUI()
         colorsCollectionView.dataSource = self
         colorsCollectionView.delegate = self
+        bookImageView.layer.cornerRadius = 25
+        setupImageView()
+        if let book = book {
+            nameTextField.text = book.name
+            bookImageView.tintColor = UIColor(named: book.bookColor)
+            updateColorButton()
+        }
         // Do any additional setup after loading the view.
+    }
+    
+    func setupImageView() {
+        bookImageView.layer.cornerRadius = 25
+        //guard let book = book else {return}
+        if let imageURL = book?.imageURL, imageURL != "" {
+            RecipeController.shared.getRecipeImage(url: imageURL) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.bookImageView.image = image
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        } else if let image = book?.image {
+            bookImageView.image = UIImage(data: image)
+        }
     }
     
     @IBAction func colorPickerButtonSelected(_ sender: UIButton) {
@@ -38,16 +64,18 @@ class NewBookViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
         guard let user = UserControllerAuth.shared.user else {return}
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
-            var book = Book(name: nameTextField.text ?? "", image: imageData)
+            var book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData)
             BookController.shared.addBookImage(user, book: book, new: true)
             book.image = imageData
             self.book = book
+            performSegue(withIdentifier: "SaveBook", sender: self)
         } else {
-            let book = Book(name: nameTextField.text ?? "", bookColor: colorName ?? "")
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "")
             BookController.shared.addBook(user, book: book)
             self.book = book
+            performSegue(withIdentifier: "SaveBook", sender: self)
         }
-        performSegue(withIdentifier: "SaveBook", sender: self)
+        
         
     }
     

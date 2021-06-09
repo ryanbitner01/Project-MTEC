@@ -65,4 +65,9 @@ class UserControllerAuth {
         return p1 == p2
     }
     
+    func logoutUser() {
+        try? auth.signOut()
+        user = nil
+    }
+    
 }

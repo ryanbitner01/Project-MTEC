@@ -9,5 +9,7 @@ import Foundation
 
 struct Ingredient: Codable {
     var name: String
+    var unit: String?
+    var quantity: String?
     var count: Int
 }

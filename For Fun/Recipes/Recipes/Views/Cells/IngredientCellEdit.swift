@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol IngredientCellEditDelegate {
+    func editIngredient(sender: Any)
+}
+
 class IngredientCellEdit: UITableViewCell {
 
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameLabel: UILabel!
     
     var ingredient: Ingredient?
+    var delegate: IngredientCellEditDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,7 +24,10 @@ class IngredientCellEdit: UITableViewCell {
     }
     
     func updateCell() {
-        nameTextField.text = ingredient?.name
+        guard let ingredient = ingredient else {return}
+        let unit = ingredient.unit ?? ""
+        let quantity = ingredient.quantity ?? ""
+        nameLabel.text = "\(quantity) \(unit) \(ingredient.name)"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,5 +35,8 @@ class IngredientCellEdit: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    @IBAction func editButtonTapped(_ sender: Any) {
+        delegate?.editIngredient(sender: self)
+    }
 }

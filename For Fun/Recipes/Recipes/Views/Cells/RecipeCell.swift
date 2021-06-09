@@ -17,9 +17,9 @@ class RecipeCell: UICollectionViewCell {
     func updateCell() {
         setupImageView()
         recipeLabel.text = recipe?.name
-        recipeLabel.layer.borderColor = UIColor(named: "tintColor")?.cgColor
-        recipeLabel.layer.borderWidth = 2
-        recipeLabel.layer.cornerRadius = 10
+//        recipeLabel.layer.borderColor = UIColor(named: "tintColor")?.cgColor
+//        recipeLabel.layer.borderWidth = 2
+//        recipeLabel.layer.cornerRadius = 10
         
     }
     
@@ -28,7 +28,7 @@ class RecipeCell: UICollectionViewCell {
         if let imageData = recipe.image {
             recipeImageView.image = UIImage(data: imageData)
             recipeImageView.layer.cornerRadius = 25
-        } else if let image = recipe.imageURL {
+        } else if let image = recipe.imageURL, image != "" {
             RecipeController.shared.getRecipeImage(url: image) { result in
                 switch result {
                 case .success(let image):

@@ -15,7 +15,7 @@ struct Book: Codable {
     var id: UUID
     var recipes: [Recipe]
     
-    init(name: String, id: UUID = UUID(), recipes: [Recipe] = [], image: Data? = nil, imageURL: String = " ", bookColor: String = "black") {
+    init(name: String, id: UUID = UUID(), recipes: [Recipe] = [], image: Data? = nil, imageURL: String = "", bookColor: String = "Blue") {
         self.recipes = recipes
         self.id = id
         self.name = name

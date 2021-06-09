@@ -39,6 +39,7 @@ class BooksViewController: UIViewController {
         if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
             if let existingIndex = books.firstIndex(where: {$0.id == newBook.id}) {
                 books[existingIndex] = newBook
+                bookCollectionView.reloadData()
             } else {
                 books.append(newBook)
                 bookCollectionView.reloadData()
@@ -46,11 +47,25 @@ class BooksViewController: UIViewController {
         }
         if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
             guard let book = bookDetailVC.book else {return}
-            BookController.shared.deleteBook(book: book)
-            if let indexPath = books.firstIndex(where: {$0.id == book.id}) {
-                books.remove(at: indexPath)
-                bookCollectionView.reloadData()
+            let recipes = bookDetailVC.recipes
+            for recipe in recipes {
+                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
             }
+            
+            if book.image != nil {
+                BookController.shared.deleteBookImage(book: book)
+            }
+            BookController.shared.deleteBook(book: book) {err in
+                if let err = err {
+                    print(err.localizedDescription + book.name)
+                    return
+                }
+            }
+            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
+                self.books.remove(at: indexPath)
+                self.bookCollectionView.reloadData()
+            }
+            
         }
         // Use data from the view controller which initiated the unwind segue
     }

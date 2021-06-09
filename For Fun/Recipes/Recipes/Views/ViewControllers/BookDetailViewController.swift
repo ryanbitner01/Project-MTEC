@@ -24,6 +24,7 @@ class BookDetailViewController: UIViewController {
             setupBookImage()
         }
         getRecipes()
+        imageView.layer.cornerRadius = 25
         // Do any additional setup after loading the view.
     }
     @IBSegueAction func segueToRecipeDetailViewController(_ coder: NSCoder, sender: Any?) -> RecipeDetailViewController? {
@@ -44,6 +45,10 @@ class BookDetailViewController: UIViewController {
         let newBookVC = NewBookViewController(coder: coder)
         guard let book = self.book else {return nil}
         newBookVC?.book = book
+        if book.image != nil {
+            newBookVC?.image = imageView.image
+        }
+
         return newBookVC
     }
     
@@ -65,9 +70,9 @@ class BookDetailViewController: UIViewController {
     func setupBookImage() {
         if let image = book?.image {
             imageView.image = UIImage(data: image)
-            imageView.layer.cornerRadius = 25
+            
         } else {
-            guard let imageUrl = book?.imageURL, imageUrl != " " else {
+            guard let imageUrl = book?.imageURL, imageUrl != "" else {
                 imageView.image = UIImage(systemName: "book.closed.fill")
                 if let book = book {
                     let color = UIColor(named: book.bookColor)
@@ -93,7 +98,23 @@ class BookDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindToBookDetail(_ unwindSegue: UIStoryboardSegue) {
+    @IBAction func deleteRecipeUnwind(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source as! RecipeDetailViewController
+        guard let recipe = sourceViewController.recipe, let book = book else {return}
+        RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
+        if let recipeIndex = recipes.firstIndex(where: {$0.id == recipe.id}) {
+            recipes.remove(at: recipeIndex)
+            recipeCollectionView.reloadData()
+        }
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
+    @IBAction func cancelUnwind(_ unwindSegue: UIStoryboardSegue) {
+        print("CANCEL")
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
+    @IBAction func saveBookUnwind(_ unwindSegue: UIStoryboardSegue) {
         if let sourceVC = unwindSegue.source as? CreateRecipeViewController {
             guard let recipe = sourceVC.recipe else {return}
             if let indexPath = recipes.firstIndex(where: {$0.id == recipe.id}) {
