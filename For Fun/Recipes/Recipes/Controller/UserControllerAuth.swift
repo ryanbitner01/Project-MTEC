@@ -42,6 +42,7 @@ class UserControllerAuth {
                 completion(nil)
             }
         }
+        
     }
     
     func loginUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {

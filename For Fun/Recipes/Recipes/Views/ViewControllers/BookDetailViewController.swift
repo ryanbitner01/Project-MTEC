@@ -127,6 +127,17 @@ class BookDetailViewController: UIViewController {
         // Use data from the view controller which initiated the unwind segue
     }
     
+    @IBAction func deletePressed(_ sender: Any) {
+        let alertController = UIAlertController(title: "Delete Book", message: "Are you sure you want to delete this book?", preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {action in
+            self.performSegue(withIdentifier: "DELETE", sender: self)
+        })
+        alertController.addAction(cancel)
+        alertController.addAction(deleteAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        present(alertController, animated: true, completion: nil)
+    }
     /*
      // MARK: - Navigation
      

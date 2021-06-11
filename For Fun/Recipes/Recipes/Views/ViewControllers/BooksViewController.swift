@@ -35,16 +35,7 @@ class BooksViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindToBooks(_ unwindSegue: UIStoryboardSegue) {
-        if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
-            if let existingIndex = books.firstIndex(where: {$0.id == newBook.id}) {
-                books[existingIndex] = newBook
-                bookCollectionView.reloadData()
-            } else {
-                books.append(newBook)
-                bookCollectionView.reloadData()
-            }
-        }
+    @IBAction func deleteBookUnwind(_ unwindSegue: UIStoryboardSegue) {
         if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
             guard let book = bookDetailVC.book else {return}
             let recipes = bookDetailVC.recipes
@@ -67,6 +58,40 @@ class BooksViewController: UIViewController {
             }
             
         }
+    }
+    
+    @IBAction func unwindToBooks(_ unwindSegue: UIStoryboardSegue) {
+        if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
+            if let existingIndex = books.firstIndex(where: {$0.id == newBook.id}) {
+                books[existingIndex] = newBook
+                bookCollectionView.reloadData()
+            } else {
+                books.append(newBook)
+                bookCollectionView.reloadData()
+            }
+        }
+//        if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
+//            guard let book = bookDetailVC.book else {return}
+//            let recipes = bookDetailVC.recipes
+//            for recipe in recipes {
+//                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
+//            }
+//
+//            if book.image != nil {
+//                BookController.shared.deleteBookImage(book: book)
+//            }
+//            BookController.shared.deleteBook(book: book) {err in
+//                if let err = err {
+//                    print(err.localizedDescription + book.name)
+//                    return
+//                }
+//            }
+//            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
+//                self.books.remove(at: indexPath)
+//                self.bookCollectionView.reloadData()
+//            }
+//
+//        }
         // Use data from the view controller which initiated the unwind segue
     }
     

@@ -14,8 +14,9 @@ class IngredientEditViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     
-    let units: [String] = ["", "mg", "g", "lbs", "cups", "oz"]
-    let quantities: [String] = ["", "1", "2", "3", "4", "5", "6"]
+    var units: [String] = ["", "tsp", "tbl", "fl oz", "c", "pt", "qt", "gal", "ml", "l", "dl", "lb", "oz", "mg", "g", "kg"]
+    var quantities: [String] = [""]
+    var partMeasurments: [String] = ["1/8" ,"1/2", "1/4", "2/3", "1/3", "3/4"]
     var ingredient: Ingredient?
     
     var unit: String?
@@ -28,9 +29,28 @@ class IngredientEditViewController: UIViewController {
         unitPicker.dataSource = self
         quantityPicker.delegate = self
         quantityPicker.dataSource = self
-        unit = units[0]
-        quantity = quantities[0]
+        unit = ""
+        quantity = ""
         // Do any additional setup after loading the view.
+    }
+    
+    func setupUnits() {
+        let sortedUnits = units.sorted()
+        self.units = sortedUnits
+    }
+    
+    func setupPartMeasurements() {
+        let sortedMeasurements = partMeasurments.sorted()
+        partMeasurments = sortedMeasurements
+    }
+    
+    func setupQuantities() {
+        for index in 1...25 {
+            quantities.append("\(index)")
+            for partMeasure in partMeasurments {
+                quantities.append("\(index) \(partMeasure)")
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,6 +62,11 @@ class IngredientEditViewController: UIViewController {
         setupSaveButton()
         setupUnitPicker()
         setupQuantityPicker()
+        setupUnits()
+        setupPartMeasurements()
+        setupQuantities()
+        unitPicker.reloadAllComponents()
+        quantityPicker.reloadAllComponents()
     }
     
     func setupUnitPicker() {

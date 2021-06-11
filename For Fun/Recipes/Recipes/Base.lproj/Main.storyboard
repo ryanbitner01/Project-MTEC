@@ -145,7 +145,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book.closed.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="n4l-QQ-YOi">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="5" width="128" height="128"/>
                                                     <color key="tintColor" name="Blue"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="128" id="EbV-C5-exQ"/>
@@ -153,7 +153,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gz-BS-i8x">
-                                                    <rect key="frame" x="10" y="136" width="108" height="20.5"/>
+                                                    <rect key="frame" x="10" y="141" width="108" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -163,7 +163,7 @@
                                                 <constraint firstItem="9Gz-BS-i8x" firstAttribute="leading" secondItem="Ofs-AT-u8R" secondAttribute="leading" constant="10" id="0vi-QG-EAW"/>
                                                 <constraint firstItem="9Gz-BS-i8x" firstAttribute="top" secondItem="n4l-QQ-YOi" secondAttribute="bottom" constant="8" symbolic="YES" id="Mfe-48-RNO"/>
                                                 <constraint firstAttribute="trailing" secondItem="9Gz-BS-i8x" secondAttribute="trailing" constant="10" id="PZL-ap-sPa"/>
-                                                <constraint firstItem="n4l-QQ-YOi" firstAttribute="top" secondItem="Ofs-AT-u8R" secondAttribute="top" id="RpU-2h-rcL"/>
+                                                <constraint firstItem="n4l-QQ-YOi" firstAttribute="top" secondItem="Ofs-AT-u8R" secondAttribute="top" constant="5" id="RpU-2h-rcL"/>
                                                 <constraint firstItem="n4l-QQ-YOi" firstAttribute="centerX" secondItem="Ofs-AT-u8R" secondAttribute="centerX" id="udQ-aH-79T"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -273,13 +273,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grandma's Kitchen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uY7-kl-vo2">
-                                <rect key="frame" x="103.5" y="319" width="207" height="21"/>
+                                <rect key="frame" x="103.5" y="319" width="207" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hHw-3q-qra">
-                                <rect key="frame" x="20" y="348" width="374" height="465"/>
+                                <rect key="frame" x="20" y="347.5" width="374" height="465.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VUH-Cd-gM6">
                                     <size key="itemSize" width="128" height="180"/>
@@ -339,16 +339,28 @@
                                     <segue destination="Ew4-5v-uvi" kind="showDetail" id="O4S-5s-OUK"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUr-Po-KU2">
-                                <rect key="frame" x="60.5" y="189" width="33" height="37"/>
-                                <color key="tintColor" name="tintColor"/>
-                                <state key="normal" image="trash.fill" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
-                                </state>
-                                <connections>
-                                    <segue destination="cvr-9W-9PL" kind="unwind" identifier="DELETE" unwindAction="unwindToBooks:" id="Pju-XH-GRa"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="z0a-xG-yVO">
+                                <rect key="frame" x="60.5" y="145.5" width="33.5" height="124"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUr-Po-KU2">
+                                        <rect key="frame" x="0.0" y="0.0" width="33.5" height="36.5"/>
+                                        <color key="tintColor" name="Red"/>
+                                        <state key="normal" image="trash.fill" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deletePressed:" destination="6Lr-ww-vcD" eventType="touchUpInside" id="ctJ-bz-OSe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alX-lP-5RQ">
+                                        <rect key="frame" x="0.0" y="86.5" width="33.5" height="37.5"/>
+                                        <color key="tintColor" name="tintColor"/>
+                                        <state key="normal" image="square.and.arrow.up" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5V-SB-EYN">
                                 <rect key="frame" x="320.5" y="190.5" width="35" height="34"/>
                                 <color key="tintColor" name="tintColor"/>
@@ -369,16 +381,16 @@
                             <constraint firstItem="J5V-SB-EYN" firstAttribute="centerY" secondItem="J1I-wa-6sf" secondAttribute="centerY" id="C1N-c7-lSR"/>
                             <constraint firstItem="J5V-SB-EYN" firstAttribute="leading" secondItem="J1I-wa-6sf" secondAttribute="trailing" constant="10" id="E24-pY-2jB"/>
                             <constraint firstItem="xSn-0y-R6Q" firstAttribute="bottom" secondItem="hHw-3q-qra" secondAttribute="bottom" id="ENV-Gu-33E"/>
-                            <constraint firstItem="cUr-Po-KU2" firstAttribute="centerY" secondItem="J1I-wa-6sf" secondAttribute="centerY" id="IW4-re-yne"/>
+                            <constraint firstItem="z0a-xG-yVO" firstAttribute="centerY" secondItem="J1I-wa-6sf" secondAttribute="centerY" id="LqS-WM-LQd"/>
                             <constraint firstItem="hHw-3q-qra" firstAttribute="leading" secondItem="xSn-0y-R6Q" secondAttribute="leading" constant="20" id="OyL-lq-vrK"/>
                             <constraint firstItem="J1I-wa-6sf" firstAttribute="width" secondItem="5dF-wu-NhP" secondAttribute="width" multiplier="0.5" id="Phy-oK-YmM"/>
                             <constraint firstItem="xSn-0y-R6Q" firstAttribute="bottom" secondItem="qKa-Lk-s90" secondAttribute="bottom" constant="30" id="Tpf-6y-9bd"/>
+                            <constraint firstItem="J1I-wa-6sf" firstAttribute="leading" secondItem="z0a-xG-yVO" secondAttribute="trailing" constant="9.5" id="WfQ-Cd-ezO"/>
                             <constraint firstItem="xSn-0y-R6Q" firstAttribute="trailing" secondItem="hHw-3q-qra" secondAttribute="trailing" constant="20" id="Zhj-rC-inJ"/>
                             <constraint firstItem="hHw-3q-qra" firstAttribute="top" secondItem="uY7-kl-vo2" secondAttribute="bottom" constant="8" symbolic="YES" id="aCr-Hb-DWL"/>
                             <constraint firstItem="J1I-wa-6sf" firstAttribute="centerX" secondItem="5dF-wu-NhP" secondAttribute="centerX" id="bbx-FC-nec"/>
                             <constraint firstItem="uY7-kl-vo2" firstAttribute="top" secondItem="J1I-wa-6sf" secondAttribute="bottom" constant="8" symbolic="YES" id="faW-KK-AGa"/>
                             <constraint firstItem="J1I-wa-6sf" firstAttribute="top" secondItem="xSn-0y-R6Q" secondAttribute="top" constant="16" id="pO3-DL-2ty"/>
-                            <constraint firstItem="J1I-wa-6sf" firstAttribute="leading" secondItem="cUr-Po-KU2" secondAttribute="trailing" constant="10" id="ww1-JA-pEb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hsR-6p-85D"/>
@@ -386,6 +398,7 @@
                         <outlet property="bookNameLabel" destination="uY7-kl-vo2" id="kXB-Kh-p8J"/>
                         <outlet property="imageView" destination="J1I-wa-6sf" id="Baf-DH-52S"/>
                         <outlet property="recipeCollectionView" destination="hHw-3q-qra" id="Qht-tJ-0sk"/>
+                        <segue destination="cvr-9W-9PL" kind="unwind" identifier="DELETE" unwindAction="deleteBookUnwind:" id="FYT-5Y-5hx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="unw-dF-A07" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -426,7 +439,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-B1-erB">
                                 <rect key="frame" x="73.5" y="188" width="32.5" height="36.5"/>
-                                <color key="tintColor" name="tintColor"/>
+                                <color key="tintColor" name="Red"/>
                                 <state key="normal" image="trash.fill" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
                                 </state>
@@ -832,19 +845,19 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ingredient Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wmM-DJ-Ote">
-                                <rect key="frame" x="188" y="179" width="216" height="34"/>
+                                <rect key="frame" x="220" y="179" width="184" height="34"/>
                                 <color key="backgroundColor" name="TextBG"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yqe-sO-GUX">
-                                <rect key="frame" x="10" y="88" width="68" height="216"/>
+                                <rect key="frame" x="10" y="88" width="100" height="216"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="68" id="mbs-i8-SbO"/>
+                                    <constraint firstAttribute="width" constant="100" id="mbs-i8-SbO"/>
                                 </constraints>
                             </pickerView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4gf-Yv-tf2">
-                                <rect key="frame" x="83" y="88" width="100" height="216"/>
+                                <rect key="frame" x="115" y="88" width="100" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="3ri-4G-Kg6"/>
                                 </constraints>
@@ -933,7 +946,7 @@
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KiA-4S-ckG">
-                                <rect key="frame" x="93" y="478" width="228" height="384"/>
+                                <rect key="frame" x="93" y="478" width="228" height="335"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Oiu-Tp-2GC">
                                     <size key="itemSize" width="100" height="100"/>
@@ -1212,7 +1225,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1MD-sI-BUA"/>
+        <segue reference="rKT-FA-aQq"/>
         <segue reference="vPV-QN-3ad"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -1229,12 +1242,16 @@
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="photo.on.rectangle" catalog="system" width="128" height="96"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="trash.fill" catalog="system" width="121" height="128"/>
         <namedColor name="BGColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Blue">
             <color red="0.7149999737739563" green="0.93000000715255737" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="Red">
+            <color red="1" green="0.40900000929832458" blue="0.40599998831748962" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="TextBG">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
