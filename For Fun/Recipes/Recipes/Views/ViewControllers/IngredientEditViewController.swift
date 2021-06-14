@@ -10,27 +10,37 @@ import UIKit
 class IngredientEditViewController: UIViewController {
     
     @IBOutlet weak var quantityPicker: UIPickerView!
-    @IBOutlet weak var unitPicker: UIPickerView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     
+    enum Component: Int, CaseIterable {
+        case wholeInt
+        case partInt
+        case unit
+    }
+    
     var units: [String] = ["", "tsp", "tbl", "fl oz", "c", "pt", "qt", "gal", "ml", "l", "dl", "lb", "oz", "mg", "g", "kg"]
-    var quantities: [String] = [""]
-    var partMeasurments: [String] = ["1/8" ,"1/2", "1/4", "2/3", "1/3", "3/4"]
+    var quantities: [String] = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
+    var partMeasurments: [String] = ["", "1/8" ,"1/2", "1/4", "2/3", "1/3", "3/4"]
     var ingredient: Ingredient?
     
     var unit: String?
     var quantity: String?
+    var partQuantity: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         //updateUI()
-        unitPicker.delegate = self
-        unitPicker.dataSource = self
         quantityPicker.delegate = self
         quantityPicker.dataSource = self
         unit = ""
         quantity = ""
+        partQuantity = ""
+        if let ingredient = ingredient {
+            unit = ingredient.unit
+            quantity = ingredient.quantity
+            partQuantity = ingredient.partQuantity
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -44,15 +54,6 @@ class IngredientEditViewController: UIViewController {
         partMeasurments = sortedMeasurements
     }
     
-    func setupQuantities() {
-        for index in 1...25 {
-            quantities.append("\(index)")
-            for partMeasure in partMeasurments {
-                quantities.append("\(index) \(partMeasure)")
-            }
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         updateUI()
     }
@@ -60,29 +61,10 @@ class IngredientEditViewController: UIViewController {
     func updateUI() {
         setupNameTF()
         setupSaveButton()
-        setupUnitPicker()
-        setupQuantityPicker()
         setupUnits()
         setupPartMeasurements()
-        setupQuantities()
-        unitPicker.reloadAllComponents()
+        setupPicker()
         quantityPicker.reloadAllComponents()
-    }
-    
-    func setupUnitPicker() {
-        if let unit = ingredient?.unit, let unitIndex = units.firstIndex(where: {$0 == unit}) {
-            unitPicker.selectRow(unitIndex, inComponent: 0, animated: true)
-        } else {
-            unitPicker.selectRow(0, inComponent: 0, animated: true)
-        }
-    }
-    
-    func setupQuantityPicker() {
-        if let quantity = ingredient?.quantity, let quantityIndex = quantities.firstIndex(where: {$0 == quantity}) {
-            quantityPicker.selectRow(quantityIndex, inComponent: 0, animated: true)
-        } else {
-            quantityPicker.selectRow(0, inComponent: 0, animated: true)
-        }
     }
     
     func setupNameTF() {
@@ -95,6 +77,19 @@ class IngredientEditViewController: UIViewController {
         saveButton.layer.cornerRadius = 15
         saveButton.layer.borderWidth = 2
         saveButton.layer.borderColor = UIColor(named: "tintColor")?.cgColor
+    }
+    
+    func setupPicker() {
+        if let quantity = quantity, let index = quantities.firstIndex(where: {$0 == quantity}) {
+            print(quantity, index)
+            quantityPicker.selectRow(index, inComponent: 0, animated: true)
+        }
+        if let partQuantity = partQuantity, let index = partMeasurments.firstIndex(where: {$0 == partQuantity}) {
+            quantityPicker.selectRow(index, inComponent: 1, animated: true)
+        }
+        if let unit = unit, let unitIndex = units.firstIndex(where: {$0 == unit}) {
+            quantityPicker.selectRow(unitIndex, inComponent: 2, animated: true)
+        }
     }
     /*
     // MARK: - Navigation
@@ -111,6 +106,7 @@ class IngredientEditViewController: UIViewController {
             self.ingredient?.name = nameTextField.text!
             self.ingredient?.unit = unit ?? ""
             self.ingredient?.quantity = quantity ?? ""
+            self.ingredient?.partQuantity = partQuantity ?? ""
         }
     }
 
@@ -118,42 +114,48 @@ class IngredientEditViewController: UIViewController {
 
 extension IngredientEditViewController: UIPickerViewDataSource, UIPickerViewDelegate{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
+        3
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView {
-        case quantityPicker:
+        guard let componentInt = Component(rawValue: component) else {return 0}
+        switch componentInt {
+        case .wholeInt:
             return quantities.count
-        case unitPicker:
+        case .partInt:
+            return partMeasurments.count
+        case .unit:
             return units.count
-        default:
-            return 0
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView {
-        case quantityPicker:
-            let quantity = quantities[row]
-            return quantity
-        case unitPicker:
+        guard let componentInt = Component(rawValue: component) else {return nil}
+        switch componentInt {
+        case .wholeInt:
+            let int = quantities[row]
+            return int
+        case .partInt:
+            let partInt = partMeasurments[row]
+            return partInt
+        case .unit:
             let unit = units[row]
             return unit
-        default:
-            return nil
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        switch pickerView {
-        case unitPicker:
-            unit = units[row]
-        case quantityPicker:
-            quantity = quantities[row]
-        default:
-            return
+        guard let componentInt = Component(rawValue: component) else {return}
+        switch componentInt {
+        case .wholeInt:
+            let int = quantities[row]
+            quantity = int
+        case .partInt:
+            let partInt = partMeasurments[row]
+            partQuantity = partInt
+        case .unit:
+            let unit = units[row]
+            self.unit = unit
         }
     }
 }

@@ -89,6 +89,17 @@ class RecipeDetailViewController: UIViewController {
             }
         }
     }
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        let alertController = UIAlertController(title: "Delete Recipe", message: "Are you sure you want to delete this recipe?", preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: {action in
+            self.performSegue(withIdentifier: "DELETERecipe", sender: self)
+        })
+        alertController.addAction(cancel)
+        alertController.addAction(deleteAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        present(alertController, animated: true, completion: nil)
+    }
     
     @IBSegueAction func segueToEditRecipe(_ coder: NSCoder, sender: Any?) -> CreateRecipeViewController? {
         let recipe = self.recipe
@@ -136,7 +147,8 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as! IngredientCell
             let unit = ingredients[indexPath.row].unit ?? ""
             let quantity = ingredients[indexPath.row].quantity ?? ""
-            cell.nameLabel.text =  "\(quantity) \(unit) \(ingredients[indexPath.row].name)"
+            let partQuantity = ingredients[indexPath.row].partQuantity ?? ""
+            cell.nameLabel.text =  "\(quantity) \(partQuantity) \(unit) \(ingredients[indexPath.row].name)"
             //cell.nameLabel.isUserInteractionEnabled = false
             return cell
         case .steps:

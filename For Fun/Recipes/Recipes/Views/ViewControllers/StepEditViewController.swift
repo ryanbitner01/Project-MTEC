@@ -42,7 +42,7 @@ class StepEditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let step = step {
+        if step != nil {
             self.step?.description = stepTextView.text
         }
     }

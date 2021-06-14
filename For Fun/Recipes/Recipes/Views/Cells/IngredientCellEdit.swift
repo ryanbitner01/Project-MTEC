@@ -27,7 +27,8 @@ class IngredientCellEdit: UITableViewCell {
         guard let ingredient = ingredient else {return}
         let unit = ingredient.unit ?? ""
         let quantity = ingredient.quantity ?? ""
-        nameLabel.text = "\(quantity) \(unit) \(ingredient.name)"
+        let partQuantity = ingredient.partQuantity ?? ""
+        nameLabel.text = "\(quantity) \(partQuantity) \(unit) \(ingredient.name)"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

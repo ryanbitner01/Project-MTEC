@@ -78,8 +78,8 @@ class RecipeController {
             } else if let querySnapshot = querySnapshot {
                 let ingredients = querySnapshot.documents.compactMap { doc -> Ingredient? in
                     let data = doc.data()
-                    guard let id = Int(doc.documentID), let name = data["Name"] as? String, let unit = data["Unit"] as? String, let quantity = data["Quantity"] as? String else {return nil}
-                    let newIngredient = Ingredient(name: name, unit: unit, quantity: quantity, count: id)
+                    guard let id = Int(doc.documentID), let name = data["Name"] as? String, let unit = data["Unit"] as? String, let quantity = data["Quantity"] as? String, let partQuantity = data["PartQuantity"] as? String else {return nil}
+                    let newIngredient = Ingredient(name: name, unit: unit, quantity: quantity, partQuantity: partQuantity ,count: id)
                     return newIngredient
                 }
                 completion(.success(ingredients))
@@ -162,7 +162,8 @@ class RecipeController {
         recipeDirectory.collection("Ingredients").document("\(ingredient.count)").setData([
             "Name": ingredient.name,
             "Unit": ingredient.unit ?? "",
-            "Quantity": ingredient.quantity ?? ""
+            "Quantity": ingredient.quantity ?? "",
+            "PartQuantity": ingredient.partQuantity ?? ""
         ])
     }
     

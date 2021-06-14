@@ -17,7 +17,7 @@ class NewBookViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var image: UIImage?
-    var colorName: String?
+    var colorName: String? = "Blue"
     var book: Book?
     //let colors: [UIColor] = [.black, .blue, .systemPink, .systemOrange, .red]
     

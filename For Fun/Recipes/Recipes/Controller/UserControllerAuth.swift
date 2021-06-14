@@ -12,6 +12,7 @@ enum UserControllerError: Error {
     case passwordMatch
     case invalidUser
     case duplicateEmail
+    case invalidEmail
 }
 
 extension UserControllerError: LocalizedError {
@@ -25,7 +26,10 @@ extension UserControllerError: LocalizedError {
             return "Invalid email or password"
         case .duplicateEmail:
             return "Email already in use"
+        case .invalidEmail:
+            return "Email does not exist"
         }
+        
     }
 }
 
@@ -48,7 +52,7 @@ class UserControllerAuth {
     func loginUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {
         auth.signIn(withEmail: email, password: password) { AuthData, err in
             if let data = AuthData {
-                let userID = data.user.uid
+                guard let userID = data.user.email else {return}
                 self.user = User(id: userID)
                 print("SIGNED IN")
                 completion(nil)
@@ -69,6 +73,14 @@ class UserControllerAuth {
     func logoutUser() {
         try? auth.signOut()
         user = nil
+    }
+    
+    func sendPasswordReset(email: String, completion: @escaping (UserControllerError?) -> Void) {
+        auth.sendPasswordReset(withEmail: email) { err in
+            if err != nil {
+                completion(.invalidEmail)
+            }
+        }
     }
     
 }
