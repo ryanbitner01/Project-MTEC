@@ -7,14 +7,15 @@
 
 import Foundation
 
-struct User: Codable {
+class User: Codable {
     var id: String
     var album: [Book]
+    var sharedAlbum: [Book]
     
-    
-    init(id: String = "", album: [Book] = []) {
+    init(id: String = "", album: [Book] = [], sharedAlbum: [Book] = []) {
         self.id = id
         self.album = album
+        self.sharedAlbum = sharedAlbum
     }
     
 }

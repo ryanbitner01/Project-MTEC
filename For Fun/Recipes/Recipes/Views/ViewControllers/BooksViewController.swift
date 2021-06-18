@@ -9,14 +9,32 @@ import UIKit
 
 class BooksViewController: UIViewController {
     
-    @IBOutlet weak var bookCollectionView: UICollectionView!
+    enum Section: Int, CaseIterable {
+        case notShared
+        case shared
+    }
     
-    var books: [Book] = []
+    @IBOutlet weak var bookCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         bookCollectionView.dataSource = self
         getRecipeBooks()
+        getSharedbook()
+    }
+    
+    func getSharedbook() {
+        SharingController.shared.getSharedAlbum { result in
+            switch result {
+            case .success(let books):
+                UserControllerAuth.shared.user?.sharedAlbum.append(contentsOf:books)
+                DispatchQueue.main.async {
+                    self.bookCollectionView.reloadData()
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
     }
     
     func getRecipeBooks() {
@@ -24,7 +42,7 @@ class BooksViewController: UIViewController {
         BookController.shared.getBooks(user: user) { result in
             switch result {
             case .success(let books):
-                self.books = books
+                UserControllerAuth.shared.user?.album = books
                 print("GOT BOOKS")
                 DispatchQueue.main.async {
                     self.bookCollectionView.reloadData()
@@ -38,7 +56,7 @@ class BooksViewController: UIViewController {
     @IBAction func deleteBookUnwind(_ unwindSegue: UIStoryboardSegue) {
         if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
             guard let book = bookDetailVC.book else {return}
-            let recipes = bookDetailVC.recipes
+            let recipes = bookDetailVC.book?.recipes ?? []
             for recipe in recipes {
                 RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
             }
@@ -52,8 +70,8 @@ class BooksViewController: UIViewController {
                     return
                 }
             }
-            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
-                self.books.remove(at: indexPath)
+            if let indexPath = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == book.id}) {
+                UserControllerAuth.shared.user?.album.remove(at: indexPath)
                 self.bookCollectionView.reloadData()
             }
             
@@ -62,11 +80,11 @@ class BooksViewController: UIViewController {
     
     @IBAction func unwindToBooks(_ unwindSegue: UIStoryboardSegue) {
         if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
-            if let existingIndex = books.firstIndex(where: {$0.id == newBook.id}) {
-                books[existingIndex] = newBook
+            if let existingIndex = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == newBook.id}) {
+                UserControllerAuth.shared.user?.album[existingIndex] = newBook
                 bookCollectionView.reloadData()
             } else {
-                books.append(newBook)
+                UserControllerAuth.shared.user?.album.append(newBook)
                 bookCollectionView.reloadData()
             }
         }
@@ -97,29 +115,47 @@ class BooksViewController: UIViewController {
     
     @IBSegueAction func segueToBookDetailVC(_ coder: NSCoder, sender: Any) -> BookDetailViewController? {
         let bookDetailVC = BookDetailViewController(coder: coder)
-        guard let cell = sender as? BookCell, let indexPath = bookCollectionView.indexPath(for: cell) else {return nil}
-        bookDetailVC?.book = books[indexPath.row]
+        guard let cell = sender as? BookCell, let book = cell.book else {return nil}
+        bookDetailVC?.book = book
         return bookDetailVC
     }
 }
 
 extension BooksViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        books.count
+        
+        guard let section = Section(rawValue: section) else {return 0}
+        switch section {
+        case .notShared:
+            return UserControllerAuth.shared.user?.album.count ?? 0
+        case .shared:
+            return UserControllerAuth.shared.user?.sharedAlbum.count ?? 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCell
-        let book = books[indexPath.row]
-        cell.book = book
-        cell.updateCell()
-        //cell.imageView.tintColor = getRandomColor(array: colors)
-        //cell.nameLabel.text = names[indexPath.row]
-        //cell.imageView.layer.cornerRadius = 15
-        //cell.nameLabel.layer.borderColor = UIColor(named: "tintColor")?.cgColor
-        //cell.nameLabel.layer.borderWidth = 2
-        //cell.nameLabel.layer.cornerRadius = 10
-        return cell
+        let section = Section(rawValue: indexPath.section)!
+        
+        switch section {
+        case .notShared:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCell
+            let book = UserControllerAuth.shared.user?.album[indexPath.row]
+            cell.book = book
+            cell.updateCell()
+            return cell
+        case .shared:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCell
+            let book = UserControllerAuth.shared.user?.sharedAlbum[indexPath.row]
+            cell.book = book
+            cell.updateCell()
+            return cell
+        }
+        
     }
     
     

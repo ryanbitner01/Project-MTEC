@@ -148,4 +148,12 @@ class BookController {
             return UIColor.black
         }
     }
+    
+    func getAlbum() -> [Book] {
+        if let user = UserControllerAuth.shared.user {
+            return user.album
+        } else {
+            return []
+        }
+    }
 }

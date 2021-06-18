@@ -83,4 +83,19 @@ class UserControllerAuth {
         }
     }
     
+    func rememberEmail(email: String, rememberMe: Bool) {
+        UserDefaults.standard.setValue(email, forKey: "userEmail")
+        UserDefaults.standard.setValue(rememberMe, forKey: "rememberMe")
+    }
+    
+    func getRememberedEmail() -> String {
+        guard let email = UserDefaults.standard.value(forKey: "userEmail") as? String else {return ""}
+        return email
+    }
+    
+    func getRememberMe() -> Bool {
+        guard let rememberMe = UserDefaults.standard.value(forKey: "rememberMe") as? Bool else {return false}
+        return rememberMe
+    }
+    
 }

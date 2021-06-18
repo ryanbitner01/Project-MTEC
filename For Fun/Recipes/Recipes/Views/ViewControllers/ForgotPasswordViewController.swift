@@ -19,13 +19,16 @@ class ForgotPasswordViewController: UIViewController {
     
     @IBAction func sendPressed(_ sender: Any) {
         UserControllerAuth.shared.sendPasswordReset(email: emailTextField.text!) { err in
-            if err != nil {
-                print(err?.localizedDescription)
+            if let err = err {
+                print(err.localizedDescription)
             }
         }
         performSegue(withIdentifier: "SEND", sender: self)
     }
     
+    @IBAction func cancelPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Recipe: Codable {
+class Recipe: Codable {
     var id: UUID
     var name: String
     var image: Data?

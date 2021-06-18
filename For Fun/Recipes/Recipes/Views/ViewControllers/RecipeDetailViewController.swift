@@ -16,9 +16,8 @@ class RecipeDetailViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var recipeImageView: UIImageView!
-    
-    var ingredients: [Ingredient] = []
-    var steps: [Step] = []
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     var recipe: Recipe?
     var book: Book?
@@ -36,9 +35,24 @@ class RecipeDetailViewController: UIViewController {
         if let recipe = recipe {
             nameLabel.text = recipe.name
         }
-        fetchIngredients()
-        fetchInstructions()
+        guard let book = book else {return}
+        if !book.isShared {
+            fetchIngredients()
+            fetchInstructions()
+        } else {
+            
+        }
+        
         setupImageView()
+        checkShared()
+    }
+    
+    func checkShared() {
+        guard let book = book else {return}
+        if book.isShared {
+            deleteButton.isHidden = true
+            editButton.isHidden = true
+        }
     }
     
     func setupImageView() {
@@ -65,7 +79,7 @@ class RecipeDetailViewController: UIViewController {
         RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book) { result in
             switch result {
             case .success(let steps):
-                self.steps = steps
+                recipe.instruction = steps
                 DispatchQueue.main.async {
                     self.contentTableView.reloadData()
                 }
@@ -80,7 +94,7 @@ class RecipeDetailViewController: UIViewController {
         RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book) { result in
             switch result {
             case .success(let ingredients):
-                self.ingredients = ingredients
+                recipe.ingredients = ingredients
                 DispatchQueue.main.async {
                     self.contentTableView.reloadData()
                 }
@@ -102,15 +116,15 @@ class RecipeDetailViewController: UIViewController {
     }
     
     @IBSegueAction func segueToEditRecipe(_ coder: NSCoder, sender: Any?) -> CreateRecipeViewController? {
-        let recipe = self.recipe
+        guard let recipe = self.recipe else {return nil}
         let createRecipeViewController = CreateRecipeViewController(coder: coder)
         createRecipeViewController?.recipe = recipe
         createRecipeViewController?.book = book
-        createRecipeViewController?.ingredients = ingredients
-        if recipe?.image != nil {
+        createRecipeViewController?.ingredients = recipe.ingredients
+        if recipe.image != nil {
             createRecipeViewController?.image = recipeImageView.image
         }
-        createRecipeViewController?.steps = steps
+        createRecipeViewController?.steps = recipe.instruction
         return createRecipeViewController
     }
     /*
@@ -134,9 +148,9 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
         guard let tableSection = Section(rawValue: section) else {return 0}
         switch tableSection {
         case .ingredients:
-            return ingredients.count
+            return recipe?.ingredients.count ?? 0
         case .steps:
-            return steps.count
+            return recipe?.instruction.count ?? 0
         }
     }
     
@@ -145,17 +159,18 @@ extension RecipeDetailViewController: UITableViewDataSource, UITableViewDelegate
         switch tableSection {
         case .ingredients:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as! IngredientCell
-            let unit = ingredients[indexPath.row].unit ?? ""
-            let quantity = ingredients[indexPath.row].quantity ?? ""
-            let partQuantity = ingredients[indexPath.row].partQuantity ?? ""
-            cell.nameLabel.text =  "\(quantity) \(partQuantity) \(unit) \(ingredients[indexPath.row].name)"
+            let unit = recipe?.ingredients[indexPath.row].unit ?? ""
+            let quantity = recipe?.ingredients[indexPath.row].quantity ?? ""
+            let partQuantity = recipe?.ingredients[indexPath.row].partQuantity ?? ""
+            cell.nameLabel.text =  "\(quantity) \(partQuantity) \(unit) \(recipe?.ingredients[indexPath.row].name ?? "")"
             //cell.nameLabel.isUserInteractionEnabled = false
             return cell
         case .steps:
             let cell = tableView.dequeueReusableCell(withIdentifier: "stepCell", for: indexPath) as! StepCell
-            let step = steps[indexPath.row]
-            cell.stepImageView?.image = UIImage(systemName: "\(step.order).circle")
-            cell.descriptionLabel.text = step.description
+            let step = recipe?.instruction[indexPath.row]
+            let order = step?.order
+            cell.stepImageView?.image = UIImage(systemName: "\(order ?? 0).circle")
+            cell.descriptionLabel.text = step?.description
             //cell.descriptionLabel.isUserInteractionEnabled = false
             return cell
         }

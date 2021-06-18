@@ -9,12 +9,16 @@ import UIKit
 
 class BookDetailViewController: UIViewController {
     
-    var recipes: [Recipe] = []
+    //var recipes: [Recipe] = []
     var book: Book?
     
     @IBOutlet weak var recipeCollectionView: UICollectionView!
     @IBOutlet weak var bookNameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,15 +27,19 @@ class BookDetailViewController: UIViewController {
             bookNameLabel.text = book.name
             setupBookImage()
         }
-        getRecipes()
+        checkShared()
+        guard let book = book else {return}
+        if !book.isShared {
+            getRecipes()
+        }
         imageView.layer.cornerRadius = 25
         // Do any additional setup after loading the view.
     }
     @IBSegueAction func segueToRecipeDetailViewController(_ coder: NSCoder, sender: Any?) -> RecipeDetailViewController? {
-        guard let cell = sender as? RecipeCell, let indexPath = recipeCollectionView.indexPath(for: cell) else {return nil}
+        guard let cell = sender as? RecipeCell, let indexPath = recipeCollectionView.indexPath(for: cell), let book = book else {return nil}
         let recipeDetailVC = RecipeDetailViewController(coder: coder)
         recipeDetailVC?.book = book
-        recipeDetailVC?.recipe = recipes[indexPath.row]
+        recipeDetailVC?.recipe = book.recipes[indexPath.row]
         return recipeDetailVC
     }
     
@@ -52,12 +60,22 @@ class BookDetailViewController: UIViewController {
         return newBookVC
     }
     
+    func checkShared() {
+        guard let book = book else {return}
+        if book.isShared {
+            deleteButton.isHidden = true
+            shareButton.isHidden = true
+            editButton.isHidden = true
+            addButton.isHidden = true
+        }
+    }
+    
     func getRecipes() {
         guard let book = book else {return}
         RecipeController.shared.fetchRecipes(book: book) { result in
             switch result {
             case .success(let recipes):
-                self.recipes = recipes
+                self.book?.recipes = recipes
                 DispatchQueue.main.async {
                     self.recipeCollectionView.reloadData()
                 }
@@ -102,8 +120,8 @@ class BookDetailViewController: UIViewController {
         let sourceViewController = unwindSegue.source as! RecipeDetailViewController
         guard let recipe = sourceViewController.recipe, let book = book else {return}
         RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
-        if let recipeIndex = recipes.firstIndex(where: {$0.id == recipe.id}) {
-            recipes.remove(at: recipeIndex)
+        if let recipeIndex = book.recipes.firstIndex(where: {$0.id == recipe.id}) {
+            self.book?.recipes.remove(at: recipeIndex)
             recipeCollectionView.reloadData()
         }
         // Use data from the view controller which initiated the unwind segue
@@ -117,13 +135,18 @@ class BookDetailViewController: UIViewController {
     @IBAction func saveBookUnwind(_ unwindSegue: UIStoryboardSegue) {
         if let sourceVC = unwindSegue.source as? CreateRecipeViewController {
             guard let recipe = sourceVC.recipe else {return}
-            if let indexPath = recipes.firstIndex(where: {$0.id == recipe.id}) {
-                recipes[indexPath] = recipe
+            if let indexPath = book?.recipes.firstIndex(where: {$0.id == recipe.id}) {
+                book?.recipes[indexPath] = recipe
             } else {
-                recipes.append(recipe)
+                book?.recipes.append(recipe)
             }
             recipeCollectionView.reloadData()
         }
+        // Use data from the view controller which initiated the unwind segue
+    }
+    
+    @IBAction func unwindFromShareBook(_ unwindSegue: UIStoryboardSegue) {
+        print("Share")
         // Use data from the view controller which initiated the unwind segue
     }
     
@@ -137,6 +160,11 @@ class BookDetailViewController: UIViewController {
         alertController.addAction(deleteAction)
         alertController.popoverPresentationController?.sourceView = self.view
         present(alertController, animated: true, completion: nil)
+    }
+    @IBSegueAction func segueToShare(_ coder: NSCoder) -> ShareBookViewController? {
+        let shareBookVC = ShareBookViewController(coder: coder)
+        shareBookVC?.book = self.book
+        return shareBookVC
     }
     /*
      // MARK: - Navigation
@@ -152,12 +180,12 @@ class BookDetailViewController: UIViewController {
 
 extension BookDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        recipes.count
+        book?.recipes.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecipeCell", for: indexPath) as! RecipeCell
-        cell.recipe = recipes[indexPath.row]
+        cell.recipe = book?.recipes[indexPath.row]
         cell.updateCell()
         return cell
         

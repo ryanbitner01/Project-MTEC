@@ -64,7 +64,7 @@ class NewBookViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
         guard let user = UserControllerAuth.shared.user else {return}
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
-            var book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData)
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData)
             BookController.shared.addBookImage(user, book: book, new: true)
             book.image = imageData
             self.book = book

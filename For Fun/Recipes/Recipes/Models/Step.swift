@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct Step: Codable {
+class Step: Codable {
     var order: Int
     var description: String
+    
+    init(order: Int, description: String) {
+        self.order = order
+        self.description = description
+    }
 }

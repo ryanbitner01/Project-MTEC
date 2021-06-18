@@ -9,6 +9,7 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var rememberMeButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -23,8 +24,15 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         alertLabel.isHidden = true
+        getRememberedEmail()
     }
     
+    func getRememberedEmail() {
+        if UserControllerAuth.shared.getRememberMe() {
+            rememberMeButton.isSelected = true
+            usernameTextField.text = UserControllerAuth.shared.getRememberedEmail()
+        }
+    }
     func showAlert(message: String) {
         alertLabel.isHidden = false
         alertLabel.text = message
@@ -66,6 +74,24 @@ class LoginViewController: UIViewController {
         sender.resignFirstResponder()
     }
     
+    @IBAction func rememberMeButton(_ sender: UIButton) {
+        rememberMeButton.isSelected.toggle()
+        
+    }
+    
+    func rememberEmail() {
+        if rememberMeButton.state == .selected {
+            UserControllerAuth.shared.rememberEmail(email: usernameTextField.text!, rememberMe: true)
+            print("SAVE")
+        } else if rememberMeButton.state == .normal {
+            UserControllerAuth.shared.rememberEmail(email: "", rememberMe: false)
+            print("CLEAR")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        rememberEmail()
+    }
     //    func initUsers() {
     //        UserController.shared.getUsers { result in
     //            switch result {
