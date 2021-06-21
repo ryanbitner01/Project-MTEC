@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 enum RecipeControllerError: Error {
     case unkown
@@ -26,16 +27,38 @@ extension RecipeControllerError: LocalizedError {
 
 class RecipeController {
     static let shared = RecipeController()
+    let usersDirectory = db.collection("Users")
     
     private init() {
         
     }
     
-    func fetchRecipes(book: Book, completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let bookDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString)
-        
-        bookDirectory.collection("Recipes").getDocuments { qs, err in
+    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
+        switch path {
+        case .album:
+            if let user = UserControllerAuth.shared.user {
+                return usersDirectory.document(user.id).collection("Album")
+            } else {
+                return nil
+            }
+        case .otherSharedAlbum:
+            if let email = email {
+                return usersDirectory.document(email).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        case .sharedAlbum:
+            if let user = UserControllerAuth.shared.user {
+                return usersDirectory.document(user.id).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    func fetchRecipes(book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.document(book.id.uuidString).collection("Recipes").getDocuments { qs, err in
             if let qs = qs {
                 let recipes = qs.documents.compactMap { doc -> Recipe? in
                     let data = doc.data()
@@ -51,8 +74,10 @@ class RecipeController {
         }
     }
     
-    func getInstructions(user: User, recipe: Recipe, book: Book, completion: @escaping (Result<[Step], Error>) -> Void) {
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func getInstructions(user: User, recipe: Recipe, book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Step], Error>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+
+        let recipeDirectory = path.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         let instructionsDoc = recipeDirectory.collection("Instructions")
         instructionsDoc.getDocuments { querySnapshot, err in
             if let err = err {
@@ -69,8 +94,10 @@ class RecipeController {
         }
     }
     
-    func getIngredients(user: User, recipe: Recipe, book: Book, completion: @escaping (Result<[Ingredient], Error>) -> Void) {
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func getIngredients(user: User, recipe: Recipe, book: Book,path: FireBasePath, email: String = "", completion: @escaping (Result<[Ingredient], Error>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+
+        let recipeDirectory = path.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         let ingredientsDoc = recipeDirectory.collection("Ingredients")
         ingredientsDoc.getDocuments { querySnapshot, err in
             if let err = err {
@@ -96,7 +123,7 @@ class RecipeController {
         completion(.success(image))
     }
     
-    func addRecipeImage(recipe: Recipe, book: Book, instructions: [Step]?, ingredients: [Ingredient]?) {
+    func addRecipeImage(recipe: Recipe, book: Book, instructions: [Step]?, ingredients: [Ingredient]?, path: FireBasePath, email: String = "") {
         guard let imageData = recipe.image else {return}
         let storageRef = storage.reference()
         let imageRef = storageRef.child(recipe.id.uuidString)
@@ -105,7 +132,7 @@ class RecipeController {
                 if let err = err {
                     print(err.localizedDescription)
                 } else if let url = url{
-                    self.addRecipe(recipe: recipe, book: book, imageURL: url.absoluteString, instructions: instructions, ingredients: ingredients)
+                    self.addRecipe(recipe: recipe, book: book, imageURL: url.absoluteString, instructions: instructions, ingredients: ingredients, path: path, email: email)
                 }
             }
         }
@@ -113,10 +140,9 @@ class RecipeController {
 
     }
     
-    func addRecipe(recipe: Recipe, book: Book, imageURL: String = "", instructions: [Step]?, ingredients: [Ingredient]?) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes")
+    func addRecipe(recipe: Recipe, book: Book, imageURL: String = "", instructions: [Step]?, ingredients: [Ingredient]?, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes")
             
         recipeDirectory.document(recipe.id.uuidString).setData([
             "name": recipe.name,
@@ -125,40 +151,40 @@ class RecipeController {
         
         if let instructions = instructions {
             for instruction in instructions {
-                addInstruction(instruction: instruction, book: book, recipe: recipe)
+                addInstruction(instruction: instruction, book: book, recipe: recipe, path: path, email: email)
             }
         }
         
         if let ingredients = ingredients {
             for ingredient in ingredients {
-                addIngredients(ingredient: ingredient, book: book, recipe: recipe)
+                addIngredients(ingredient: ingredient, book: book, recipe: recipe, path: path, email: email)
             }
         }
     }
     
-    func deleteInstruction(instruction: Step, book: Book, recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func deleteInstruction(instruction: Step, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Instructions").document("\(instruction.order)").delete()
     }
     
-    func deleteIngredient(ingredeint: Ingredient, book: Book, recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func deleteIngredient(ingredeint: Ingredient, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Ingredients").document("\(ingredeint.count)").delete()
     }
     
-    func addInstruction(instruction: Step, book: Book, recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func addInstruction(instruction: Step, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Instructions").document("\(instruction.order)").setData([
             "Description": instruction.description
         ])
     }
     
-    func addIngredients(ingredient: Ingredient, book: Book, recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+    func addIngredients(ingredient: Ingredient, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Ingredients").document("\(ingredient.count)").setData([
             "Name": ingredient.name,
             "Unit": ingredient.unit ?? "",
@@ -167,27 +193,29 @@ class RecipeController {
         ])
     }
     
-    func deleteRecipe(recipe: Recipe, book: Book) {
+    func deleteRecipe(recipe: Recipe, book: Book, path: FireBasePath, email: String = "") {
+        guard let directory = getPath(path: path, email: email) else {return}
+
         guard let user = UserControllerAuth.shared.user else {return}
-        let recipeDirectory = db.collection("Users").document(user.id).collection("Album").document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
+        let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         if recipe.imageURL != " " {
             self.deleteRecipeImage(recipe: recipe)
         }
-        getIngredients(user: user, recipe: recipe, book: book) { result in
+        getIngredients(user: user, recipe: recipe, book: book, path: path, email: email) { result in
             switch result {
             case .success(let ingredients):
                 for ingredient in ingredients {
-                    self.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe)
+                    self.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: path, email: email)
                 }
             case .failure(let err):
                 print(err.localizedDescription)
             }
         }
-        getInstructions(user: user, recipe: recipe, book: book) { result in
+        getInstructions(user: user, recipe: recipe, book: book, path: path, email: email) { result in
             switch result {
             case .success(let steps):
                 for step in steps {
-                    self.deleteInstruction(instruction: step, book: book, recipe: recipe)
+                    self.deleteInstruction(instruction: step, book: book, recipe: recipe, path: path, email: email)
                 }
             case .failure(let err):
                 print(err.localizedDescription)

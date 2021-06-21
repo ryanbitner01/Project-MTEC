@@ -10,6 +10,7 @@
 		1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D362642D98A00137B73 /* CreateUserViewController.swift */; };
 		1E051D392642DA3A00137B73 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D382642DA3A00137B73 /* User.swift */; };
 		1E051D3B2642DAF300137B73 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D3A2642DAF300137B73 /* Book.swift */; };
+		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
 		1E64720D264AF98C00A99E18 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E64720C264AF98C00A99E18 /* RecipeCell.swift */; };
 		1E64720F264AFABD00A99E18 /* RecipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E64720E264AFABD00A99E18 /* RecipeController.swift */; };
 		1E647213264CD82A00A99E18 /* UserControllerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E647212264CD82A00A99E18 /* UserControllerAuth.swift */; };
@@ -34,7 +35,6 @@
 		1EEA5C77266E6A1B0004052C /* IngredientEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA5C76266E6A1B0004052C /* IngredientEditViewController.swift */; };
 		1EEA5C79266E6A310004052C /* StepEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA5C78266E6A310004052C /* StepEditViewController.swift */; };
 		1EF6E218267A46F00020A8D8 /* ShareBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF6E217267A46F00020A8D8 /* ShareBookViewController.swift */; };
-		1EF6E21A267B9E2C0020A8D8 /* SharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF6E219267B9E2C0020A8D8 /* SharingController.swift */; };
 		1EF715A4264482A10075DF0A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF715A3264482A10075DF0A /* UserController.swift */; };
 		1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D4E25F92836004B87DB /* AppDelegate.swift */; };
 		1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D5025F92836004B87DB /* SceneDelegate.swift */; };
@@ -49,6 +49,7 @@
 		1E051D362642D98A00137B73 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		1E051D382642DA3A00137B73 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1E051D3A2642DAF300137B73 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1E64720C264AF98C00A99E18 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		1E64720E264AFABD00A99E18 /* RecipeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeController.swift; sourceTree = "<group>"; };
 		1E647212264CD82A00A99E18 /* UserControllerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControllerAuth.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		1EEA5C76266E6A1B0004052C /* IngredientEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientEditViewController.swift; sourceTree = "<group>"; };
 		1EEA5C78266E6A310004052C /* StepEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEditViewController.swift; sourceTree = "<group>"; };
 		1EF6E217267A46F00020A8D8 /* ShareBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareBookViewController.swift; path = Recipes/ShareBookViewController.swift; sourceTree = SOURCE_ROOT; };
-		1EF6E219267B9E2C0020A8D8 /* SharingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingController.swift; sourceTree = "<group>"; };
 		1EF715A3264482A10075DF0A /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		1EFB1D4B25F92836004B87DB /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB1D4E25F92836004B87DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +107,6 @@
 				1EB96F0F26498B6C007B6236 /* BookController.swift */,
 				1E64720E264AFABD00A99E18 /* RecipeController.swift */,
 				1E647212264CD82A00A99E18 /* UserControllerAuth.swift */,
-				1EF6E219267B9E2C0020A8D8 /* SharingController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -129,6 +128,7 @@
 			children = (
 				1ED06782266696E200A86F12 /* ViewControllers */,
 				1ED06781266696C500A86F12 /* Cells */,
+				1E3976172680F61C00F72F0D /* SectionHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,13 +343,13 @@
 				1E64720F264AFABD00A99E18 /* RecipeController.swift in Sources */,
 				1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */,
 				1EAF0B5F262F31D8002E4830 /* Step.swift in Sources */,
-				1EF6E21A267B9E2C0020A8D8 /* SharingController.swift in Sources */,
 				1ED0677C2666847E00A86F12 /* BookDetailViewController.swift in Sources */,
 				1ED067862666973600A86F12 /* IngredientCell.swift in Sources */,
 				1EEA5C79266E6A310004052C /* StepEditViewController.swift in Sources */,
 				1EB96F0A26497575007B6236 /* BooksViewController.swift in Sources */,
 				1ED067842666972800A86F12 /* AddItemCell.swift in Sources */,
 				1EB96F1026498B6C007B6236 /* BookController.swift in Sources */,
+				1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */,
 				1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */,
 				1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */,
 				1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */,

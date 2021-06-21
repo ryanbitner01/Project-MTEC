@@ -49,7 +49,8 @@ class RecipeDetailViewController: UIViewController {
     
     func checkShared() {
         guard let book = book else {return}
-        if book.isShared {
+        let owner = BookController.shared.isOwner(book: book)
+        if !owner {
             deleteButton.isHidden = true
             editButton.isHidden = true
         }
@@ -76,7 +77,12 @@ class RecipeDetailViewController: UIViewController {
     
     func fetchInstructions() {
         guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
-        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book) { result in
+        let isOwner = book.owner == user.id
+        var path: FireBasePath = .album
+        if !isOwner {
+            path = .sharedAlbum
+        }
+        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: path) { result in
             switch result {
             case .success(let steps):
                 recipe.instruction = steps
@@ -91,7 +97,12 @@ class RecipeDetailViewController: UIViewController {
     
     func fetchIngredients() {
         guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
-        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book) { result in
+        let isOwner = book.owner == user.id
+        var path: FireBasePath = .album
+        if !isOwner {
+            path = .sharedAlbum
+        }
+        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: path) { result in
             switch result {
             case .success(let ingredients):
                 recipe.ingredients = ingredients

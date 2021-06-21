@@ -16,8 +16,9 @@ class Book: Codable {
     var recipes: [Recipe]
     var sharedUsers: [String]
     var isShared: Bool
+    var owner: String
     
-    init(name: String, id: UUID = UUID(), recipes: [Recipe] = [], image: Data? = nil, imageURL: String = "", bookColor: String = "Blue",sharedUsers: [String] = [], isShared: Bool = false ) {
+    init(name: String, id: UUID = UUID(), recipes: [Recipe] = [], image: Data? = nil, imageURL: String = "", bookColor: String = "Blue",sharedUsers: [String] = [], isShared: Bool = false, owner: String = "" ) {
         self.recipes = recipes
         self.id = id
         self.name = name
@@ -26,5 +27,6 @@ class Book: Codable {
         self.bookColor = bookColor
         self.sharedUsers = sharedUsers
         self.isShared = isShared
+        self.owner = owner
     }
 }

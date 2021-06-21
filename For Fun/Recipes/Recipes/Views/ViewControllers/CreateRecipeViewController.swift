@@ -56,16 +56,22 @@ class CreateRecipeViewController: UIViewController {
         guard let book = book else {return}
         if let image = image {
             let data = image.jpegData(compressionQuality: 0.9)
-            var recipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, image: data, instruction: steps, ingredients: ingredients)
-            recipe.image = data
-            RecipeController.shared.addRecipeImage(recipe: recipe, book: book, instructions: steps, ingredients: ingredients)
-            self.recipe = recipe
+            let newRecipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, image: data, instruction: steps, ingredients: ingredients)
+            //newRecipe.image = data
+            RecipeController.shared.addRecipeImage(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album)
+            self.recipe = newRecipe
             performSegue(withIdentifier: "Save", sender: self)
+            for user in book.sharedUsers {
+                RecipeController.shared.addRecipeImage(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .otherSharedAlbum, email: user)
+            }
         } else {
-            let recipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, instruction: steps, ingredients: ingredients)
-            RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: steps, ingredients: ingredients)
-            self.recipe = recipe
+            let newRecipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, instruction: steps, ingredients: ingredients)
+            RecipeController.shared.addRecipe(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album)
+            self.recipe = newRecipe
             performSegue(withIdentifier: "Save", sender: self)
+            for user in book.sharedUsers {
+                RecipeController.shared.addRecipe(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .otherSharedAlbum, email: user)
+            }
         }
         
     }
@@ -230,13 +236,19 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
                 guard let index = ingredients.firstIndex(where: {$0.count == ingredient.count}), let book = book, let recipe = recipe else {return}
                 ingredients.remove(at: index)
                 componentTableView.deleteRows(at: [indexPath], with: .automatic)
-                RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe)
+                RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: .album)
+                for user in book.sharedUsers {
+                    RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: .otherSharedAlbum, email: user)
+                }
             case .steps:
                 let step = steps[indexPath.row]
                 guard let index = steps.firstIndex(where: {$0.order == step.order}), let book = book, let recipe = recipe else {return}
                 steps.remove(at: index)
                 componentTableView.deleteRows(at: [indexPath], with: .automatic)
-                RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe)
+                RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe, path: .album)
+                for user in book.sharedUsers {
+                    RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe, path: .otherSharedAlbum, email: user)
+                }
             }
         }
     }

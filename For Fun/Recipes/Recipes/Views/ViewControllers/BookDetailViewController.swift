@@ -62,7 +62,8 @@ class BookDetailViewController: UIViewController {
     
     func checkShared() {
         guard let book = book else {return}
-        if book.isShared {
+        let owner = BookController.shared.isOwner(book: book)
+        if !owner {
             deleteButton.isHidden = true
             shareButton.isHidden = true
             editButton.isHidden = true
@@ -72,7 +73,12 @@ class BookDetailViewController: UIViewController {
     
     func getRecipes() {
         guard let book = book else {return}
-        RecipeController.shared.fetchRecipes(book: book) { result in
+        let isOwner = BookController.shared.isOwner(book: book)
+        var path: FireBasePath = .album
+        if !isOwner {
+            path = .sharedAlbum
+        }
+        RecipeController.shared.fetchRecipes(book: book, path: path) { result in
             switch result {
             case .success(let recipes):
                 self.book?.recipes = recipes
@@ -119,7 +125,7 @@ class BookDetailViewController: UIViewController {
     @IBAction func deleteRecipeUnwind(_ unwindSegue: UIStoryboardSegue) {
         let sourceViewController = unwindSegue.source as! RecipeDetailViewController
         guard let recipe = sourceViewController.recipe, let book = book else {return}
-        RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
+        RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
         if let recipeIndex = book.recipes.firstIndex(where: {$0.id == recipe.id}) {
             self.book?.recipes.remove(at: recipeIndex)
             recipeCollectionView.reloadData()

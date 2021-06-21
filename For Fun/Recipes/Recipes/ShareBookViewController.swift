@@ -60,15 +60,20 @@ class ShareBookViewController: UIViewController {
     }
     
     @IBAction func shareBookPressed(_ sender: Any) {
-        guard let book = book else {return}
-        SharingController.shared.shareBook(book: book, email: emailTextField.text!)
+        guard let book = book, let user = UserControllerAuth.shared.user else {return}
+        BookController.shared.addBook(user, book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: emailTextField.text!)
+        for recipe in book.recipes {
+            RecipeController.shared.addRecipe(recipe: recipe, book: book, imageURL: book.imageURL ?? "", instructions: recipe.instruction, ingredients: recipe.ingredients, path: .otherSharedAlbum, email: emailTextField.text!)
+        }
+        book.sharedUsers.append(emailTextField.text!)
+        BookController.shared.updateSharedUsers(users: book.sharedUsers, book: book)
         performSegue(withIdentifier: "Share", sender: self)
         
     }
     
     func fetchInstructions(recipe: Recipe) {
         guard let user = UserControllerAuth.shared.user, let book = book else {return}
-        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book) { result in
+        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album) { result in
             switch result {
             case .success(let steps):
                 recipe.instruction = steps
@@ -80,7 +85,7 @@ class ShareBookViewController: UIViewController {
     
     func fetchIngredients(recipe: Recipe) {
         guard let user = UserControllerAuth.shared.user, let book = book else {return}
-        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book) { result in
+        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album) { result in
             switch result {
             case .success(let ingredients):
                 recipe.ingredients = ingredients

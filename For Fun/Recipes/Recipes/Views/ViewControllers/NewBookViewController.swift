@@ -31,6 +31,7 @@ class NewBookViewController: UIViewController {
         if let book = book {
             nameTextField.text = book.name
             bookImageView.tintColor = UIColor(named: book.bookColor)
+            colorName = book.bookColor
             updateColorButton()
         }
         // Do any additional setup after loading the view.
@@ -64,14 +65,14 @@ class NewBookViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
         guard let user = UserControllerAuth.shared.user else {return}
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
-            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData)
-            BookController.shared.addBookImage(user, book: book, new: true)
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData, owner: user.id)
+            BookController.shared.addBookImage(user, book: book, new: true, path: .album)
             book.image = imageData
             self.book = book
             performSegue(withIdentifier: "SaveBook", sender: self)
         } else {
-            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "")
-            BookController.shared.addBook(user, book: book)
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "", owner: user.id)
+            BookController.shared.addBook(user, book: book, path: .album)
             self.book = book
             performSegue(withIdentifier: "SaveBook", sender: self)
         }

@@ -25,6 +25,11 @@ extension BookError: LocalizedError {
     }
 }
 
+enum FireBasePath {
+    case otherSharedAlbum
+    case sharedAlbum
+    case album
+}
 //protocol BookControllerDelegate {
 //    func booksUpdated()
 //}
@@ -37,14 +42,52 @@ class BookController {
 
     let usersDirectory = db.collection("Users")
     static let shared = BookController()
+    
+    
+    
+    func updateSharedUsers(users: [String], book: Book) {
+        guard let path = getPath(path: .album, email: nil) else {return}
+        path.document(book.id.uuidString).updateData([
+            "SharedUsers": users
+        ])
+    }
+    
+    func isOwner(book: Book) -> Bool {
+        guard let user = UserControllerAuth.shared.user else {return false}
+        return book.owner == user.id
+    }
+    
+    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
+        switch path {
+        case .album:
+            if let user = UserControllerAuth.shared.user {
+                return usersDirectory.document(user.id).collection("Album")
+            } else {
+                return nil
+            }
+        case .otherSharedAlbum:
+            if let email = email {
+                return usersDirectory.document(email).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        case .sharedAlbum:
+            if let user = UserControllerAuth.shared.user {
+                return usersDirectory.document(user.id).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        }
+    }
 
-    func getBooks(user: User, completion: @escaping (Result<[Book], Error>) -> Void) {
-        usersDirectory.document(user.id).collection("Album").getDocuments { querySnapshot, error in
+    func getBooks(user: User, path: FireBasePath, email: String = "", completion: @escaping (Result<[Book], Error>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.getDocuments { querySnapshot, error in
             if let querySS = querySnapshot {
                 let books = querySS.documents.compactMap { doc -> Book? in
                     let data = doc.data()
-                    guard let name = data["name"] as? String, let url = data["imageUrl"] as? String, let bookColor = data["color"] as? String, let uuidString = UUID(uuidString: doc.documentID) else {return nil}
-                    let book = Book(name: name, id: uuidString, imageURL: url, bookColor: bookColor)
+                    guard let name = data["name"] as? String, let url = data["imageUrl"] as? String, let bookColor = data["color"] as? String, let sharedUsers = data["SharedUsers"] as? [String], let owner = data["Owner"] as? String ,let uuidString = UUID(uuidString: doc.documentID) else {return nil}
+                    let book = Book(name: name, id: uuidString, imageURL: url, bookColor: bookColor, sharedUsers: sharedUsers, owner: owner)
                     return book
                 }
                 completion(.success(books))
@@ -63,7 +106,7 @@ class BookController {
         completion(.success(image))
     }
 
-    func addBookImage(_ user: User, book: Book, new: Bool) {
+    func addBookImage(_ user: User, book: Book, new: Bool, path: FireBasePath, email: String = "") {
         guard let imageData = book.image else {return}
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
@@ -73,9 +116,9 @@ class BookController {
                     print(err.localizedDescription)
                 } else if let url = url{
                     if new {
-                        self.addBook(user, book: book, imageUrl: url.absoluteString)
+                        self.addBook(user, book: book, imageUrl: url.absoluteString, path: path, email: email)
                     } else {
-                        self.updateBook(book: book, imageURL: url.absoluteString)
+                        self.updateBook(book: book, imageURL: url.absoluteString, path: path, email: email)
                     }
                 }
             }
@@ -96,23 +139,21 @@ class BookController {
         }
     }
 
-    func deleteBook(book: Book, completion: @escaping (BookError?) -> Void) {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let albumDirectory = usersDirectory.document(user.id).collection("Album")
+    func deleteBook(book: Book, path: FireBasePath, email: String = "", completion: @escaping (BookError?) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
         if book.imageURL != " " {
             deleteBookImage(book: book)
         }
-        albumDirectory.document(book.id.uuidString).delete { err in
+        path.document(book.id.uuidString).delete { err in
             if err != nil {
                 completion(.failedToDelete)
             }
         }
     }
 
-    func updateBook(book: Book, imageURL: String = " ") {
-        guard let user = UserControllerAuth.shared.user else {return}
-        let albumDierectory = usersDirectory.document(user.id).collection("Album")
-        albumDierectory.document(book.id.uuidString).updateData([
+    func updateBook(book: Book, imageURL: String = " ", path: FireBasePath, email: String = "") {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.document(book.id.uuidString).updateData([
             "name": book.name,
             "imageUrl": imageURL,
             "color": book.bookColor
@@ -121,12 +162,14 @@ class BookController {
         //print("Updated Book")
     }
 
-    func addBook(_ user: User, book: Book, imageUrl: String = "") {
-        let albumDirectory = usersDirectory.document(user.id).collection("Album")
-        albumDirectory.document(book.id.uuidString).setData([
+    func addBook(_ user: User, book: Book, imageUrl: String = "",path: FireBasePath, email: String = "") {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.document(book.id.uuidString).setData([
             "name": book.name,
             "imageUrl": imageUrl,
-            "color": book.bookColor
+            "color": book.bookColor,
+            "Owner": book.owner,
+            "SharedUsers": book.sharedUsers
         ])
         //delegate?.booksUpdated()
         //print("NEW BOOK!")

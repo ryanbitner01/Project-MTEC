@@ -24,10 +24,12 @@ class BooksViewController: UIViewController {
     }
     
     func getSharedbook() {
-        SharingController.shared.getSharedAlbum { result in
+        guard let user = UserControllerAuth.shared.user else {return}
+        BookController.shared.getBooks(user: user, path: .sharedAlbum) { result in
             switch result {
             case .success(let books):
-                UserControllerAuth.shared.user?.sharedAlbum.append(contentsOf:books)
+                UserControllerAuth.shared.user?.sharedAlbum = books
+                print("got shared books")
                 DispatchQueue.main.async {
                     self.bookCollectionView.reloadData()
                 }
@@ -39,7 +41,7 @@ class BooksViewController: UIViewController {
     
     func getRecipeBooks() {
         guard let user = UserControllerAuth.shared.user else {return}
-        BookController.shared.getBooks(user: user) { result in
+        BookController.shared.getBooks(user: user, path: .album) { result in
             switch result {
             case .success(let books):
                 UserControllerAuth.shared.user?.album = books
@@ -58,13 +60,19 @@ class BooksViewController: UIViewController {
             guard let book = bookDetailVC.book else {return}
             let recipes = bookDetailVC.book?.recipes ?? []
             for recipe in recipes {
-                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
+                RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
             }
-            
+            for user in book.sharedUsers {
+                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
+                    if let err = err {
+                        print(err.localizedDescription + user)
+                    }
+                }
+            }
             if book.image != nil {
                 BookController.shared.deleteBookImage(book: book)
             }
-            BookController.shared.deleteBook(book: book) {err in
+            BookController.shared.deleteBook(book: book, path: .album) {err in
                 if let err = err {
                     print(err.localizedDescription + book.name)
                     return
@@ -88,28 +96,28 @@ class BooksViewController: UIViewController {
                 bookCollectionView.reloadData()
             }
         }
-//        if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
-//            guard let book = bookDetailVC.book else {return}
-//            let recipes = bookDetailVC.recipes
-//            for recipe in recipes {
-//                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
-//            }
-//
-//            if book.image != nil {
-//                BookController.shared.deleteBookImage(book: book)
-//            }
-//            BookController.shared.deleteBook(book: book) {err in
-//                if let err = err {
-//                    print(err.localizedDescription + book.name)
-//                    return
-//                }
-//            }
-//            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
-//                self.books.remove(at: indexPath)
-//                self.bookCollectionView.reloadData()
-//            }
-//
-//        }
+        //        if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
+        //            guard let book = bookDetailVC.book else {return}
+        //            let recipes = bookDetailVC.recipes
+        //            for recipe in recipes {
+        //                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
+        //            }
+        //
+        //            if book.image != nil {
+        //                BookController.shared.deleteBookImage(book: book)
+        //            }
+        //            BookController.shared.deleteBook(book: book) {err in
+        //                if let err = err {
+        //                    print(err.localizedDescription + book.name)
+        //                    return
+        //                }
+        //            }
+        //            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
+        //                self.books.remove(at: indexPath)
+        //                self.bookCollectionView.reloadData()
+        //            }
+        //
+        //        }
         // Use data from the view controller which initiated the unwind segue
     }
     
@@ -126,6 +134,8 @@ extension BooksViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -156,6 +166,18 @@ extension BooksViewController: UICollectionViewDataSource {
             return cell
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = Section(rawValue: indexPath.section)!
+        let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionHeader
+        switch section {
+        case .notShared:
+            sectionHeader.sectionTitleLabel.text = "Owned"
+        case .shared:
+            sectionHeader.sectionTitleLabel.text = "Not Owned"
+        }
+        return sectionHeader
     }
     
     
