@@ -337,18 +337,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQV-6o-QiN">
+                                <rect key="frame" x="50" y="351" width="314" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <color key="textColor" name="tintColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZiK-Cb-DjS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="xQV-6o-QiN" firstAttribute="top" secondItem="z7l-L8-eUu" secondAttribute="bottom" constant="8" symbolic="YES" id="5rU-ym-0Hr"/>
                             <constraint firstItem="Ooc-t2-ICM" firstAttribute="width" secondItem="geU-QD-awY" secondAttribute="width" multiplier="0.75" id="79v-5B-t5H"/>
                             <constraint firstItem="SHB-9O-SrG" firstAttribute="width" secondItem="geU-QD-awY" secondAttribute="width" multiplier="0.45" id="E4P-ON-V0N"/>
                             <constraint firstItem="SHB-9O-SrG" firstAttribute="top" secondItem="ZiK-Cb-DjS" secondAttribute="top" constant="25" id="IAs-g4-7pw"/>
                             <constraint firstItem="Ooc-t2-ICM" firstAttribute="centerY" secondItem="geU-QD-awY" secondAttribute="centerY" id="JYj-4x-Qrv"/>
                             <constraint firstItem="z7l-L8-eUu" firstAttribute="width" secondItem="SHB-9O-SrG" secondAttribute="width" id="MOz-EI-2YA"/>
                             <constraint firstItem="Ooc-t2-ICM" firstAttribute="centerX" secondItem="geU-QD-awY" secondAttribute="centerX" id="OYU-6s-TFN"/>
+                            <constraint firstItem="ZiK-Cb-DjS" firstAttribute="trailing" secondItem="xQV-6o-QiN" secondAttribute="trailing" constant="50" id="TWz-8x-Kkn"/>
                             <constraint firstItem="z7l-L8-eUu" firstAttribute="centerX" secondItem="geU-QD-awY" secondAttribute="centerX" id="azn-o6-YOL"/>
                             <constraint firstItem="SHB-9O-SrG" firstAttribute="centerX" secondItem="geU-QD-awY" secondAttribute="centerX" id="dUk-eb-jBG"/>
+                            <constraint firstItem="xQV-6o-QiN" firstAttribute="leading" secondItem="ZiK-Cb-DjS" secondAttribute="leading" constant="50" id="psJ-du-mYl"/>
                             <constraint firstItem="z7l-L8-eUu" firstAttribute="top" secondItem="SHB-9O-SrG" secondAttribute="bottom" constant="22.5" id="uf5-6K-oK2"/>
                         </constraints>
                     </view>
@@ -361,6 +370,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="alertLabel" destination="xQV-6o-QiN" id="Kb0-1h-tgd"/>
                         <outlet property="bookImageView" destination="SHB-9O-SrG" id="dWf-RV-oiH"/>
                         <outlet property="emailTextField" destination="Ooc-t2-ICM" id="kBf-yv-bGc"/>
                         <outlet property="nameLabel" destination="z7l-L8-eUu" id="r2h-3m-0YK"/>

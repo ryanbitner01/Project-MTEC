@@ -12,6 +12,7 @@ class ShareBookViewController: UIViewController {
     @IBOutlet weak var bookImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var alertLabel: UILabel!
     
     var book: Book?
     
@@ -24,6 +25,7 @@ class ShareBookViewController: UIViewController {
                 fetchInstructions(recipe: recipe)
             }
         }
+        hideAlert()
         setupBookImage()
         // Do any additional setup after loading the view.
     }
@@ -60,6 +62,33 @@ class ShareBookViewController: UIViewController {
     }
     
     @IBAction func shareBookPressed(_ sender: Any) {
+        guard let book = book else {return}
+        SharingController.shared.canShare(book: book, email: emailTextField.text!) { err in
+            if let err = err {
+                DispatchQueue.main.async {
+                    self.showAlert(message: err)
+                    return
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.hideAlert()
+                    self.shareBook()
+                    self.performSegue(withIdentifier: "Share", sender: self)
+                }
+            }
+        }
+    }
+    
+    func showAlert(message: SharingError) {
+        alertLabel.isHidden = false
+        alertLabel.text = message.localizedDescription
+    }
+    
+    func hideAlert() {
+        alertLabel.isHidden = true
+    }
+    
+    func shareBook() {
         guard let book = book, let user = UserControllerAuth.shared.user else {return}
         BookController.shared.addBook(user, book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: emailTextField.text!)
         for recipe in book.recipes {
@@ -67,8 +96,6 @@ class ShareBookViewController: UIViewController {
         }
         book.sharedUsers.append(emailTextField.text!)
         BookController.shared.updateSharedUsers(users: book.sharedUsers, book: book)
-        performSegue(withIdentifier: "Share", sender: self)
-        
     }
     
     func fetchInstructions(recipe: Recipe) {

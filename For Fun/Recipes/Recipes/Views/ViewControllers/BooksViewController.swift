@@ -19,6 +19,7 @@ class BooksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bookCollectionView.dataSource = self
+        bookCollectionView.delegate = self
         getRecipeBooks()
         getSharedbook()
     }
@@ -129,7 +130,7 @@ class BooksViewController: UIViewController {
     }
 }
 
-extension BooksViewController: UICollectionViewDataSource {
+extension BooksViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
