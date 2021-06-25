@@ -89,8 +89,8 @@ class ShareBookViewController: UIViewController {
     }
     
     func shareBook() {
-        guard let book = book, let user = UserControllerAuth.shared.user else {return}
-        BookController.shared.addBook(user, book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: emailTextField.text!)
+        guard let book = book else {return}
+        BookController.shared.addBook(book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: emailTextField.text!)
         for recipe in book.recipes {
             RecipeController.shared.addRecipe(recipe: recipe, book: book, imageURL: book.imageURL ?? "", instructions: recipe.instruction, ingredients: recipe.ingredients, path: .otherSharedAlbum, email: emailTextField.text!)
         }

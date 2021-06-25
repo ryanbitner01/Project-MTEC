@@ -35,6 +35,12 @@ class RecipeController {
     
     func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
         switch path {
+        case .newAlbum:
+            if let email = email {
+                return usersDirectory.document(email).collection("Album")
+            } else {
+                return nil
+            }
         case .album:
             if let user = UserControllerAuth.shared.user {
                 return usersDirectory.document(user.id).collection("Album")

@@ -29,6 +29,7 @@ enum FireBasePath {
     case otherSharedAlbum
     case sharedAlbum
     case album
+    case newAlbum
 }
 //protocol BookControllerDelegate {
 //    func booksUpdated()
@@ -59,6 +60,12 @@ class BookController {
     
     func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
         switch path {
+        case .newAlbum:
+            if let email = email {
+                return usersDirectory.document(email).collection("Album")
+            } else {
+                return nil
+            }
         case .album:
             if let user = UserControllerAuth.shared.user {
                 return usersDirectory.document(user.id).collection("Album")
@@ -106,7 +113,7 @@ class BookController {
         completion(.success(image))
     }
 
-    func addBookImage(_ user: User, book: Book, new: Bool, path: FireBasePath, email: String = "") {
+    func addBookImage(book: Book, new: Bool, path: FireBasePath, email: String = "") {
         guard let imageData = book.image else {return}
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
@@ -116,7 +123,7 @@ class BookController {
                     print(err.localizedDescription)
                 } else if let url = url{
                     if new {
-                        self.addBook(user, book: book, imageUrl: url.absoluteString, path: path, email: email)
+                        self.addBook(book: book, imageUrl: url.absoluteString, path: path, email: email)
                     } else {
                         self.updateBook(book: book, imageURL: url.absoluteString, path: path, email: email)
                     }
@@ -144,6 +151,9 @@ class BookController {
         if book.imageURL != " " {
             deleteBookImage(book: book)
         }
+        for recipe in book.recipes {
+            RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
+        }
         path.document(book.id.uuidString).delete { err in
             if err != nil {
                 completion(.failedToDelete)
@@ -158,11 +168,14 @@ class BookController {
             "imageUrl": imageURL,
             "color": book.bookColor
         ])
+        for user in book.sharedUsers {
+            updateBook(book: book, path: .otherSharedAlbum, email: user)
+        }
         //delegate?.booksUpdated()
         //print("Updated Book")
     }
 
-    func addBook(_ user: User, book: Book, imageUrl: String = "",path: FireBasePath, email: String = "") {
+    func addBook(book: Book, imageUrl: String = "",path: FireBasePath, email: String = "") {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).setData([
             "name": book.name,

@@ -46,6 +46,7 @@ class NewBookViewController: UIViewController {
                 case .success(let image):
                     DispatchQueue.main.async {
                         self.bookImageView.image = image
+                        self.image = image
                     }
                 case .failure(let err):
                     print(err.localizedDescription)
@@ -53,6 +54,7 @@ class NewBookViewController: UIViewController {
             }
         } else if let image = book?.image {
             bookImageView.image = UIImage(data: image)
+            self.image = UIImage(data: image)
         }
     }
     
@@ -65,16 +67,22 @@ class NewBookViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
         guard let user = UserControllerAuth.shared.user else {return}
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
-            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData, owner: user.id)
-            BookController.shared.addBookImage(user, book: book, new: true, path: .album)
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), image: imageData, sharedUsers: self.book?.sharedUsers ?? [], owner: user.id)
+            BookController.shared.addBookImage(book: book, new: true, path: .album)
             book.image = imageData
             self.book = book
             performSegue(withIdentifier: "SaveBook", sender: self)
+            for user in book.sharedUsers {
+                BookController.shared.addBookImage(book: book, new: true, path: .otherSharedAlbum, email: user)
+            }
         } else {
-            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "", owner: user.id)
-            BookController.shared.addBook(user, book: book, path: .album)
+            let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "", sharedUsers: self.book?.sharedUsers ?? [], owner: user.id)
+            BookController.shared.addBook(book: book, path: .album)
             self.book = book
             performSegue(withIdentifier: "SaveBook", sender: self)
+            for user in book.sharedUsers {
+                BookController.shared.addBook(book: book, path: .otherSharedAlbum, email: user)
+            }
         }
         
         

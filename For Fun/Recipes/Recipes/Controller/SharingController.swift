@@ -61,7 +61,6 @@ class SharingController {
     }
     
     func checkForSameEmail(book: Book, email: String) -> Bool{
-        guard let user = UserControllerAuth.shared.user else {return true}
         if book.owner == email {
             return true
         } else {
