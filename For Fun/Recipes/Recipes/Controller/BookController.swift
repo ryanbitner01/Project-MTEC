@@ -31,16 +31,21 @@ enum FireBasePath {
     case album
     case newAlbum
 }
+
+enum UserPath {
+    case testUsers
+    case users
+}
 //protocol BookControllerDelegate {
 //    func booksUpdated()
 //}
 
 class BookController {
-
+    
     //var delegate: BookControllerDelegate?
     
     static let colors: [String] = ["Lavender", "Green", "Red", "Blue", "Orange", "Pink"]
-
+    
     let usersDirectory = db.collection("Users")
     static let shared = BookController()
     
@@ -58,35 +63,44 @@ class BookController {
         return book.owner == user.id
     }
     
+    func getUserPath() -> CollectionReference? {
+        if testingEnabled {
+            return db.collection("TestUsers")
+        } else {
+            return db.collection("Users")
+        }
+    }
+    
     func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
+        guard let userPath = getUserPath() else {return nil}
         switch path {
         case .newAlbum:
             if let email = email {
-                return usersDirectory.document(email).collection("Album")
+                return userPath.document(email).collection("Album")
             } else {
                 return nil
             }
         case .album:
             if let user = UserControllerAuth.shared.user {
-                return usersDirectory.document(user.id).collection("Album")
+                return userPath.document(user.id).collection("Album")
             } else {
                 return nil
             }
         case .otherSharedAlbum:
             if let email = email {
-                return usersDirectory.document(email).collection("SharedAlbum")
+                return userPath.document(email).collection("SharedAlbum")
             } else {
                 return nil
             }
         case .sharedAlbum:
             if let user = UserControllerAuth.shared.user {
-                return usersDirectory.document(user.id).collection("SharedAlbum")
+                return userPath.document(user.id).collection("SharedAlbum")
             } else {
                 return nil
             }
         }
     }
-
+    
     func getBooks(user: User, path: FireBasePath, email: String = "", completion: @escaping (Result<[Book], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.getDocuments { querySnapshot, error in
@@ -103,7 +117,7 @@ class BookController {
             }
         }
     }
-
+    
     func getBookImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let url = URL(string: url)
         guard let url = url, let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {
@@ -112,7 +126,7 @@ class BookController {
         }
         completion(.success(image))
     }
-
+    
     func addBookImage(book: Book, new: Bool, path: FireBasePath, email: String = "") {
         guard let imageData = book.image else {return}
         let storageRef = storage.reference()
@@ -130,10 +144,10 @@ class BookController {
                 }
             }
         }
-
-
+        
+        
     }
-
+    
     func deleteBookImage(book: Book) {
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
@@ -145,7 +159,7 @@ class BookController {
             }
         }
     }
-
+    
     func deleteBook(book: Book, path: FireBasePath, email: String = "", completion: @escaping (BookError?) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         if book.imageURL != " " {
@@ -160,7 +174,7 @@ class BookController {
             }
         }
     }
-
+    
     func updateBook(book: Book, imageURL: String = " ", path: FireBasePath, email: String = "") {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).updateData([
@@ -174,7 +188,7 @@ class BookController {
         //delegate?.booksUpdated()
         //print("Updated Book")
     }
-
+    
     func addBook(book: Book, imageUrl: String = "",path: FireBasePath, email: String = "") {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).setData([
@@ -187,7 +201,7 @@ class BookController {
         //delegate?.booksUpdated()
         //print("NEW BOOK!")
     }
-
+    
     func getBookColor(book: Book) -> UIColor {
         switch book.bookColor {
         case "black":

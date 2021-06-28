@@ -33,6 +33,8 @@ extension UserControllerError: LocalizedError {
     }
 }
 
+let testingEnabled = false
+
 class UserControllerAuth {
     
     var user: User?

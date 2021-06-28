@@ -20,6 +20,7 @@ class NewPasswordViewController: UIViewController {
         super.viewDidLoad()
         setupTextFields()
         updateSaveButtonState()
+        hideAlert()
         // Do any additional setup after loading the view.
     }
     

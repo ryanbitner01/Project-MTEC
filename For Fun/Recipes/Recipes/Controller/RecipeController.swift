@@ -33,29 +33,38 @@ class RecipeController {
         
     }
     
+    func getUserPath() -> CollectionReference? {
+        if testingEnabled {
+            return db.collection("TestUsers")
+        } else {
+            return db.collection("Users")
+        }
+    }
+    
     func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
+        guard let userPath = getUserPath() else {return nil}
         switch path {
         case .newAlbum:
             if let email = email {
-                return usersDirectory.document(email).collection("Album")
+                return userPath.document(email).collection("Album")
             } else {
                 return nil
             }
         case .album:
             if let user = UserControllerAuth.shared.user {
-                return usersDirectory.document(user.id).collection("Album")
+                return userPath.document(user.id).collection("Album")
             } else {
                 return nil
             }
         case .otherSharedAlbum:
             if let email = email {
-                return usersDirectory.document(email).collection("SharedAlbum")
+                return userPath.document(email).collection("SharedAlbum")
             } else {
                 return nil
             }
         case .sharedAlbum:
             if let user = UserControllerAuth.shared.user {
-                return usersDirectory.document(user.id).collection("SharedAlbum")
+                return userPath.document(user.id).collection("SharedAlbum")
             } else {
                 return nil
             }

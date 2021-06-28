@@ -39,6 +39,7 @@
 		1ED531482677B910007699CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ED531472677B910007699CE /* GoogleService-Info.plist */; };
 		1EEA5C77266E6A1B0004052C /* IngredientEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA5C76266E6A1B0004052C /* IngredientEditViewController.swift */; };
 		1EEA5C79266E6A310004052C /* StepEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA5C78266E6A310004052C /* StepEditViewController.swift */; };
+		1EECF63C268A0F34000CA17A /* NoBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EECF63B268A0F34000CA17A /* NoBookCell.swift */; };
 		1EF6E218267A46F00020A8D8 /* ShareBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF6E217267A46F00020A8D8 /* ShareBookViewController.swift */; };
 		1EF715A4264482A10075DF0A /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF715A3264482A10075DF0A /* UserController.swift */; };
 		1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB1D4E25F92836004B87DB /* AppDelegate.swift */; };
@@ -83,6 +84,7 @@
 		1ED531472677B910007699CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1EEA5C76266E6A1B0004052C /* IngredientEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientEditViewController.swift; sourceTree = "<group>"; };
 		1EEA5C78266E6A310004052C /* StepEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEditViewController.swift; sourceTree = "<group>"; };
+		1EECF63B268A0F34000CA17A /* NoBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NoBookCell.swift; path = Pods/NoBookCell.swift; sourceTree = SOURCE_ROOT; };
 		1EF6E217267A46F00020A8D8 /* ShareBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareBookViewController.swift; path = Recipes/ShareBookViewController.swift; sourceTree = SOURCE_ROOT; };
 		1EF715A3264482A10075DF0A /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		1EFB1D4B25F92836004B87DB /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,7 @@
 		1ED06781266696C500A86F12 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				1EECF63B268A0F34000CA17A /* NoBookCell.swift */,
 				1E64720C264AF98C00A99E18 /* RecipeCell.swift */,
 				1ED0677F266696BC00A86F12 /* StepCell.swift */,
 				1EB96F0D26498333007B6236 /* ColorCell.swift */,
@@ -368,6 +371,7 @@
 				1EB96F1026498B6C007B6236 /* BookController.swift in Sources */,
 				1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */,
 				1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */,
+				1EECF63C268A0F34000CA17A /* NoBookCell.swift in Sources */,
 				1E9C8CCE2683862F00A49D0F /* NewEmailViewController.swift in Sources */,
 				1EFB1D6425F928D6004B87DB /* Recipe.swift in Sources */,
 				1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */,
@@ -532,6 +536,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = DD77Z52DR7;
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -552,6 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = DD77Z52DR7;
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

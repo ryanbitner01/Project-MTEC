@@ -19,7 +19,7 @@ class IngredientEditViewController: UIViewController {
         case unit
     }
     
-    var units: [String] = ["", "tsp", "tbl", "fl oz", "c", "pt", "qt", "gal", "ml", "l", "dl", "lb", "oz", "mg", "g", "kg"]
+    var units: [String] = ["", "tsp", "tbl", "fl oz", "C", "pt", "qt", "gal", "ml", "l", "dl", "lb", "oz", "mg", "g", "kg", "Box"]
     var quantities: [String] = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
     var partMeasurments: [String] = ["", "1/8" ,"1/2", "1/4", "2/3", "1/3", "3/4"]
     var ingredient: Ingredient?

@@ -20,6 +20,9 @@ class BooksViewController: UIViewController {
         super.viewDidLoad()
         bookCollectionView.dataSource = self
         bookCollectionView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         getRecipeBooks()
         getSharedbook()
     }
@@ -46,7 +49,7 @@ class BooksViewController: UIViewController {
             switch result {
             case .success(let books):
                 UserControllerAuth.shared.user?.album = books
-                print("GOT BOOKS")
+                //print("GOT BOOKS")
                 DispatchQueue.main.async {
                     self.bookCollectionView.reloadData()
                 }
@@ -174,9 +177,9 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionHeader
         switch section {
         case .notShared:
-            sectionHeader.sectionTitleLabel.text = "Owned"
+            sectionHeader.sectionTitleLabel.text = "My Books"
         case .shared:
-            sectionHeader.sectionTitleLabel.text = "Not Owned"
+            sectionHeader.sectionTitleLabel.text = "Friends Books"
         }
         return sectionHeader
     }
