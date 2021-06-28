@@ -1608,6 +1608,48 @@
             </objects>
             <point key="canvasLocation" x="773.91304347826087" y="87.723214285714278"/>
         </scene>
+        <!--Profile-->
+        <scene sceneID="Qd6-qK-jaP">
+            <objects>
+                <viewController id="VgS-y4-Esl" customClass="ProfileViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="32I-1h-JWr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-eW-D9Z">
+                                <rect key="frame" x="72.5" y="44.5" width="269" height="268"/>
+                                <color key="tintColor" name="tintColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="a2w-eW-D9Z" secondAttribute="height" id="KdW-bu-jK7"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZz-Em-gM8">
+                                <rect key="frame" x="0.0" y="321" width="414" height="30"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FFz-Yg-gdC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="a2w-eW-D9Z" firstAttribute="top" secondItem="FFz-Yg-gdC" secondAttribute="top" id="Ak5-Zp-yhH"/>
+                            <constraint firstItem="hZz-Em-gM8" firstAttribute="top" secondItem="a2w-eW-D9Z" secondAttribute="bottom" constant="8" symbolic="YES" id="Ubn-Pa-6Df"/>
+                            <constraint firstItem="hZz-Em-gM8" firstAttribute="leading" secondItem="FFz-Yg-gdC" secondAttribute="leading" id="Wrs-cf-ftR"/>
+                            <constraint firstItem="a2w-eW-D9Z" firstAttribute="width" secondItem="32I-1h-JWr" secondAttribute="width" multiplier="0.65" id="kPf-BO-PkL"/>
+                            <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="hZz-Em-gM8" secondAttribute="trailing" id="xQ8-hf-ec3"/>
+                            <constraint firstItem="a2w-eW-D9Z" firstAttribute="centerX" secondItem="32I-1h-JWr" secondAttribute="centerX" id="y3h-Ep-kZL"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="I5a-d3-lbl"/>
+                    <connections>
+                        <outlet property="profileImageView" destination="a2w-eW-D9Z" id="OSl-Lv-Jpu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nKF-mq-d7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-655" y="911"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Cnw-hE-EU0">
             <objects>
@@ -1623,6 +1665,7 @@
                     <connections>
                         <segue destination="Be7-8X-12P" kind="relationship" relationship="viewControllers" id="MkL-Mc-ar6"/>
                         <segue destination="MIy-nU-3Oe" kind="relationship" relationship="viewControllers" id="lZh-TB-31k"/>
+                        <segue destination="VgS-y4-Esl" kind="relationship" relationship="viewControllers" id="ZKG-jl-fNG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Meu-Tv-IWs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1745,6 +1788,8 @@
         <image name="paintbrush.fill" catalog="system" width="122" height="128"/>
         <image name="pencil.circle" catalog="system" width="128" height="121"/>
         <image name="pencil.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="person.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="photo.on.rectangle" catalog="system" width="128" height="96"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
