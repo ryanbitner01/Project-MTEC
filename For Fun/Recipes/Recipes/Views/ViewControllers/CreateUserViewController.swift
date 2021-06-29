@@ -9,6 +9,7 @@ import UIKit
 
 class CreateUserViewController: UIViewController {
 
+    @IBOutlet weak var displayNameLabel: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -88,7 +89,7 @@ class CreateUserViewController: UIViewController {
     }
     
     func saveUser() {
-        UserControllerAuth.shared.createUser(email: emailTextField.text!, password: passwordTextField.text!) {err in
+        UserControllerAuth.shared.createUser(email: emailTextField.text!, password: passwordTextField.text!, displayName: displayNameLabel.text!) {err in
             if let err = err {
                 DispatchQueue.main.async {
                     self.showAlert(err: err)

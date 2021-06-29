@@ -85,11 +85,12 @@ class UserControllerAuth {
         }
     }
     
-    func createUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {
+    func createUser(email: String, password: String, displayName: String, completion: @escaping (UserControllerError?) -> Void) {
         auth.createUser(withEmail: email, password: password) {authResult, error in
             if error != nil {
                 completion(.duplicateEmail)
             } else {
+                self.addDisplayName(email: email, displayName: displayName)
                 completion(nil)
             }
         }
@@ -105,14 +106,15 @@ class UserControllerAuth {
                     switch result {
                     case .success(let name):
                         displayName = name
+                        guard let displayName = displayName else {return}
+                        self.user = User(id: userID, displayName: displayName)
+                        print("SIGNED IN")
+                        completion(nil)
                     case .failure(let err):
                         print(err)
                     }
                 }
-                guard let displayName = displayName else {return}
-                self.user = User(id: userID, displayName: displayName)
-                print("SIGNED IN")
-                completion(nil)
+
             } else {
                 completion(.invalidUser)
             }
@@ -155,6 +157,13 @@ class UserControllerAuth {
         return rememberMe
     }
     
+    func addDisplayName(email: String, displayName: String) {
+        let path = getUserPath()
+        path?.document(email).setData([
+            "DisplayName": displayName
+        ])
+    }
+    
     func getDisplayName(email: String, completion: @escaping (Result<String, UserControllerError>) -> Void) {
         guard let path = getUserPath() else {return}
         path.document(email).getDocument { doc, err in
@@ -169,6 +178,25 @@ class UserControllerAuth {
             }
         }
         
+    }
+    
+    func getAllDisplayNames(completion: @escaping (Result<[String], UserControllerError>)-> Void) {
+        let userPath = getUserPath()
+        userPath?.getDocuments(completion: { docs, err in
+            if let docs = docs {
+                let displayNames = docs.documents.compactMap { doc -> String? in
+                    let data = doc.data()
+                    guard let name = data["DisplayName"] as? String else {return nil}
+                    return name
+                }
+                completion(.success(displayNames))
+            } else if let err = err {
+                print(err)
+                completion(.failure(.noDisplayName))
+            } else {
+                completion(.failure(.otherErr))
+            }
+        })
     }
     
 }
