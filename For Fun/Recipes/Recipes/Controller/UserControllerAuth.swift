@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 enum UserControllerError: Error {
     case passwordLength
@@ -13,6 +14,8 @@ enum UserControllerError: Error {
     case invalidUser
     case duplicateEmail
     case invalidEmail
+    case noDisplayName
+    case otherErr
 }
 
 extension UserControllerError: LocalizedError {
@@ -28,17 +31,59 @@ extension UserControllerError: LocalizedError {
             return "Email already in use"
         case .invalidEmail:
             return "Email does not exist"
+        case .noDisplayName:
+            return "No Display Name Found"
+        case .otherErr:
+            return "An Error Has Occured"
         }
         
     }
 }
 
-let testingEnabled = false
+let testingEnabled = true
 
 class UserControllerAuth {
     
     var user: User?
     static let shared = UserControllerAuth()
+    
+    func getUserPath() -> CollectionReference? {
+        if testingEnabled {
+            return db.collection("TestUsers")
+        } else {
+            return db.collection("Users")
+        }
+    }
+    
+    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
+        guard let userPath = getUserPath() else {return nil}
+        switch path {
+        case .newAlbum:
+            if let email = email {
+                return userPath.document(email).collection("Album")
+            } else {
+                return nil
+            }
+        case .album:
+            if let user = UserControllerAuth.shared.user {
+                return userPath.document(user.id).collection("Album")
+            } else {
+                return nil
+            }
+        case .otherSharedAlbum:
+            if let email = email {
+                return userPath.document(email).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        case .sharedAlbum:
+            if let user = UserControllerAuth.shared.user {
+                return userPath.document(user.id).collection("SharedAlbum")
+            } else {
+                return nil
+            }
+        }
+    }
     
     func createUser(email: String, password: String, completion: @escaping (UserControllerError?) -> Void) {
         auth.createUser(withEmail: email, password: password) {authResult, error in
@@ -55,7 +100,17 @@ class UserControllerAuth {
         auth.signIn(withEmail: email, password: password) { AuthData, err in
             if let data = AuthData {
                 guard let userID = data.user.email else {return}
-                self.user = User(id: userID)
+                var displayName: String?
+                self.getDisplayName(email: email) { result in
+                    switch result {
+                    case .success(let name):
+                        displayName = name
+                    case .failure(let err):
+                        print(err)
+                    }
+                }
+                guard let displayName = displayName else {return}
+                self.user = User(id: userID, displayName: displayName)
                 print("SIGNED IN")
                 completion(nil)
             } else {
@@ -98,6 +153,22 @@ class UserControllerAuth {
     func getRememberMe() -> Bool {
         guard let rememberMe = UserDefaults.standard.value(forKey: "rememberMe") as? Bool else {return false}
         return rememberMe
+    }
+    
+    func getDisplayName(email: String, completion: @escaping (Result<String, UserControllerError>) -> Void) {
+        guard let path = getUserPath() else {return}
+        path.document(email).getDocument { doc, err in
+            if let doc = doc {
+                guard let data = doc.data(), let displayName = data["DisplayName"] as? String else {return completion(.failure(.noDisplayName))}
+                completion(.success(displayName))
+            } else if let err = err {
+                print(err)
+                completion(.failure(.otherErr))
+            } else {
+                completion(.failure(.otherErr))
+            }
+        }
+        
     }
     
 }

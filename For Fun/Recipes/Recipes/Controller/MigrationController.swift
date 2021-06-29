@@ -46,7 +46,7 @@ class MigrationController {
     
     func newUser(new: String) -> User? {
         if let user = UserControllerAuth.shared.user {
-            return User(id: new, album: user.album, sharedAlbum: user.sharedAlbum)
+            return User(id: new, album: user.album, sharedAlbum: user.sharedAlbum, displayName: user.displayName)
         } else {
             return nil
         }

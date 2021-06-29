@@ -28,6 +28,7 @@ class NewBookViewController: UIViewController {
         colorsCollectionView.delegate = self
         bookImageView.layer.cornerRadius = 25
         setupImageView()
+        self.hideKeyboardTappedAround()
         if let book = book {
             nameTextField.text = book.name
             bookImageView.tintColor = UIColor(named: book.bookColor)
@@ -200,4 +201,16 @@ extension NewBookViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension UIViewController {
+    func hideKeyboardTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

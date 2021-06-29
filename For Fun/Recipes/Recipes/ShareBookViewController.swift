@@ -17,6 +17,7 @@ class ShareBookViewController: UIViewController {
     var book: Book?
     
     override func viewDidLoad() {
+        self.hideKeyboardTappedAround()
         super.viewDidLoad()
         if let book = book {
             nameLabel.text = book.name

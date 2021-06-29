@@ -21,6 +21,7 @@ class NewPasswordViewController: UIViewController {
         setupTextFields()
         updateSaveButtonState()
         hideAlert()
+        self.hideKeyboardTappedAround()
         // Do any additional setup after loading the view.
     }
     

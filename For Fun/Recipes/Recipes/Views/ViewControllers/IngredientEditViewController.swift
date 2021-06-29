@@ -29,6 +29,7 @@ class IngredientEditViewController: UIViewController {
     var partQuantity: String?
 
     override func viewDidLoad() {
+        self.hideKeyboardTappedAround()
         super.viewDidLoad()
         //updateUI()
         quantityPicker.delegate = self
