@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import UIKit
 
 enum UserControllerError: Error {
     case passwordLength
@@ -16,6 +17,7 @@ enum UserControllerError: Error {
     case invalidEmail
     case noDisplayName
     case otherErr
+    case noProfilePic
 }
 
 extension UserControllerError: LocalizedError {
@@ -35,6 +37,8 @@ extension UserControllerError: LocalizedError {
             return "No Display Name Found"
         case .otherErr:
             return "An Error Has Occured"
+        case .noProfilePic:
+            return "No Picture Found for this profile."
         }
         
     }
@@ -107,7 +111,16 @@ class UserControllerAuth {
                     case .success(let name):
                         displayName = name
                         guard let displayName = displayName else {return}
-                        self.user = User(id: userID, displayName: displayName)
+                        let newUser = User(id: userID, displayName: displayName)
+                        self.user = newUser
+                        self.getProfilePic(user: newUser) { result in
+                            switch result {
+                            case .success(let image):
+                                self.user?.image = image
+                            case .failure(let err):
+                                print(err.localizedDescription)
+                            }
+                        }
                         print("SIGNED IN")
                         completion(nil)
                     case .failure(let err):
@@ -155,6 +168,34 @@ class UserControllerAuth {
     func getRememberMe() -> Bool {
         guard let rememberMe = UserDefaults.standard.value(forKey: "rememberMe") as? Bool else {return false}
         return rememberMe
+    }
+    
+    func addProfilePicture(user: User) {
+        guard let imageData = user.image else {return}
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child(user.displayName)
+        guard let userPath = getUserPath() else {return}
+        imageRef.putData(imageData, metadata: nil) {metaData, error in
+            imageRef.downloadURL { url, err in
+                if let err = err {
+                    print(err.localizedDescription)
+                } else if let url = url{
+                    userPath.document(user.id).updateData([
+                        "ProfilePic": url
+                    ])
+                }
+            }
+        }
+    }
+    
+    func getProfilePic(profile: Profile?, completion: @escaping (Result<Data, UserControllerError>) -> Void) {
+        if let user = user {
+            let url = URL(string: user.imageURL)
+            guard let url = url, let imageData = try? Data(contentsOf: url) else {return completion(.failure(.noProfilePic))}
+            completion(.success(imageData))
+        } else {
+            completion(.failure(.otherErr))
+        }
     }
     
     func addDisplayName(email: String, displayName: String) {

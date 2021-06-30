@@ -12,7 +12,7 @@ class PersonTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var personImage: UIImageView!
     
-    var user: String?
+    var user: Profile?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,7 +30,7 @@ class PersonTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
-        nameLabel.text = user
+        nameLabel.text = user?.name
         setupImage()
     }
 

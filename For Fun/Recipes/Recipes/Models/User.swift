@@ -13,10 +13,11 @@ class User: Codable {
     var sharedAlbum: [Book]
     var displayName: String
     var image: Data?
+    var imageURL: String
     var pendingFriends: [String]
     var friends: [String]
     
-    init(id: String = "", album: [Book] = [], sharedAlbum: [Book] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = []) {
+    init(id: String = "", album: [Book] = [], sharedAlbum: [Book] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = [], imageURL: String = "") {
         self.id = id
         self.album = album
         self.sharedAlbum = sharedAlbum
@@ -24,6 +25,7 @@ class User: Codable {
         self.image = image
         self.friends = friends
         self.pendingFriends = pendingFriends
+        self.imageURL = imageURL
     }
     
 }

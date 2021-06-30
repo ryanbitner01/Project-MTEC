@@ -13,7 +13,7 @@ class UserSearchViewController: UIViewController {
     @IBOutlet weak var userTableView: UITableView!
     
     var users: [String] = []
-    var queriedPeople: [String] = []
+    var queriedPeople: [Profile] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,10 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
 extension UserSearchViewController: UISearchBarDelegate {
     
     func search(query: String) {
-        queriedPeople = users.filter({$0.lowercased().contains(query.lowercased())})
+        let queriedUsers = users.filter({$0.lowercased().contains(query.lowercased())})
+        queriedPeople = queriedUsers.compactMap({ email -> Profile? in
+            
+        })
         userTableView.reloadData()
     }
     
