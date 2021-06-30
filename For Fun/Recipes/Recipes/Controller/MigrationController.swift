@@ -7,6 +7,8 @@
 
 import Foundation
 
+let testingEnabled = false
+
 enum MigrationError: Error {
     case passwordChange
 }
