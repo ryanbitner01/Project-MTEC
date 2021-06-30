@@ -17,6 +17,7 @@ class StepEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        self.hideKeyboardTappedAround()
         // Do any additional setup after loading the view.
     }
     

@@ -23,6 +23,7 @@ class NewBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardTappedAround()
         updateUI()
         colorsCollectionView.dataSource = self
         colorsCollectionView.delegate = self
@@ -200,4 +201,16 @@ extension NewBookViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension UIViewController {
+    func hideKeyboardTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

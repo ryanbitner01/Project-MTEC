@@ -18,6 +18,7 @@ class ShareBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardTappedAround()
         if let book = book {
             nameLabel.text = book.name
             for recipe in book.recipes {
