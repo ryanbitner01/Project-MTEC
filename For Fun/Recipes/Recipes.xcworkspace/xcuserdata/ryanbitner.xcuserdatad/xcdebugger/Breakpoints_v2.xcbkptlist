@@ -88,14 +88,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EE2DE744-0C61-4844-B43D-9D9208F592B1"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipes/UserSearchViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "searchBar(_:textDidChange:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,13 +110,13 @@
             filePath = "Recipes/UserSearchViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "search(query:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "0DEA4CF3-DDA4-43FD-AAC3-51A2257A213E - 89cbc08734faeaf4"
+                  uuid = "0DEA4CF3-DDA4-43FD-AAC3-51A2257A213E - 89cbc08734faeb68"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -126,12 +126,12 @@
                   urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/UserSearchViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "84">
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "92">
                </Location>
                <Location
-                  uuid = "0DEA4CF3-DDA4-43FD-AAC3-51A2257A213E - 39a432e036e55fdd"
+                  uuid = "0DEA4CF3-DDA4-43FD-AAC3-51A2257A213E - 39a432e036e55e41"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -141,8 +141,8 @@
                   urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/UserSearchViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
                   offsetFromSymbolStart = "64">
                </Location>
             </Locations>

@@ -68,12 +68,25 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension UserSearchViewController: UISearchBarDelegate {
     
+    func setupQueryPeople(queriedUsers: [String]) {
+        
+    }
+    
     func search(query: String) {
         let queriedUsers = users.filter({$0.lowercased().contains(query.lowercased())})
-        queriedPeople = queriedUsers.compactMap({ email -> Profile? in
-            
-        })
-        userTableView.reloadData()
+        for user in queriedUsers {
+            SocialController.shared.getProfileFromEmail(email: user) { result in
+                switch result {
+                case.success(let profile):
+                    DispatchQueue.main.async {
+                        self.queriedPeople.append(profile)
+                        self.userTableView.reloadData()
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText:String) {

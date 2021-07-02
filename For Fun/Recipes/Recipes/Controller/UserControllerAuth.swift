@@ -113,12 +113,19 @@ class UserControllerAuth {
                         guard let displayName = displayName else {return}
                         let newUser = User(id: userID, displayName: displayName)
                         self.user = newUser
-                        self.getProfilePic(user: newUser) { result in
+                        SocialController.shared.getProfileFromEmail(email: userID) { result in
                             switch result {
-                            case .success(let image):
-                                self.user?.image = image
+                            case .success(let profile):
+                                self.getProfilePic(profile: profile) { result in
+                                    switch result{
+                                    case .success(let data):
+                                        self.user?.image = data
+                                    case .failure(let err):
+                                        print(err)
+                                    }
+                                }
                             case .failure(let err):
-                                print(err.localizedDescription)
+                                print(err)
                             }
                         }
                         print("SIGNED IN")

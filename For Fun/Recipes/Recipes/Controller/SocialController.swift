@@ -112,7 +112,7 @@ class SocialController {
         guard let path = getUserPath() else {return completion(.failure(.noProfile))}
         path.document(email).getDocument { doc, err in
             if let doc = doc {
-                guard let data = doc.data(), let name = data["DisplayName"] as? String else {return completion(.failure(.noProfile))}
+                let name = doc.documentID 
                 let profile = Profile(name: name)
                 completion(.success(profile))
             } else if err != nil {
