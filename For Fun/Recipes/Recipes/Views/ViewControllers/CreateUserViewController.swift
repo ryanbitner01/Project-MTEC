@@ -18,6 +18,7 @@ class CreateUserViewController: UIViewController {
     
     //var usernameIsValid = false
     var passwordIsValid = false
+    var displayNameIsValid = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,8 @@ class CreateUserViewController: UIViewController {
             //verifyUsername()
         } else if sender == passwordTextField || sender  == otherPasswordTextField {
             verifyPassword()
+        } else if sender == displayNameLabel {
+            checkDisplayName()
         }
         updateSaveButtonState()
     }
@@ -82,9 +85,27 @@ class CreateUserViewController: UIViewController {
         alertLabel.isHidden = true
     }
     
+    func checkDisplayName() {
+        UserControllerAuth.shared.getAllDisplayNames { result in
+            switch result {
+            case .success(let names):
+                if !names.contains(where: {$0.lowercased() == self.displayNameLabel.text?.lowercased()}) {
+                    self.displayNameIsValid = true
+                    self.hideAlert()
+                    //self.verifyPassword()
+                } else {
+                    self.displayNameIsValid = false
+                    self.showAlert(err: .invalidDisplayName)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     func updateSaveButtonState() {
         guard let username = emailTextField.text, let password = passwordTextField.text, let p2 = otherPasswordTextField.text, let email = emailTextField.text else {return}
-        let meetsRequirements = !(username.isEmpty || password.isEmpty || email.isEmpty || email.isEmpty || p2.isEmpty) && passwordIsValid
+        let meetsRequirements = !(username.isEmpty || password.isEmpty || email.isEmpty || email.isEmpty || p2.isEmpty) && passwordIsValid && displayNameIsValid
         saveButton.isEnabled = meetsRequirements
     }
     

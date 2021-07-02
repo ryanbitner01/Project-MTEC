@@ -299,7 +299,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="60.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Landscape" translatesAutoresizingMaskIntoConstraints="NO" id="aVw-cl-agd">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aVw-cl-agd">
                                                     <rect key="frame" x="20" y="5" width="50.5" height="50.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="wH0-Nt-Mwr"/>
@@ -1763,6 +1763,22 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4z-MN-3n9">
+                                <rect key="frame" x="318" y="121" width="68.5" height="53"/>
+                                <color key="tintColor" name="tintColor"/>
+                                <state key="normal" image="photo.on.rectangle.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="45"/>
+                                </state>
+                                <connections>
+                                    <action selector="photoButtonTapped:" destination="VgS-y4-Esl" eventType="touchUpInside" id="zMs-hZ-owL"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Image" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aR-vj-iOL">
+                                <rect key="frame" x="318" y="182" width="68.5" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" name="tintColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FFz-Yg-gdC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1770,9 +1786,14 @@
                             <constraint firstItem="BA7-TL-klE" firstAttribute="top" secondItem="hZz-Em-gM8" secondAttribute="bottom" constant="8" symbolic="YES" id="5t2-oe-IhJ"/>
                             <constraint firstItem="a2w-eW-D9Z" firstAttribute="top" secondItem="FFz-Yg-gdC" secondAttribute="top" id="Ak5-Zp-yhH"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="bottom" secondItem="BA7-TL-klE" secondAttribute="bottom" id="F3v-7x-IHj"/>
+                            <constraint firstItem="2aR-vj-iOL" firstAttribute="width" secondItem="y4z-MN-3n9" secondAttribute="width" id="LSw-ag-Mu0"/>
+                            <constraint firstItem="2aR-vj-iOL" firstAttribute="top" secondItem="y4z-MN-3n9" secondAttribute="bottom" constant="8" symbolic="YES" id="Luh-Lr-9dA"/>
+                            <constraint firstItem="2aR-vj-iOL" firstAttribute="centerX" secondItem="y4z-MN-3n9" secondAttribute="centerX" id="TyI-4n-YgI"/>
                             <constraint firstItem="hZz-Em-gM8" firstAttribute="top" secondItem="a2w-eW-D9Z" secondAttribute="bottom" constant="8" symbolic="YES" id="Ubn-Pa-6Df"/>
                             <constraint firstItem="BA7-TL-klE" firstAttribute="leading" secondItem="FFz-Yg-gdC" secondAttribute="leading" id="Vmf-5J-wuu"/>
                             <constraint firstItem="hZz-Em-gM8" firstAttribute="leading" secondItem="FFz-Yg-gdC" secondAttribute="leading" id="Wrs-cf-ftR"/>
+                            <constraint firstItem="y4z-MN-3n9" firstAttribute="centerY" secondItem="a2w-eW-D9Z" secondAttribute="centerY" id="YEU-tc-JZC"/>
+                            <constraint firstItem="y4z-MN-3n9" firstAttribute="leading" secondItem="a2w-eW-D9Z" secondAttribute="trailing" constant="7.5" id="ggz-sG-S35"/>
                             <constraint firstItem="a2w-eW-D9Z" firstAttribute="width" secondItem="32I-1h-JWr" secondAttribute="width" multiplier="0.5" id="kPf-BO-PkL"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="BA7-TL-klE" secondAttribute="trailing" id="vv6-ku-Zpz"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="hZz-Em-gM8" secondAttribute="trailing" id="xQ8-hf-ec3"/>
@@ -1781,6 +1802,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="I5a-d3-lbl"/>
                     <connections>
+                        <outlet property="nameLabel" destination="hZz-Em-gM8" id="Csz-Ti-xY1"/>
                         <outlet property="profileImageView" destination="a2w-eW-D9Z" id="OSl-Lv-Jpu"/>
                     </connections>
                 </viewController>
@@ -1917,7 +1939,6 @@
     <resources>
         <image name="1.circle" catalog="system" width="128" height="121"/>
         <image name="FWRIcon1NoBackground1" width="904" height="1034"/>
-        <image name="Landscape" width="275" height="183"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="book.closed.fill" catalog="system" width="115" height="128"/>
         <image name="book.fill" catalog="system" width="128" height="102"/>
@@ -1934,6 +1955,7 @@
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="photo.on.rectangle" catalog="system" width="128" height="96"/>
+        <image name="photo.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <image name="square" catalog="system" width="128" height="114"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>

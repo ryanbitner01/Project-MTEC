@@ -100,7 +100,10 @@ class SocialController {
                 let email = doc.documentID
                 return email
             })
-            if let email = emails?.first(where: {$0 == displayName}) {
+            if let emails = emails, emails.count > 1 {
+                print("Multiple Accounts Found")
+            }
+            if let email = emails?.first {
                 completion(.success(email))
             } else {
                 completion(.failure(.noEmail))
@@ -112,8 +115,11 @@ class SocialController {
         guard let path = getUserPath() else {return completion(.failure(.noProfile))}
         path.document(email).getDocument { doc, err in
             if let doc = doc {
-                let name = doc.documentID 
+                guard let data = doc.data(), let name = data["DisplayName"] as? String else {return}
                 let profile = Profile(name: name)
+                if let imageURL = data["ProfilePic"] as? String {
+                    profile.imageURL = imageURL
+                }
                 completion(.success(profile))
             } else if err != nil {
                 completion(.failure(.noProfile))

@@ -13,7 +13,7 @@ class UserSearchViewController: UIViewController {
     @IBOutlet weak var userTableView: UITableView!
     
     var users: [String] = []
-    var queriedPeople: [Profile] = []
+    var queriedPeople: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,7 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "personCell", for: indexPath) as! PersonTableViewCell
         let person = queriedPeople[indexPath.row]
-        cell.user = person
+        cell.displayName = person
         cell.updateCell()
         return cell
     }
@@ -68,25 +68,10 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension UserSearchViewController: UISearchBarDelegate {
     
-    func setupQueryPeople(queriedUsers: [String]) {
-        
-    }
-    
     func search(query: String) {
-        let queriedUsers = users.filter({$0.lowercased().contains(query.lowercased())})
-        for user in queriedUsers {
-            SocialController.shared.getProfileFromEmail(email: user) { result in
-                switch result {
-                case.success(let profile):
-                    DispatchQueue.main.async {
-                        self.queriedPeople.append(profile)
-                        self.userTableView.reloadData()
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-        }
+        queriedPeople = users.filter({$0.lowercased().contains(query.lowercased())})
+        userTableView.reloadData()
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText:String) {

@@ -18,6 +18,7 @@ enum UserControllerError: Error {
     case noDisplayName
     case otherErr
     case noProfilePic
+    case invalidDisplayName
 }
 
 extension UserControllerError: LocalizedError {
@@ -39,16 +40,17 @@ extension UserControllerError: LocalizedError {
             return "An Error Has Occured"
         case .noProfilePic:
             return "No Picture Found for this profile."
+        case .invalidDisplayName:
+            return "This display name is invalid"
         }
         
     }
 }
 
-let testingEnabled = true
-
 class UserControllerAuth {
     
     var user: User?
+    var profile: Profile?
     static let shared = UserControllerAuth()
     
     func getUserPath() -> CollectionReference? {
@@ -113,21 +115,6 @@ class UserControllerAuth {
                         guard let displayName = displayName else {return}
                         let newUser = User(id: userID, displayName: displayName)
                         self.user = newUser
-                        SocialController.shared.getProfileFromEmail(email: userID) { result in
-                            switch result {
-                            case .success(let profile):
-                                self.getProfilePic(profile: profile) { result in
-                                    switch result{
-                                    case .success(let data):
-                                        self.user?.image = data
-                                    case .failure(let err):
-                                        print(err)
-                                    }
-                                }
-                            case .failure(let err):
-                                print(err)
-                            }
-                        }
                         print("SIGNED IN")
                         completion(nil)
                     case .failure(let err):
@@ -188,18 +175,18 @@ class UserControllerAuth {
                     print(err.localizedDescription)
                 } else if let url = url{
                     userPath.document(user.id).updateData([
-                        "ProfilePic": url
+                        "ProfilePic": url.absoluteString
                     ])
                 }
             }
         }
     }
     
-    func getProfilePic(profile: Profile?, completion: @escaping (Result<Data, UserControllerError>) -> Void) {
-        if let user = user {
-            let url = URL(string: user.imageURL)
-            guard let url = url, let imageData = try? Data(contentsOf: url) else {return completion(.failure(.noProfilePic))}
-            completion(.success(imageData))
+    func getProfilePic(profile: Profile?, completion: @escaping (Result<UIImage, UserControllerError>) -> Void) {
+        if let profile = profile {
+            let url = URL(string: profile.imageURL)
+            guard let url = url, let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {return completion(.failure(.noProfilePic))}
+            completion(.success(image))
         } else {
             completion(.failure(.otherErr))
         }

@@ -11,7 +11,7 @@ import UIKit
 class Profile {
     let name: String
     var email: String
-    let imageURL: String
+    var imageURL: String
     var image: UIImage?
     
     init(name: String, email: String = "", imageURL: String = "",image: UIImage? = nil) {
@@ -41,7 +41,7 @@ class Profile {
         UserControllerAuth.shared.getProfilePic(profile: self) { result in
             switch result {
             case .success(let imageData):
-                let image = UIImage(data: imageData)
+                let image = imageData
                 self.image = image
             case .failure(let err):
                 print(err.localizedDescription)
