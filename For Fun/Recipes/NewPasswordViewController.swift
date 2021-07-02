@@ -18,6 +18,7 @@ class NewPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardTappedAround()
         setupTextFields()
         updateSaveButtonState()
         hideAlert()

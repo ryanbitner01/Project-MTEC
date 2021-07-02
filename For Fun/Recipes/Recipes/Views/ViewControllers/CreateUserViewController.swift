@@ -21,7 +21,7 @@ class CreateUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardTappedAround()
         updateSaveButtonState()
         alertLabel.isHidden = true
     }

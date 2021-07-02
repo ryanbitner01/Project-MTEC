@@ -23,6 +23,7 @@ class NewBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardTappedAround()
         updateUI()
         colorsCollectionView.dataSource = self
         colorsCollectionView.delegate = self
