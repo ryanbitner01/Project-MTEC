@@ -1103,14 +1103,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Image" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0S-bO-ES2">
+                                <rect key="frame" x="310.5" y="247.5" width="82" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" name="tintColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UdA-55-dXl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="s3m-0l-EVw" firstAttribute="centerY" secondItem="KY9-gL-AZ7" secondAttribute="centerY" id="0LG-hA-Tjq"/>
                             <constraint firstItem="xbZ-Qh-mpI" firstAttribute="top" secondItem="PJ3-yX-XdC" secondAttribute="bottom" constant="10" id="0kD-4m-sn2"/>
+                            <constraint firstItem="H0S-bO-ES2" firstAttribute="width" secondItem="s3m-0l-EVw" secondAttribute="width" multiplier="1.82222" id="5PQ-1U-9d9"/>
                             <constraint firstItem="xbZ-Qh-mpI" firstAttribute="leading" secondItem="UdA-55-dXl" secondAttribute="leading" constant="10" id="60X-wq-aum"/>
                             <constraint firstItem="s3m-0l-EVw" firstAttribute="leading" secondItem="KY9-gL-AZ7" secondAttribute="trailing" constant="10" id="8v0-KJ-BG4"/>
+                            <constraint firstItem="H0S-bO-ES2" firstAttribute="centerX" secondItem="s3m-0l-EVw" secondAttribute="centerX" id="99r-ZC-6gi"/>
                             <constraint firstItem="UdA-55-dXl" firstAttribute="bottom" secondItem="xbZ-Qh-mpI" secondAttribute="bottom" id="I5c-YG-0tz"/>
                             <constraint firstItem="KY9-gL-AZ7" firstAttribute="centerX" secondItem="Osc-2J-Mds" secondAttribute="centerX" id="NiS-kg-2Qp"/>
                             <constraint firstItem="PJ3-yX-XdC" firstAttribute="width" secondItem="KY9-gL-AZ7" secondAttribute="width" id="PxX-sX-bot"/>
@@ -1119,6 +1127,7 @@
                             <constraint firstItem="PJ3-yX-XdC" firstAttribute="top" secondItem="KY9-gL-AZ7" secondAttribute="bottom" constant="5" id="imO-7u-8pd"/>
                             <constraint firstItem="KY9-gL-AZ7" firstAttribute="width" secondItem="Osc-2J-Mds" secondAttribute="height" multiplier="0.25" id="sTI-E2-yH1"/>
                             <constraint firstItem="KY9-gL-AZ7" firstAttribute="top" secondItem="UdA-55-dXl" secondAttribute="top" constant="25" id="vzT-4n-z4u"/>
+                            <constraint firstItem="H0S-bO-ES2" firstAttribute="top" secondItem="s3m-0l-EVw" secondAttribute="bottom" constant="5" id="x6g-JT-iig"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8Np-6C-T6s">
