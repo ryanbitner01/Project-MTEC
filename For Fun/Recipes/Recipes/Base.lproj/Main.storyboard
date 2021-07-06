@@ -1233,6 +1233,7 @@
                     <connections>
                         <outlet property="componentTableView" destination="xbZ-Qh-mpI" id="bCO-Hy-qRb"/>
                         <outlet property="nameTextField" destination="PJ3-yX-XdC" id="Zwo-U4-qIh"/>
+                        <outlet property="photoButton" destination="s3m-0l-EVw" id="79I-OH-2a3"/>
                         <outlet property="recipeImageView" destination="KY9-gL-AZ7" id="NyI-pg-5Jv"/>
                         <segue destination="olW-9h-HMd" kind="unwind" identifier="Save" unwindAction="saveBookUnwind:" id="2Xc-ZR-Lkf"/>
                         <segue destination="O1y-gW-4Fs" kind="show" identifier="editStep" id="6fl-BB-G0A"/>
@@ -1398,7 +1399,7 @@
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KiA-4S-ckG">
-                                <rect key="frame" x="89" y="479" width="236" height="383"/>
+                                <rect key="frame" x="89" y="479" width="236" height="334"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Oiu-Tp-2GC">
                                     <size key="itemSize" width="100" height="100"/>
@@ -1473,6 +1474,7 @@
                         <outlet property="bookImageView" destination="nvO-vZ-2nV" id="M6i-rn-wqj"/>
                         <outlet property="colorsCollectionView" destination="KiA-4S-ckG" id="sGH-xa-tik"/>
                         <outlet property="nameTextField" destination="flb-hD-3W8" id="ePl-3g-6hn"/>
+                        <outlet property="photoButton" destination="CHL-xR-uAX" id="JqD-Rk-N7u"/>
                         <outlet property="saveButton" destination="7Gt-1Y-rqD" id="0jA-h3-mcf"/>
                         <outlet property="selectColorButton" destination="Uo8-Iu-A2Q" id="DcQ-BZ-J2a"/>
                         <outlet property="selectImageButton" destination="CHL-xR-uAX" id="lxW-9T-i0x"/>
@@ -1932,7 +1934,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1MD-sI-BUA"/>
+        <segue reference="rKT-FA-aQq"/>
         <segue reference="vPV-QN-3ad"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="tintColor"/>

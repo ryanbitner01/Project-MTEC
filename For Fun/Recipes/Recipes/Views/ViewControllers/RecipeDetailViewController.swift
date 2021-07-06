@@ -124,6 +124,9 @@ class RecipeDetailViewController: UIViewController {
         alertController.addAction(deleteAction)
         alertController.popoverPresentationController?.sourceView = self.view
         present(alertController, animated: true, completion: nil)
+        
+        alertController.popoverPresentationController?.sourceView = deleteButton
+        alertController.popoverPresentationController?.sourceRect = deleteButton.bounds
     }
     
     @IBSegueAction func segueToEditRecipe(_ coder: NSCoder, sender: Any?) -> CreateRecipeViewController? {

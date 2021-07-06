@@ -16,6 +16,7 @@ class CreateRecipeViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var componentTableView: UITableView!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var photoButton: UIButton!
     
     var ingredients = [Ingredient]()
     var steps = [Step]()
@@ -145,6 +146,8 @@ class CreateRecipeViewController: UIViewController {
         alertController.popoverPresentationController?.sourceView = self.view
         
         present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = photoButton
+        alertController.popoverPresentationController?.sourceRect = photoButton.bounds
     }
     
 }
