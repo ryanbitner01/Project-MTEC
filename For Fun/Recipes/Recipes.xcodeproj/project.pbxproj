@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0080422694AC3D0096B2CD /* ProfileSnapshotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0080412694AC3D0096B2CD /* ProfileSnapshotViewController.swift */; };
 		1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D362642D98A00137B73 /* CreateUserViewController.swift */; };
 		1E0C9BC8268CC8F2004D724F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C9BC7268CC8F2004D724F /* Profile.swift */; };
 		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E0080412694AC3D0096B2CD /* ProfileSnapshotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileSnapshotViewController.swift; path = Recipes/ProfileSnapshotViewController.swift; sourceTree = SOURCE_ROOT; };
 		1E051D362642D98A00137B73 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		1E0C9BC7268CC8F2004D724F /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		1ED06782266696E200A86F12 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1E0080412694AC3D0096B2CD /* ProfileSnapshotViewController.swift */,
 				1EBA7864268B794C00F6F07A /* UserSearchViewController.swift */,
 				1EECF63D268A226C000CA17A /* ProfileViewController.swift */,
 				1E9C8CCB2683862000A49D0F /* NewPasswordViewController.swift */,
@@ -395,6 +398,7 @@
 				1ED0678C26692FDB00A86F12 /* RecipeDetailViewController.swift in Sources */,
 				1E9C8CCC2683862000A49D0F /* NewPasswordViewController.swift in Sources */,
 				1EBA785D268B6C3800F6F07A /* Book.swift in Sources */,
+				1E0080422694AC3D0096B2CD /* ProfileSnapshotViewController.swift in Sources */,
 				1ED0678A2669137700A86F12 /* StepCellEdit.swift in Sources */,
 				1E6C4768268CC19900A4E82F /* SocialController.swift in Sources */,
 				1E5BD55B268B63AD004BF3BA /* PersonTableViewCell.swift in Sources */,

@@ -37,8 +37,17 @@ class UserSearchViewController: UIViewController {
             }
         }
     }
+    
+    @IBSegueAction func segueToProfileSnapshotVC(_ coder: NSCoder, sender: PersonTableViewCell?) -> ProfileSnapshotViewController? {
+        guard let sender = sender else {return nil}
+        let displayName = sender.displayName
+        let profileSnapshotVC = ProfileSnapshotViewController(coder: coder)
+        profileSnapshotVC?.displayName = displayName
+        return profileSnapshotVC
+    }
+    
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

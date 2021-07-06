@@ -8,15 +8,18 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidLayoutSubviews() {
         guard let email = UserControllerAuth.shared.user?.id else {return}
         getProfile(email: email)
-        // Do any additional setup after loading the view.
     }
     
     func getProfile(email: String) {
@@ -74,17 +77,17 @@ class ProfileViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension ProfileViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -100,8 +103,13 @@ extension ProfileViewController: UINavigationControllerDelegate, UIImagePickerCo
 
 extension UIImageView {
     public func makeRound() {
+        let mask = UIImageView()
+        mask.contentMode = .scaleAspectFill
+        mask.frame = self.bounds
+        //mask.bounds = self.bounds
+        mask.image = UIImage(named: "mask")
+        self.mask = mask
         self.layer.masksToBounds = false
-        self.layer.cornerRadius = self.frame.width/2.1
         self.clipsToBounds = true
     }
 }
