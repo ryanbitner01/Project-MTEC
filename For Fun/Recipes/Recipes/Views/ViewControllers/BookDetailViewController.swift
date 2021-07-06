@@ -166,6 +166,9 @@ class BookDetailViewController: UIViewController {
         alertController.addAction(deleteAction)
         alertController.popoverPresentationController?.sourceView = self.view
         present(alertController, animated: true, completion: nil)
+        
+        alertController.popoverPresentationController?.sourceView = deleteButton
+        alertController.popoverPresentationController?.sourceRect = deleteButton.bounds
     }
     @IBSegueAction func segueToShare(_ coder: NSCoder) -> ShareBookViewController? {
         let shareBookVC = ShareBookViewController(coder: coder)

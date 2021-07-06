@@ -15,6 +15,8 @@ class RecipeCell: UICollectionViewCell {
     @IBOutlet weak var recipeLabel: UILabel!
     
     func updateCell() {
+        recipeImageView.image = UIImage(systemName: "doc.plaintext.fill")
+        recipeImageView.tintColor = UIColor(named: "Blue")
         setupImageView()
         recipeLabel.text = recipe?.name
 //        recipeLabel.layer.borderColor = UIColor(named: "tintColor")?.cgColor
@@ -40,6 +42,8 @@ class RecipeCell: UICollectionViewCell {
                     print(err.localizedDescription)
                 }
             }
+        } else {
+            return
         }
     }
     

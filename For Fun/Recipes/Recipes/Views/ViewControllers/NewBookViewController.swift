@@ -15,6 +15,7 @@ class NewBookViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var bookImageView: UIImageView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var photoButton: UIButton!
     
     var image: UIImage?
     var colorName: String? = "Blue"
@@ -124,9 +125,9 @@ class NewBookViewController: UIViewController {
             alertController.addAction(libraryAction)
         }
         
-        alertController.popoverPresentationController?.sourceView = self.view
-        
         present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = photoButton
+        alertController.popoverPresentationController?.sourceRect = photoButton.bounds
     }
     //MARK: Methods
     
