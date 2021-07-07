@@ -43,7 +43,6 @@ class PersonCollectionViewCell: UICollectionViewCell {
     }
     
     func setupImage(profile: Profile) {
-        personImageView.makeRound()
         UserControllerAuth.shared.getProfilePic(profile: profile) { result in
             switch result {
             case .success(let data):

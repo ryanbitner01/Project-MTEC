@@ -30,8 +30,8 @@
             filePath = "Recipes/ProfileSnapshotViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Recipes/ProfileSnapshotViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "setupUI()"
             landmarkType = "7">
          </BreakpointContent>

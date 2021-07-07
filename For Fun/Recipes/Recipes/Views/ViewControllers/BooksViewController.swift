@@ -20,10 +20,10 @@ class BooksViewController: UIViewController {
         super.viewDidLoad()
         bookCollectionView.dataSource = self
         bookCollectionView.delegate = self
+        getRecipeBooks()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getRecipeBooks()
         getSharedbook()
     }
     

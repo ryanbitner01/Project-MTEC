@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController {
     }
     
     func setupImage(profile: Profile) {
-        profileImageView.makeRound()
         UserControllerAuth.shared.getProfilePic(profile: profile) { result in
             switch result {
             case .success(let data):
@@ -101,15 +100,3 @@ extension ProfileViewController: UINavigationControllerDelegate, UIImagePickerCo
     }
 }
 
-extension UIImageView {
-    public func makeRound() {
-        let mask = UIImageView()
-        mask.contentMode = .scaleAspectFill
-        mask.frame = self.bounds
-        //mask.bounds = self.bounds
-        mask.image = UIImage(named: "mask")
-        self.mask = mask
-        self.layer.masksToBounds = false
-        self.clipsToBounds = true
-    }
-}

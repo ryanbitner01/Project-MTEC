@@ -13,6 +13,7 @@
 		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
 		1E39761A26822A4A00F72F0D /* SharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761926822A4A00F72F0D /* SharingController.swift */; };
 		1E39761C2683725F00F72F0D /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761B2683725F00F72F0D /* MigrationController.swift */; };
+		1E4D21822695FCD500622E95 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4D21812695FCD500622E95 /* CircleImageView.swift */; };
 		1E5BD55B268B63AD004BF3BA /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BD55A268B63AD004BF3BA /* PersonTableViewCell.swift */; };
 		1E64720D264AF98C00A99E18 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E64720C264AF98C00A99E18 /* RecipeCell.swift */; };
 		1E64720F264AFABD00A99E18 /* RecipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E64720E264AFABD00A99E18 /* RecipeController.swift */; };
@@ -65,6 +66,7 @@
 		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1E39761926822A4A00F72F0D /* SharingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingController.swift; sourceTree = "<group>"; };
 		1E39761B2683725F00F72F0D /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
+		1E4D21812695FCD500622E95 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		1E5BD55A268B63AD004BF3BA /* PersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonTableViewCell.swift; path = Recipes/PersonTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		1E64720C264AF98C00A99E18 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		1E64720E264AFABD00A99E18 /* RecipeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeController.swift; sourceTree = "<group>"; };
@@ -140,9 +142,18 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		1E4D21832695FDE800622E95 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				1E4D21812695FCD500622E95 /* CircleImageView.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
 		1EAF0B67262F3543002E4830 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1E4D21832695FDE800622E95 /* Custom Views */,
 				1ED06782266696E200A86F12 /* ViewControllers */,
 				1ED06781266696C500A86F12 /* Cells */,
 				1E3976172680F61C00F72F0D /* SectionHeader.swift */,
@@ -400,6 +411,7 @@
 				1EBA785D268B6C3800F6F07A /* Book.swift in Sources */,
 				1E0080422694AC3D0096B2CD /* ProfileSnapshotViewController.swift in Sources */,
 				1ED0678A2669137700A86F12 /* StepCellEdit.swift in Sources */,
+				1E4D21822695FCD500622E95 /* CircleImageView.swift in Sources */,
 				1E6C4768268CC19900A4E82F /* SocialController.swift in Sources */,
 				1E5BD55B268B63AD004BF3BA /* PersonTableViewCell.swift in Sources */,
 				1EECF63E268A226C000CA17A /* ProfileViewController.swift in Sources */,

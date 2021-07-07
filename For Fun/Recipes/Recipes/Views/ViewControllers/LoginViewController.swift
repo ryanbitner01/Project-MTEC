@@ -53,15 +53,6 @@ class LoginViewController: UIViewController {
                 }
             }
         }
-        
-        
-        //        if UserController.shared.loginUser(username: username, password: password) {
-        //            performSegue(withIdentifier: "LoginUser", sender: self)
-        //        } else {
-        //            showAlert(message: "Invalid Username/Password")
-        //        }
-        
-        
     }
     
     @IBAction func logoutUnwind(_ unwindSegue: UIStoryboardSegue) {
@@ -93,24 +84,5 @@ class LoginViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         rememberEmail()
     }
-    //    func initUsers() {
-    //        UserController.shared.getUsers { result in
-    //            switch result {
-    //            case .success(let users):
-    //                UserController.shared.users = users
-    //            case .failure(let err):
-    //                print(err.localizedDescription)
-    //            }
-    //        }
-    //    }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

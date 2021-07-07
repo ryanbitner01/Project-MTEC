@@ -12,7 +12,7 @@ class ProfileSnapshotViewController: UIViewController {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var requestButton: UIButton!
-    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var profileView: UIView!
     
     var profile: Profile?
     var email: String?
@@ -21,16 +21,26 @@ class ProfileSnapshotViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLayoutSubviews() {
-        setupUI()
+        super.viewDidLayoutSubviews()
     }
     
     func setupUI() {
-        profileImage.makeRound()
-        stackView.layer.cornerRadius = 25
+        profileView.layer.cornerRadius = 25
         getEmail()
     }
     
@@ -76,6 +86,9 @@ class ProfileSnapshotViewController: UIViewController {
         }
     }
     
+    @IBAction func closePressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
 

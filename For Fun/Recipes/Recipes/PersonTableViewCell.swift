@@ -50,7 +50,6 @@ class PersonTableViewCell: UITableViewCell {
     }
     
     func setupImage(profile: Profile) {
-        personImage.makeRound()
         UserControllerAuth.shared.getProfilePic(profile: profile) { result in
             switch result {
             case .success(let data):
