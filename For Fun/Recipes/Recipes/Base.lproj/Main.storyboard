@@ -675,31 +675,6 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="z0a-xG-yVO">
-                                <rect key="frame" x="52" y="154" width="33.5" height="124"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUr-Po-KU2">
-                                        <rect key="frame" x="0.0" y="0.0" width="33.5" height="36.5"/>
-                                        <color key="tintColor" name="Red"/>
-                                        <state key="normal" image="trash.fill" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="deletePressed:" destination="6Lr-ww-vcD" eventType="touchUpInside" id="ctJ-bz-OSe"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alX-lP-5RQ">
-                                        <rect key="frame" x="0.0" y="86.5" width="33.5" height="37.5"/>
-                                        <color key="tintColor" name="tintColor"/>
-                                        <state key="normal" image="square.and.arrow.up" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="zoT-WW-cXd" kind="show" destinationCreationSelector="segueToShare:" id="V2P-Gy-FXW"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5V-SB-EYN">
                                 <rect key="frame" x="329" y="199" width="35" height="34"/>
                                 <color key="tintColor" name="tintColor"/>
@@ -734,11 +709,48 @@
                                     <constraint firstAttribute="width" constant="75" id="gb6-D9-7nZ"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="z0a-xG-yVO">
+                                <rect key="frame" x="5" y="133" width="80.5" height="166.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Qaz-S9-1bI">
+                                        <rect key="frame" x="0.0" y="0.0" width="80.5" height="79"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUr-Po-KU2">
+                                                <rect key="frame" x="0.0" y="0.0" width="80.5" height="36.5"/>
+                                                <color key="tintColor" name="Red"/>
+                                                <state key="normal" image="trash.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="deletePressed:" destination="6Lr-ww-vcD" eventType="touchUpInside" id="ctJ-bz-OSe"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Book" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQX-lT-vHd">
+                                                <rect key="frame" x="0.0" y="36.5" width="80.5" height="42.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                <color key="textColor" name="Red"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alX-lP-5RQ">
+                                        <rect key="frame" x="0.0" y="129" width="80.5" height="37.5"/>
+                                        <color key="tintColor" name="tintColor"/>
+                                        <state key="normal" image="square.and.arrow.up" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="zoT-WW-cXd" kind="show" destinationCreationSelector="segueToShare:" id="V2P-Gy-FXW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xSn-0y-R6Q"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="uY7-kl-vo2" firstAttribute="centerX" secondItem="5dF-wu-NhP" secondAttribute="centerX" id="0aa-ai-mXd"/>
+                            <constraint firstItem="z0a-xG-yVO" firstAttribute="leading" secondItem="5dF-wu-NhP" secondAttribute="leading" constant="5" id="43R-HU-t8V"/>
                             <constraint firstAttribute="bottom" secondItem="Oyv-3T-NLO" secondAttribute="bottom" constant="90" id="57F-VV-RM0"/>
                             <constraint firstItem="uY7-kl-vo2" firstAttribute="width" secondItem="J1I-wa-6sf" secondAttribute="width" id="6fu-1Q-yFO"/>
                             <constraint firstItem="J5V-SB-EYN" firstAttribute="centerY" secondItem="J1I-wa-6sf" secondAttribute="centerY" id="C1N-c7-lSR"/>
@@ -802,16 +814,6 @@
                                 </state>
                                 <connections>
                                     <segue destination="CUB-lw-bz3" kind="show" destinationCreationSelector="segueToEditRecipe:sender:" id="vPV-QN-3ad"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-B1-erB">
-                                <rect key="frame" x="54.5" y="207" width="32.5" height="36.5"/>
-                                <color key="tintColor" name="Red"/>
-                                <state key="normal" image="trash.fill" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
-                                </state>
-                                <connections>
-                                    <action selector="deleteButtonPressed:" destination="14H-VA-veD" eventType="touchUpInside" id="5cl-qp-6fI"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="KWA-1H-OI6">
@@ -894,15 +896,37 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cht-W0-mS5">
+                                <rect key="frame" x="5" y="208" width="85" height="79"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-B1-erB">
+                                        <rect key="frame" x="0.0" y="0.0" width="85" height="36.5"/>
+                                        <color key="tintColor" name="Red"/>
+                                        <state key="normal" image="trash.fill" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="deleteButtonPressed:" destination="14H-VA-veD" eventType="touchUpInside" id="5cl-qp-6fI"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Recipe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aa8-us-tpY">
+                                        <rect key="frame" x="0.0" y="36.5" width="85" height="42.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                        <color key="textColor" name="Red"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Uid-Ju-S7C"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="top" secondItem="Uid-Ju-S7C" secondAttribute="top" constant="25" id="3XB-Pi-13v"/>
                             <constraint firstItem="KWA-1H-OI6" firstAttribute="top" secondItem="SDG-bW-1QS" secondAttribute="bottom" constant="5" id="4fM-ia-5JH"/>
-                            <constraint firstItem="IZp-B1-erB" firstAttribute="centerY" secondItem="tG4-wV-sOK" secondAttribute="centerY" id="AMk-Gs-cUe"/>
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="width" secondItem="5A8-fS-bOh" secondAttribute="height" multiplier="0.25" id="B7r-ZM-0BM"/>
                             <constraint firstItem="Uid-Ju-S7C" firstAttribute="bottom" secondItem="KWA-1H-OI6" secondAttribute="bottom" id="Cfx-oG-UpN"/>
+                            <constraint firstItem="Cht-W0-mS5" firstAttribute="leading" secondItem="Uid-Ju-S7C" secondAttribute="leading" constant="5" id="ELa-yL-qFu"/>
+                            <constraint firstItem="tG4-wV-sOK" firstAttribute="leading" secondItem="Cht-W0-mS5" secondAttribute="trailing" constant="5" id="HlO-vI-Lus"/>
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="centerX" secondItem="5A8-fS-bOh" secondAttribute="centerX" id="Pi8-4e-6L6"/>
                             <constraint firstItem="SDG-bW-1QS" firstAttribute="centerX" secondItem="5A8-fS-bOh" secondAttribute="centerX" id="VJr-lJ-ndw"/>
                             <constraint firstItem="XWg-pH-dIv" firstAttribute="centerY" secondItem="tG4-wV-sOK" secondAttribute="centerY" id="XUy-Dq-FdD"/>
@@ -912,7 +936,6 @@
                             <constraint firstItem="SDG-bW-1QS" firstAttribute="width" secondItem="tG4-wV-sOK" secondAttribute="width" multiplier="0.95" id="nB6-0H-xfs"/>
                             <constraint firstItem="Uid-Ju-S7C" firstAttribute="trailing" secondItem="KWA-1H-OI6" secondAttribute="trailing" constant="20" id="nq6-zh-e9d"/>
                             <constraint firstItem="XWg-pH-dIv" firstAttribute="leading" secondItem="tG4-wV-sOK" secondAttribute="trailing" constant="10" id="oe3-Ih-3JH"/>
-                            <constraint firstItem="tG4-wV-sOK" firstAttribute="leading" secondItem="IZp-B1-erB" secondAttribute="trailing" constant="8" symbolic="YES" id="x4G-Wf-gSb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cdL-h9-KxS"/>
