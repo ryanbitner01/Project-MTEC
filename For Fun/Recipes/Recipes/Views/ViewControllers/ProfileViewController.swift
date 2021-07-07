@@ -14,10 +14,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidLayoutSubviews() {
         guard let email = UserControllerAuth.shared.user?.id else {return}
         getProfile(email: email)
     }

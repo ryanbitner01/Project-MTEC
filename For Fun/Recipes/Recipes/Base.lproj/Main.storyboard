@@ -343,7 +343,7 @@
             <objects>
                 <viewController id="qLL-Ch-7pL" customClass="ProfileSnapshotViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0j8-hg-kgh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w2l-cy-s8c">
@@ -365,6 +365,9 @@
                                         <rect key="frame" x="5" y="407" width="369" height="33"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                         <state key="normal" title="Send Friend Request"/>
+                                        <connections>
+                                            <action selector="requestButtonPressed:" destination="qLL-Ch-7pL" eventType="touchUpInside" id="dPg-bb-CDI"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Joj-uH-SsA">
                                         <rect key="frame" x="5" y="448" width="369" height="30"/>

@@ -35,10 +35,6 @@ class ProfileSnapshotViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
     func setupUI() {
         profileView.layer.cornerRadius = 25
         getEmail()
@@ -86,10 +82,46 @@ class ProfileSnapshotViewController: UIViewController {
         }
     }
     
+    func updateRequestButton() {
+        switch requested {
+        case true:
+            requestButton.setTitle("Cancel Request", for: .normal)
+        case false:
+            requestButton.setTitle("Send Friend Request", for: .normal)
+        }
+    }
+    
     @IBAction func closePressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func requestButtonPressed(_ sender: Any) {
+        switch requested {
+        case true:
+            // DENY Request
+            print("DENY")
+            DispatchQueue.main.async {
+                self.requested.toggle()
+                self.updateRequestButton()
+            }
+        
+        case false:
+            DispatchQueue.main.async {
+                self.requested.toggle()
+                self.updateRequestButton()
+            }
+            guard let profile = profile else {return}
+            SocialController.shared.sendFriendRequest(user: profile.email) { err in
+                if let err = err {
+                    print(err)
+                } else {
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+    }
     
 
     /*
