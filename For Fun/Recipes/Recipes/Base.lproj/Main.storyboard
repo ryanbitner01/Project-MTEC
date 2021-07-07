@@ -896,8 +896,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cht-W0-mS5">
-                                <rect key="frame" x="5" y="208" width="85" height="79"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cht-W0-mS5">
+                                <rect key="frame" x="5" y="185.5" width="85" height="79"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-B1-erB">
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="36.5"/>
@@ -926,6 +926,7 @@
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="width" secondItem="5A8-fS-bOh" secondAttribute="height" multiplier="0.25" id="B7r-ZM-0BM"/>
                             <constraint firstItem="Uid-Ju-S7C" firstAttribute="bottom" secondItem="KWA-1H-OI6" secondAttribute="bottom" id="Cfx-oG-UpN"/>
                             <constraint firstItem="Cht-W0-mS5" firstAttribute="leading" secondItem="Uid-Ju-S7C" secondAttribute="leading" constant="5" id="ELa-yL-qFu"/>
+                            <constraint firstItem="Cht-W0-mS5" firstAttribute="centerY" secondItem="tG4-wV-sOK" secondAttribute="centerY" id="HI2-gC-OLJ"/>
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="leading" secondItem="Cht-W0-mS5" secondAttribute="trailing" constant="5" id="HlO-vI-Lus"/>
                             <constraint firstItem="tG4-wV-sOK" firstAttribute="centerX" secondItem="5A8-fS-bOh" secondAttribute="centerX" id="Pi8-4e-6L6"/>
                             <constraint firstItem="SDG-bW-1QS" firstAttribute="centerX" secondItem="5A8-fS-bOh" secondAttribute="centerX" id="VJr-lJ-ndw"/>
