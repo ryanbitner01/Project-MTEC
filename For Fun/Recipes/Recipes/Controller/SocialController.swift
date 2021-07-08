@@ -86,6 +86,19 @@ class SocialController {
         }
     }
     
+    func denyRequest(otherUser: String, completion: @escaping (SocialError?) -> Void) {
+        guard let path = getUserPath() else {return}
+        guard let userSelf = UserControllerAuth.shared.profile?.email else {return completion(.otherErr)}
+        // Delete Request
+        path.document(userSelf).updateData([
+            "Requests": FieldValue.arrayRemove([otherUser])
+        ])
+        // Delete Pending Friend
+        path.document(otherUser).updateData([
+            "PendingFriends": FieldValue.arrayRemove([userSelf])
+        ])
+    }
+    
     func acceptRequest(otherUser: String, completion: @escaping (SocialError?)-> Void) {
         guard let path = getUserPath(), let user = UserControllerAuth.shared.user else {return completion(.friendAccept)}
         let otherUserPath = path.document(otherUser)

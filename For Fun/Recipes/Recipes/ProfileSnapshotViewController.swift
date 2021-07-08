@@ -60,7 +60,12 @@ class ProfileSnapshotViewController: UIViewController {
         switch requested {
         case true:
             // DENY Request
-            print("DENY")
+            guard let email = profile?.email else {return}
+            SocialController.shared.denyRequest(otherUser: email) { err in
+                if let err = err {
+                    print(err.localizedDescription)
+                }
+            }
             DispatchQueue.main.async {
                 self.requested.toggle()
                 self.updateRequestButton()
