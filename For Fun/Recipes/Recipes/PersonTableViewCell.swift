@@ -14,6 +14,7 @@ class PersonTableViewCell: UITableViewCell {
     
     var user: String?
     var displayName: String?
+    var profile: Profile?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,32 +40,31 @@ class PersonTableViewCell: UITableViewCell {
     }
     
     func getProfile(email: String) {
-        SocialController.shared.getProfileFromEmail(email: email) { result in
+        SocialController.shared.getProfile(self: false, email: email) { profile in
+            self.profile = profile
+            DispatchQueue.main.async {
+                self.updateCell()
+            }
+        }
+    }
+    
+    func setupImage() {
+        UserControllerAuth.shared.getProfilePic(profile: self.profile) { result in
             switch result {
-            case .success(let profile):
-                self.setupImage(profile: profile)
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.profile?.image = image
+                    self.personImage.image = self.profile?.image
+                }
             case .failure(let err):
                 print(err.localizedDescription)
             }
         }
     }
     
-    func setupImage(profile: Profile) {
-        UserControllerAuth.shared.getProfilePic(profile: profile) { result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self.personImage.image = data
-                }
-            case .failure(let err):
-                print(err)
-            }
-        }
-    }
-    
     func updateCell() {
         nameLabel.text = displayName
-        getEmail()
+        setupImage()
     }
 
 }

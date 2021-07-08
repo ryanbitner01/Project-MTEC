@@ -12,6 +12,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     
+    var profile: Profile?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let email = UserControllerAuth.shared.user?.id else {return}

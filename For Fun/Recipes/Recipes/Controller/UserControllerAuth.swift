@@ -115,6 +115,7 @@ class UserControllerAuth {
                         guard let displayName = displayName else {return}
                         let newUser = User(id: userID, displayName: displayName)
                         self.user = newUser
+                        SocialController.shared.getProfile(self: true, email: email, completion: nil)
                         print("SIGNED IN")
                         completion(nil)
                     case .failure(let err):

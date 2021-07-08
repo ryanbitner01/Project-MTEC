@@ -13,39 +13,19 @@ class Profile {
     var email: String
     var imageURL: String
     var image: UIImage?
+    var friends: [String]
+    var requests: [String]
+    var pendingFriends: [String]
     
-    init(name: String, email: String = "", imageURL: String = "",image: UIImage? = nil) {
+    init(name: String, email: String = "", imageURL: String = "",image: UIImage? = nil, friends: [String] = [], requests: [String] = [], pendingFriends: [String] = []) {
         self.name = name
         self.email = email
         self.image = image
         self.imageURL = imageURL
+        self.friends = friends
+        self.requests = requests
+        self.pendingFriends = pendingFriends
     }
     
-    func getProfile() {
-        getEmail()
-        getProfilePic()
-    }
     
-    func getEmail() {
-        SocialController.shared.getEmailFromDisplayName(displayName: name) { result in
-            switch result {
-            case .success(let email):
-                self.email = email
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
-    
-    func getProfilePic() {
-        UserControllerAuth.shared.getProfilePic(profile: self) { result in
-            switch result {
-            case .success(let imageData):
-                let image = imageData
-                self.image = image
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
 }

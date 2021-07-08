@@ -15,12 +15,13 @@ class ProfileSnapshotViewController: UIViewController {
     @IBOutlet weak var profileView: UIView!
     
     var profile: Profile?
-    var email: String?
-    var displayName: String?
     var requested: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let profile = profile, let requests = UserControllerAuth.shared.profile?.requests, requests.contains(profile.email) {
+            requested = true
+        }
         setupUI()
         // Do any additional setup after loading the view.
     }
@@ -37,49 +38,9 @@ class ProfileSnapshotViewController: UIViewController {
     
     func setupUI() {
         profileView.layer.cornerRadius = 25
-        getEmail()
-    }
-    
-    func getEmail() {
-        guard let displayName = displayName else {return}
-        SocialController.shared.getEmailFromDisplayName(displayName: displayName) { result in
-            switch result {
-            case .success(let email):
-                self.email = email
-                self.getProfile()
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
-    func getProfile() {
-        guard let email = email else {return}
-        SocialController.shared.getProfileFromEmail(email: email) { result in
-            switch result {
-            case .success(let profile):
-                self.profile = profile
-                DispatchQueue.main.async {
-                    self.getProfilePic()
-                    self.nameLabel.text = profile.name
-                }
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
-    
-    func getProfilePic() {
-        guard let profile = profile else {return}
-        UserControllerAuth.shared.getProfilePic(profile: profile) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    self.profileImage.image = image
-                }
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
+        nameLabel.text = profile?.name
+        profileImage.image = profile?.image
+        updateRequestButton()
     }
     
     func updateRequestButton() {
@@ -110,8 +71,8 @@ class ProfileSnapshotViewController: UIViewController {
                 self.requested.toggle()
                 self.updateRequestButton()
             }
-            guard let profile = profile else {return}
-            SocialController.shared.sendFriendRequest(user: profile.email) { err in
+            guard let email = profile?.email else {return}
+            SocialController.shared.sendFriendRequest(user: email) { err in
                 if let err = err {
                     print(err)
                 } else {

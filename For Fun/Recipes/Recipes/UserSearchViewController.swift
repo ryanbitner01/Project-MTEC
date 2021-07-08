@@ -21,6 +21,7 @@ class UserSearchViewController: UIViewController {
         userTableView.dataSource = self
         searchBar.delegate = self
         getUsers()
+        self.hideKeyboardTappedAround()
         // Do any additional setup after loading the view.
     }
     
@@ -40,9 +41,9 @@ class UserSearchViewController: UIViewController {
     
     @IBSegueAction func segueToProfileSnapshotVC(_ coder: NSCoder, sender: PersonTableViewCell?) -> ProfileSnapshotViewController? {
         guard let sender = sender else {return nil}
-        let displayName = sender.displayName
+        let profile = sender.profile
         let profileSnapshotVC = ProfileSnapshotViewController(coder: coder)
-        profileSnapshotVC?.displayName = displayName
+        profileSnapshotVC?.profile = profile
         return profileSnapshotVC
     }
     
@@ -68,7 +69,7 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "personCell", for: indexPath) as! PersonTableViewCell
         let person = queriedPeople[indexPath.row]
         cell.displayName = person
-        cell.updateCell()
+        cell.getEmail()
         return cell
     }
     
@@ -82,7 +83,13 @@ extension UserSearchViewController: UITableViewDataSource, UITableViewDelegate {
 extension UserSearchViewController: UISearchBarDelegate {
     
     func search(query: String) {
-        queriedPeople = users.filter({$0.lowercased().contains(query.lowercased())})
+        queriedPeople = users.filter({user -> Bool in
+            if user != UserControllerAuth.shared.user?.displayName {
+                return user.lowercased().contains(query.lowercased())
+            } else {
+                return false
+            }
+        })
         userTableView.reloadData()
         
     }

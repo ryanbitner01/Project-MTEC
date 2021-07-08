@@ -1853,20 +1853,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-eW-D9Z" customClass="CircleImageView" customModule="Recipes" customModuleProvider="target">
-                                <rect key="frame" x="103.5" y="44.5" width="207" height="206"/>
+                                <rect key="frame" x="72.5" y="44.5" width="269" height="268"/>
                                 <color key="tintColor" name="tintColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="a2w-eW-D9Z" secondAttribute="height" id="KdW-bu-jK7"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZz-Em-gM8">
-                                <rect key="frame" x="0.0" y="259" width="414" height="30"/>
+                                <rect key="frame" x="0.0" y="321" width="414" height="30"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BA7-TL-klE">
-                                <rect key="frame" x="0.0" y="297" width="414" height="516"/>
+                                <rect key="frame" x="0.0" y="359" width="414" height="454"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LR9-gC-gxq">
                                     <size key="itemSize" width="128" height="156"/>
@@ -1913,7 +1913,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4z-MN-3n9">
-                                <rect key="frame" x="318" y="121" width="88.5" height="53"/>
+                                <rect key="frame" x="349" y="152" width="57.5" height="53"/>
                                 <color key="tintColor" name="tintColor"/>
                                 <state key="normal" image="photo.fill.on.rectangle.fill" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="45"/>
@@ -1923,7 +1923,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Image" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aR-vj-iOL">
-                                <rect key="frame" x="318" y="182" width="88.5" height="17"/>
+                                <rect key="frame" x="349" y="213" width="57.5" height="36"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" name="tintColor"/>
                                 <nil key="highlightedColor"/>
@@ -1945,7 +1945,7 @@
                             <constraint firstItem="y4z-MN-3n9" firstAttribute="leading" secondItem="a2w-eW-D9Z" secondAttribute="trailing" constant="7.5" id="ggz-sG-S35"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="y4z-MN-3n9" secondAttribute="trailing" constant="7.5" id="i9X-eP-VAG"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="2aR-vj-iOL" secondAttribute="trailing" constant="7.5" id="iAX-mS-D26"/>
-                            <constraint firstItem="a2w-eW-D9Z" firstAttribute="width" secondItem="32I-1h-JWr" secondAttribute="width" multiplier="0.5" id="kPf-BO-PkL"/>
+                            <constraint firstItem="a2w-eW-D9Z" firstAttribute="width" secondItem="32I-1h-JWr" secondAttribute="height" multiplier="0.3" id="kPf-BO-PkL"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="BA7-TL-klE" secondAttribute="trailing" id="vv6-ku-Zpz"/>
                             <constraint firstItem="FFz-Yg-gdC" firstAttribute="trailing" secondItem="hZz-Em-gM8" secondAttribute="trailing" id="xQ8-hf-ec3"/>
                             <constraint firstItem="a2w-eW-D9Z" firstAttribute="centerX" secondItem="32I-1h-JWr" secondAttribute="centerX" id="y3h-Ep-kZL"/>

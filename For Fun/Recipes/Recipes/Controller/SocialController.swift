@@ -14,6 +14,7 @@ enum SocialError: Error {
     case noEmail
     case noProfile
     case otherErr
+    case request
 }
 
 extension SocialError: LocalizedError {
@@ -29,6 +30,8 @@ extension SocialError: LocalizedError {
             return "No profile Found"
         case .otherErr:
             return "Other Error"
+        case .request:
+            return "Unable to find requests"
         }
     }
 }
@@ -52,9 +55,9 @@ class SocialController {
     
     func sendFriendRequest(user: String, completion: @escaping (SocialError?) -> Void) {
         guard let path = getUserPath() else {return completion(.friendRequestErr)}
-        let otherUser = path.document(user)
-        otherUser.updateData([
-            "PendingFriends": FieldValue.arrayUnion([user])
+        guard let self = UserControllerAuth.shared.user?.id else {return completion(.friendRequestErr)}
+        path.document(user).updateData([
+            "PendingFriends": FieldValue.arrayUnion([self])
         ]) { err in
             if err != nil {
                 completion(.friendRequestErr)
@@ -62,7 +65,25 @@ class SocialController {
                 completion(nil)
             }
         }
+        path.document(self).updateData([
+            "Requests": FieldValue.arrayUnion([user])
+        ])
         completion(nil)
+    }
+    
+    func getRequests(profile: Profile, user: String, completion: @escaping (Result<[String], SocialError>) -> Void) {
+        guard let path = getUserPath() else {return completion(.failure(.otherErr))}
+        path.document(user).getDocument { doc, err in
+            if let doc = doc {
+                guard let data = doc.data(), let requests = data["Requests"] as? [String] else {return completion(.failure(.request))}
+                completion(.success(requests))
+                profile.requests = requests
+            } else if err != nil {
+                completion(.failure(.request))
+            } else {
+                completion(.failure(.otherErr))
+            }
+        }
     }
     
     func acceptRequest(otherUser: String, completion: @escaping (SocialError?)-> Void) {
@@ -111,6 +132,24 @@ class SocialController {
         }
     }
     
+    func getProfile(self: Bool, email: String, completion: ((Profile) ->Void)?) {
+        guard let path = getUserPath() else {return}
+        path.document(email).addSnapshotListener { doc, err in
+            if let doc = doc {
+                guard let data = doc.data(), let name = data["DisplayName"] as? String else {return}
+                let friends = data["Friends"] as? [String] ?? []
+                let requests = data["Requests"] as? [String] ?? []
+                let pendingFriends = data["PendingFriends"] as? [String] ?? []
+                let imageURL = data["ProfilePic"] as? String ?? ""
+                let newProfile = Profile(name: name, email: email, imageURL: imageURL, friends: friends, requests: requests, pendingFriends: pendingFriends)
+                if self {
+                    UserControllerAuth.shared.profile = newProfile
+                } else {
+                    completion?(newProfile)
+                }
+            }
+        }
+    }
     func getProfileFromEmail(email: String, completion: @escaping (Result<Profile, SocialError>) -> Void) {
         guard let path = getUserPath() else {return completion(.failure(.noProfile))}
         path.document(email).getDocument { doc, err in
