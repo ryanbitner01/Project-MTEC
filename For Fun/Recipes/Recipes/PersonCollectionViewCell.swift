@@ -11,43 +11,32 @@ class PersonCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var personImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
-    var user: Profile?
-    var displayName: String?
+    var email: String?
+    var profile: Profile?
     
     func updateCell() {
-        getEmail()
-        nameLabel.text = displayName
+        nameLabel.text = profile?.name
+        setupImage()
     }
     
-    func getEmail() {
-        guard let displayName = displayName else {return}
-        SocialController.shared.getEmailFromDisplayName(displayName: displayName) { result in
-            switch result {
-            case .success(let email):
-                self.getProfile(email: email)
-            case .failure(let err):
-                print(err.localizedDescription)
+    func getProfile() {
+        guard let email = email else {return}
+        SocialController.shared.getProfile(self: false, email: email) { profile in
+            DispatchQueue.main.async {
+                self.profile = profile
+                self.updateCell()
             }
         }
     }
     
-    func getProfile(email: String) {
-        SocialController.shared.getProfileFromEmail(email: email) { result in
-            switch result {
-            case .success(let profile):
-                self.setupImage(profile: profile)
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
-    
-    func setupImage(profile: Profile) {
+    func setupImage() {
+        guard let profile = profile else {return}
         UserControllerAuth.shared.getProfilePic(profile: profile) { result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self.personImageView.image = data
+                    self.profile?.image = data
+                    self.personImageView.image = self.profile?.image
                 }
             case .failure(let err):
                 print(err)

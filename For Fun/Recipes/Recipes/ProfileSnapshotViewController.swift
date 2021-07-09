@@ -15,12 +15,19 @@ class ProfileSnapshotViewController: UIViewController {
     @IBOutlet weak var profileView: UIView!
     
     var profile: Profile?
-    var requested: Bool = false
+    var status: ProfileStatus = .notRequested
+    
+    enum ProfileStatus {
+        case requested
+        case notRequested
+        case friend
+        case pendingRequest
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let profile = profile, let requests = UserControllerAuth.shared.profile?.requests, requests.contains(profile.email) {
-            requested = true
+            //requested = true
         }
         setupUI()
         // Do any additional setup after loading the view.
@@ -40,15 +47,35 @@ class ProfileSnapshotViewController: UIViewController {
         profileView.layer.cornerRadius = 25
         nameLabel.text = profile?.name
         profileImage.image = profile?.image
+        updateStatus()
         updateRequestButton()
     }
     
+    func updateStatus() {
+        guard let selfProfile = UserControllerAuth.shared.profile, let profile = profile else {return}
+        // Check if pending
+        if selfProfile.pendingFriends.contains(profile.email) {
+            status = .pendingRequest
+        // Check if requested
+        } else if selfProfile.requests.contains(profile.email) {
+            status = .requested
+        } else if selfProfile.friends.contains(profile.email) {
+            status = .friend
+        } else {
+            status = .notRequested
+        }
+    }
+    
     func updateRequestButton() {
-        switch requested {
-        case true:
+        switch status {
+        case .requested:
             requestButton.setTitle("Cancel Request", for: .normal)
-        case false:
+        case .notRequested:
             requestButton.setTitle("Send Friend Request", for: .normal)
+        case .friend:
+            requestButton.setTitle("Unfriend", for: .normal)
+        case .pendingRequest:
+            requestButton.setTitle("Accept Friend", for: .normal)
         }
     }
     
@@ -57,8 +84,8 @@ class ProfileSnapshotViewController: UIViewController {
     }
     
     @IBAction func requestButtonPressed(_ sender: Any) {
-        switch requested {
-        case true:
+        switch status {
+        case .requested:
             // DENY Request
             guard let email = profile?.email else {return}
             SocialController.shared.denyRequest(otherUser: email) { err in
@@ -67,13 +94,12 @@ class ProfileSnapshotViewController: UIViewController {
                 }
             }
             DispatchQueue.main.async {
-                self.requested.toggle()
                 self.updateRequestButton()
+                self.dismiss(animated: true, completion: nil)
             }
         
-        case false:
+        case .notRequested:
             DispatchQueue.main.async {
-                self.requested.toggle()
                 self.updateRequestButton()
             }
             guard let email = profile?.email else {return}
@@ -86,6 +112,22 @@ class ProfileSnapshotViewController: UIViewController {
                     }
                 }
             }
+        case .friend:
+            // Unfriend
+            print("UnFriend")
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        case .pendingRequest:
+            guard let email = profile?.email else {return}
+            DispatchQueue.main.async {
+                SocialController.shared.acceptRequest(otherUser: email) { err in
+                    if let err = err {
+                        return print(err.localizedDescription)
+                    }
+                }
+            }
+            dismiss(animated: true , completion: nil)
         }
     }
     

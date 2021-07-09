@@ -91,12 +91,17 @@ class SocialController {
         guard let userSelf = UserControllerAuth.shared.profile?.email else {return completion(.otherErr)}
         // Delete Request
         path.document(userSelf).updateData([
-            "Requests": FieldValue.arrayRemove([otherUser])
+            "Requests": FieldValue.arrayRemove([otherUser]),
+            "PendingFriends": FieldValue.arrayRemove([otherUser])
         ])
         // Delete Pending Friend
         path.document(otherUser).updateData([
-            "PendingFriends": FieldValue.arrayRemove([userSelf])
+            "PendingFriends": FieldValue.arrayRemove([userSelf]),
+            "Requests": FieldValue.arrayRemove([userSelf])
+
         ])
+        completion(nil)
+
     }
     
     func acceptRequest(otherUser: String, completion: @escaping (SocialError?)-> Void) {
@@ -116,7 +121,7 @@ class SocialController {
         }
         otherUserPath.updateData([
             "Friends": FieldValue.arrayUnion([user.id]),
-            "PendingFriends": FieldValue.arrayRemove([user.id])
+            "Requests": FieldValue.arrayRemove([user.id])
         ]) { err in
             if err != nil {
                 completion(.friendAccept)
@@ -157,6 +162,7 @@ class SocialController {
                 let newProfile = Profile(name: name, email: email, imageURL: imageURL, friends: friends, requests: requests, pendingFriends: pendingFriends)
                 if self {
                     UserControllerAuth.shared.profile = newProfile
+                    completion?(newProfile)
                 } else {
                     completion?(newProfile)
                 }
