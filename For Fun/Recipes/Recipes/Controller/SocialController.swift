@@ -15,6 +15,7 @@ enum SocialError: Error {
     case noProfile
     case otherErr
     case request
+    case unfriend
 }
 
 extension SocialError: LocalizedError {
@@ -32,6 +33,8 @@ extension SocialError: LocalizedError {
             return "Other Error"
         case .request:
             return "Unable to find requests"
+        case .unfriend:
+            return "Unable to unfriend user"
         }
     }
 }
@@ -129,6 +132,21 @@ class SocialController {
                 completion(nil)
             }
         }
+    }
+    
+    func unfriend(user: String, completion: @escaping (SocialError?) -> Void) {
+        guard let userPath = getUserPath(), let selfUser = UserControllerAuth.shared.user else {return completion(.otherErr)}
+        
+        // Remove Friend from self
+        userPath.document(selfUser.id).updateData([
+            "Friends": FieldValue.arrayRemove([user])
+        ])
+        
+        // Remove Friend from other user
+        
+        userPath.document(user).updateData([
+            "Friends": FieldValue.arrayRemove([selfUser.id])
+        ])
     }
     
     func getEmailFromDisplayName(displayName: String, completion: @escaping (Result<String, SocialError>)-> Void) {

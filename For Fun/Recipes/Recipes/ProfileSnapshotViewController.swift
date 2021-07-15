@@ -114,7 +114,12 @@ class ProfileSnapshotViewController: UIViewController {
             }
         case .friend:
             // Unfriend
-            print("UnFriend")
+            guard let email = profile?.email else {return}
+            SocialController.shared.unfriend(user: email) { err in
+                if let err = err {
+                    return print(err.localizedDescription)
+                }
+            }
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
             }

@@ -42,6 +42,19 @@ class RequestViewController: UIViewController {
         }
     }
     
+    @IBAction func acceptPressed(_ sender: Any) {
+        guard let profile = profile else {return}
+        SocialController.shared.acceptRequest(otherUser: profile.email) { err in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+    }
     
 
     /*
