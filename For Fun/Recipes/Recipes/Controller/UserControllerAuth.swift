@@ -119,7 +119,19 @@ class UserControllerAuth {
                         print("SIGNED IN")
                         completion(nil)
                     case .failure(let err):
-                        print(err)
+                        displayName = "Default Name"
+                        guard let displayName = displayName else {return}
+                        let newUser = User(id: userID, displayName: displayName)
+                        self.user = newUser
+                        SocialController.shared.getProfile(self: true, email: email, completion: nil)
+                        MigrationController.shared.changeName(new: displayName) { err in
+                            if let err = err {
+                                print(err.localizedDescription)
+                            }
+                        }
+                        print("SIGNED IN")
+                        completion(nil)
+                        print(err.localizedDescription)
                     }
                 }
 
