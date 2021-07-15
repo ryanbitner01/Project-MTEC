@@ -11,6 +11,7 @@
 		1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E051D362642D98A00137B73 /* CreateUserViewController.swift */; };
 		1E0C9BC8268CC8F2004D724F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C9BC7268CC8F2004D724F /* Profile.swift */; };
 		1E340A2C26A0753600A65C09 /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E340A2B26A0753600A65C09 /* NewNameViewController.swift */; };
+		1E340A2E26A0826100A65C09 /* BookShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E340A2D26A0826100A65C09 /* BookShareRequest.swift */; };
 		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
 		1E39761A26822A4A00F72F0D /* SharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761926822A4A00F72F0D /* SharingController.swift */; };
 		1E39761C2683725F00F72F0D /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761B2683725F00F72F0D /* MigrationController.swift */; };
@@ -66,6 +67,7 @@
 		1E051D362642D98A00137B73 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		1E0C9BC7268CC8F2004D724F /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		1E340A2B26A0753600A65C09 /* NewNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = Recipes/NewNameViewController.swift; sourceTree = SOURCE_ROOT; };
+		1E340A2D26A0826100A65C09 /* BookShareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShareRequest.swift; sourceTree = "<group>"; };
 		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1E39761926822A4A00F72F0D /* SharingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingController.swift; sourceTree = "<group>"; };
 		1E39761B2683725F00F72F0D /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				1EBA785C268B6C3800F6F07A /* Step.swift */,
 				1EBA7859268B6C3700F6F07A /* User.swift */,
 				1E0C9BC7268CC8F2004D724F /* Profile.swift */,
+				1E340A2D26A0826100A65C09 /* BookShareRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */,
 				1EB96F082647893B007B6236 /* BookCell.swift in Sources */,
 				1E64720D264AF98C00A99E18 /* RecipeCell.swift in Sources */,
+				1E340A2E26A0826100A65C09 /* BookShareRequest.swift in Sources */,
 				1E64720F264AFABD00A99E18 /* RecipeController.swift in Sources */,
 				1E0C9BC8268CC8F2004D724F /* Profile.swift in Sources */,
 				1EFB1D5125F92836004B87DB /* SceneDelegate.swift in Sources */,

@@ -11,15 +11,26 @@ class ShareBookViewController: UIViewController {
     
     @IBOutlet weak var bookImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var alertLabel: UILabel!
+    @IBOutlet weak var sharingCollectionView: UICollectionView!
+    
+    var availableFriends: [String] = []
+    var sharedWith: [String] = []
+    
+    var shareToProfile: String?
+    
+    enum sharingSection: Int, CaseIterable {
+        case availableFriends
+        case sharedWith
+    }
     
     var book: Book?
     
     override func viewDidLoad() {
-        self.hideKeyboardTappedAround()
         super.viewDidLoad()
         self.hideKeyboardTappedAround()
+        sharingCollectionView.delegate = self
+        sharingCollectionView.dataSource = self
         if let book = book {
             nameLabel.text = book.name
             for recipe in book.recipes {
@@ -29,7 +40,30 @@ class ShareBookViewController: UIViewController {
         }
         hideAlert()
         setupBookImage()
+        setupPeople()
         // Do any additional setup after loading the view.
+    }
+    
+    func setupPeople() {
+        getSharedWith()
+        getAvailableShare()
+    }
+    
+    func getAvailableShare() {
+        guard let profile = UserControllerAuth.shared.profile else {return}
+        let friends = profile.friends
+        availableFriends = friends.compactMap({user -> String? in
+            if sharedWith.contains(user) {
+                return nil
+            } else {
+                return user
+            }
+        })
+    }
+    
+    func getSharedWith() {
+        guard let book = book else {return}
+        sharedWith = book.sharedUsers
     }
     
     func setupBookImage() {
@@ -64,20 +98,10 @@ class ShareBookViewController: UIViewController {
     }
     
     @IBAction func shareBookPressed(_ sender: Any) {
-        guard let book = book else {return}
-        SharingController.shared.canShare(book: book, email: emailTextField.text!) { err in
-            if let err = err {
-                DispatchQueue.main.async {
-                    self.showAlert(message: err)
-                    return
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.hideAlert()
-                    self.shareBook()
-                    self.performSegue(withIdentifier: "Share", sender: self)
-                }
-            }
+        if shareToProfile != nil {
+            shareBook()
+        } else {
+            showAlert(message: .noUser)
         }
     }
     
@@ -91,13 +115,18 @@ class ShareBookViewController: UIViewController {
     }
     
     func shareBook() {
-        guard let book = book else {return}
-        BookController.shared.addBook(book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: emailTextField.text!)
-        for recipe in book.recipes {
-            RecipeController.shared.addRecipe(recipe: recipe, book: book, imageURL: book.imageURL ?? "", instructions: recipe.instruction, ingredients: recipe.ingredients, path: .otherSharedAlbum, email: emailTextField.text!)
+        guard let book = book, let profile = UserControllerAuth.shared.profile else {return}
+        SharingController.shared.sendShareRequest(book: book, profile: profile) { err in
+            if let err = err {
+                DispatchQueue.main.async {
+                    self.showAlert(message: err)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
         }
-        book.sharedUsers.append(emailTextField.text!)
-        BookController.shared.updateSharedUsers(users: book.sharedUsers, book: book)
     }
     
     func fetchInstructions(recipe: Recipe) {
@@ -123,14 +152,71 @@ class ShareBookViewController: UIViewController {
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func displaySharingAlertController(user: String, cell: PersonCollectionViewCell) {
+        let alertController = UIAlertController(title: "Share With User \(user)", message: "Would you like to share with this user?", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: {action in
+            self.shareBook()
+        })
+        alertController.addAction(shareAction)
+        present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = cell
+        alertController.popoverPresentationController?.sourceRect = cell.bounds
     }
-    */
+}
 
+extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let section = sharingSection(rawValue: section) else {return 0}
+        switch section {
+        case .availableFriends:
+            return availableFriends.count
+        case .sharedWith:
+            return sharedWith.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let section = sharingSection(rawValue: indexPath.section) else {return UICollectionViewCell()}
+        switch section {
+        case .availableFriends:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCollectionViewCell
+            let person = availableFriends[indexPath.row]
+            cell.email = person
+            cell.getProfile()
+            return cell
+        case .sharedWith:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCollectionViewCell
+            let person = sharedWith[indexPath.row]
+            cell.email = person
+            cell.getProfile()
+            return cell
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let section = sharingSection(rawValue: indexPath.section) else {return}
+        switch section {
+        case .availableFriends:
+            let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
+            shareToProfile = cell.email
+            
+            
+        case .sharedWith:
+            print("Unshare")
+        // Action sheet to unshare
+        }
+    }
+    
+    
 }

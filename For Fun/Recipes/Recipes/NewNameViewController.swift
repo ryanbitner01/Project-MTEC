@@ -12,6 +12,7 @@ class NewNameViewController: UIViewController {
     @IBOutlet weak var newNameTF: UITextField!
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var nameLabel: UILabel!
     
     var displayNameIsValid = true
     
@@ -19,10 +20,14 @@ class NewNameViewController: UIViewController {
         super.viewDidLoad()
         checkText()
         updateSaveButtonState()
+        updateNameLabel()
         // Do any additional setup after loading the view.
     }
     
-    
+    func updateNameLabel() {
+        guard let name = UserControllerAuth.shared.user?.displayName else {return}
+        nameLabel.text = "Display Name: " + name
+    }
     
     func checkText() {
         UserControllerAuth.shared.getAllDisplayNames { result in

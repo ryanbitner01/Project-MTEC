@@ -165,8 +165,12 @@ class BookController {
         if book.imageURL != " " {
             deleteBookImage(book: book)
         }
-        for recipe in book.recipes {
-            RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
+        for user in book.sharedUsers {
+            self.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
+                if let err = err {
+                    print(err.localizedDescription)
+                }
+            }
         }
         path.document(book.id.uuidString).delete { err in
             if err != nil {
