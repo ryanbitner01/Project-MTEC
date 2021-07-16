@@ -12,6 +12,7 @@ class BooksViewController: UIViewController {
     enum Section: Int, CaseIterable {
         case notShared
         case shared
+        case pendingShare
     }
     
     @IBOutlet weak var bookCollectionView: UICollectionView!
@@ -21,14 +22,26 @@ class BooksViewController: UIViewController {
         bookCollectionView.dataSource = self
         bookCollectionView.delegate = self
         getRecipeBooks()
+        getShareRequests()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getSharedbook()
+        getSharedBook()
     }
     
-    func getSharedbook() {
+    func getShareRequests() {
+        SharingController.shared.getShareRequests { result in
+            if let result = result {
+                UserControllerAuth.shared.user?.shareRequests = result
+                DispatchQueue.main.async {
+                    self.bookCollectionView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func getSharedBook() {
         guard let user = UserControllerAuth.shared.user else {return}
         BookController.shared.getBooks(user: user, path: .sharedAlbum) { result in
             switch result {
@@ -137,7 +150,7 @@ class BooksViewController: UIViewController {
 extension BooksViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     
@@ -150,6 +163,8 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return UserControllerAuth.shared.user?.album.count ?? 0
         case .shared:
             return UserControllerAuth.shared.user?.sharedAlbum.count ?? 0
+        case .pendingShare:
+            return UserControllerAuth.shared.user?.shareRequests.count ?? 0
         }
     }
     
@@ -169,6 +184,12 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
             cell.book = book
             cell.updateCell()
             return cell
+        case .pendingShare:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookShareCell", for: indexPath) as! BookShareCell
+            let request = UserControllerAuth.shared.user?.shareRequests[indexPath.row]
+            cell.bookShareRequest = request
+            cell.updateCell()
+            return cell
         }
         
     }
@@ -181,9 +202,33 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
             sectionHeader.sectionTitleLabel.text = "My Books"
         case .shared:
             sectionHeader.sectionTitleLabel.text = "Friends Books"
+        case .pendingShare:
+            if UserControllerAuth.shared.user?.shareRequests.count != 0 {
+                sectionHeader.sectionTitleLabel.text = "Share Requests"
+            } else {
+                sectionHeader.sectionTitleLabel.text = ""
+            }
         }
         return sectionHeader
     }
     
     
+}
+
+extension Data {
+    func prettyPrintedJSONString() {
+        guard
+            let jsonObject = try?
+               JSONSerialization.jsonObject(with: self,
+               options: []),
+            let jsonData = try?
+               JSONSerialization.data(withJSONObject:
+               jsonObject, options: [.prettyPrinted]),
+            let prettyJSONString = String(data: jsonData,
+               encoding: .utf8) else {
+                print("Failed to read JSON Object.")
+                return
+        }
+        print(prettyJSONString)
+    }
 }

@@ -15,6 +15,8 @@
 		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
 		1E39761A26822A4A00F72F0D /* SharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761926822A4A00F72F0D /* SharingController.swift */; };
 		1E39761C2683725F00F72F0D /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761B2683725F00F72F0D /* MigrationController.swift */; };
+		1E3FF14826A1C83100A8D019 /* SentBookShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3FF14726A1C83100A8D019 /* SentBookShareRequest.swift */; };
+		1E3FF14A26A1E43A00A8D019 /* BookShareCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3FF14926A1E43A00A8D019 /* BookShareCell.swift */; };
 		1E4D21822695FCD500622E95 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4D21812695FCD500622E95 /* CircleImageView.swift */; };
 		1E5BD55B268B63AD004BF3BA /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BD55A268B63AD004BF3BA /* PersonTableViewCell.swift */; };
 		1E64720D264AF98C00A99E18 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E64720C264AF98C00A99E18 /* RecipeCell.swift */; };
@@ -71,6 +73,8 @@
 		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1E39761926822A4A00F72F0D /* SharingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingController.swift; sourceTree = "<group>"; };
 		1E39761B2683725F00F72F0D /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
+		1E3FF14726A1C83100A8D019 /* SentBookShareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentBookShareRequest.swift; sourceTree = "<group>"; };
+		1E3FF14926A1E43A00A8D019 /* BookShareCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShareCell.swift; sourceTree = "<group>"; };
 		1E4D21812695FCD500622E95 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		1E5BD55A268B63AD004BF3BA /* PersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonTableViewCell.swift; path = Recipes/PersonTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		1E64720C264AF98C00A99E18 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 				1EBA7859268B6C3700F6F07A /* User.swift */,
 				1E0C9BC7268CC8F2004D724F /* Profile.swift */,
 				1E340A2D26A0826100A65C09 /* BookShareRequest.swift */,
+				1E3FF14726A1C83100A8D019 /* SentBookShareRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 				1ED067852666973600A86F12 /* IngredientCell.swift */,
 				1ED067872669128600A86F12 /* IngredientCellEdit.swift */,
 				1ED067892669137700A86F12 /* StepCellEdit.swift */,
+				1E3FF14926A1E43A00A8D019 /* BookShareCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -393,12 +399,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ED067882669128600A86F12 /* IngredientCellEdit.swift in Sources */,
+				1E3FF14826A1C83100A8D019 /* SentBookShareRequest.swift in Sources */,
 				1E9C8CCA268385F500A49D0F /* AccountDetailViewController.swift in Sources */,
 				1E647215264ED84A00A99E18 /* CreateRecipeViewController.swift in Sources */,
 				1E39761A26822A4A00F72F0D /* SharingController.swift in Sources */,
 				1E647213264CD82A00A99E18 /* UserControllerAuth.swift in Sources */,
 				1EFB1D4F25F92836004B87DB /* AppDelegate.swift in Sources */,
 				1EB96F082647893B007B6236 /* BookCell.swift in Sources */,
+				1E3FF14A26A1E43A00A8D019 /* BookShareCell.swift in Sources */,
 				1E64720D264AF98C00A99E18 /* RecipeCell.swift in Sources */,
 				1E340A2E26A0826100A65C09 /* BookShareRequest.swift in Sources */,
 				1E64720F264AFABD00A99E18 /* RecipeController.swift in Sources */,

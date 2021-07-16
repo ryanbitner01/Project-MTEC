@@ -54,7 +54,9 @@ class PersonTableViewCell: UITableViewCell {
             case .success(let image):
                 DispatchQueue.main.async {
                     self.profile?.image = image
-                    self.personImage.image = self.profile?.image
+                    if let imageData = self.profile?.image {
+                        self.personImage.image = UIImage(data: imageData)
+                    }
                 }
             case .failure(let err):
                 print(err.localizedDescription)

@@ -36,7 +36,9 @@ class PersonCollectionViewCell: UICollectionViewCell {
             case .success(let data):
                 DispatchQueue.main.async {
                     self.profile?.image = data
-                    self.personImageView.image = self.profile?.image
+                    if let data = profile.image {
+                        self.personImageView.image = UIImage(data: data)
+                    }
                 }
             case .failure(let err):
                 print(err)

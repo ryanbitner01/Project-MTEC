@@ -195,11 +195,11 @@ class UserControllerAuth {
         }
     }
     
-    func getProfilePic(profile: Profile?, completion: @escaping (Result<UIImage, UserControllerError>) -> Void) {
+    func getProfilePic(profile: Profile?, completion: @escaping (Result<Data, UserControllerError>) -> Void) {
         if let profile = profile {
             let url = URL(string: profile.imageURL)
-            guard let url = url, let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {return completion(.failure(.noProfilePic))}
-            completion(.success(image))
+            guard let url = url, let imageData = try? Data(contentsOf: url) else {return completion(.failure(.noProfilePic))}
+            completion(.success(imageData))
         } else {
             completion(.failure(.otherErr))
         }

@@ -17,9 +17,9 @@ class ShareBookViewController: UIViewController {
     var availableFriends: [String] = []
     var sharedWith: [String] = []
     
-    var shareToProfile: String?
+    var shareToProfile: Profile?
     
-    enum sharingSection: Int, CaseIterable {
+    enum SharingSection: Int, CaseIterable {
         case availableFriends
         case sharedWith
     }
@@ -49,11 +49,23 @@ class ShareBookViewController: UIViewController {
         getAvailableShare()
     }
     
+    func getPendingShare() {
+        SharingController.shared.getSentShareRequests { requests in
+            if let requests = requests {
+                UserControllerAuth.shared.user?.shareRequestsSent = requests
+                DispatchQueue.main.async {
+                    self.setupPeople()
+                    self.sharingCollectionView.reloadData()
+                }
+            }
+        }
+    }
+    
     func getAvailableShare() {
-        guard let profile = UserControllerAuth.shared.profile else {return}
+        guard let profile = UserControllerAuth.shared.profile, let sentShared = UserControllerAuth.shared.user?.shareRequestsSent else {return}
         let friends = profile.friends
         availableFriends = friends.compactMap({user -> String? in
-            if sharedWith.contains(user) {
+            if sharedWith.contains(user) ||  sentShared.contains( {
                 return nil
             } else {
                 return user
@@ -97,14 +109,6 @@ class ShareBookViewController: UIViewController {
         }
     }
     
-    @IBAction func shareBookPressed(_ sender: Any) {
-        if shareToProfile != nil {
-            shareBook()
-        } else {
-            showAlert(message: .noUser)
-        }
-    }
-    
     func showAlert(message: SharingError) {
         alertLabel.isHidden = false
         alertLabel.text = message.localizedDescription
@@ -114,8 +118,8 @@ class ShareBookViewController: UIViewController {
         alertLabel.isHidden = true
     }
     
-    func shareBook() {
-        guard let book = book, let profile = UserControllerAuth.shared.profile else {return}
+    func shareBook(profile: Profile) {
+        guard let book = book else {return}
         SharingController.shared.sendShareRequest(book: book, profile: profile) { err in
             if let err = err {
                 DispatchQueue.main.async {
@@ -160,7 +164,9 @@ class ShareBookViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         let shareAction = UIAlertAction(title: "Share", style: .default, handler: {action in
-            self.shareBook()
+            guard let profile = cell.profile else {return}
+            self.shareBook(profile: profile)
+            self.navigationController?.popViewController(animated: true)
         })
         alertController.addAction(shareAction)
         present(alertController, animated: true, completion: nil)
@@ -176,7 +182,7 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let section = sharingSection(rawValue: section) else {return 0}
+        guard let section = SharingSection(rawValue: section) else {return 0}
         switch section {
         case .availableFriends:
             return availableFriends.count
@@ -186,7 +192,7 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let section = sharingSection(rawValue: indexPath.section) else {return UICollectionViewCell()}
+        guard let section = SharingSection(rawValue: indexPath.section) else {return UICollectionViewCell()}
         switch section {
         case .availableFriends:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCollectionViewCell
@@ -205,18 +211,31 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let section = sharingSection(rawValue: indexPath.section) else {return}
+        guard let section = SharingSection(rawValue: indexPath.section) else {return}
         switch section {
         case .availableFriends:
             let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
-            shareToProfile = cell.email
-            
+            guard let shareToProfile = cell.profile else {return}
+            displaySharingAlertController(user: shareToProfile.email, cell: cell)
             
         case .sharedWith:
             print("Unshare")
         // Action sheet to unshare
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = SharingSection(rawValue: indexPath.section)!
+        let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionHeader
+        switch section {
+        case .availableFriends:
+            sectionHeader.sectionTitleLabel.text = "Available Friends"
+        case .sharedWith:
+            sectionHeader.sectionTitleLabel.text = "Shared With"
+        }
+        return sectionHeader
+    }
+
     
     
 }

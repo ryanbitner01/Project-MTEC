@@ -46,7 +46,9 @@ class ProfileSnapshotViewController: UIViewController {
     func setupUI() {
         profileView.layer.cornerRadius = 25
         nameLabel.text = profile?.name
-        profileImage.image = profile?.image
+        if let imageData = profile?.image {
+            profileImage.image = UIImage(data: imageData)
+        }
         updateStatus()
         updateRequestButton()
     }

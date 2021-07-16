@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self.profileImageView.image = data
+                    self.profileImageView.image = UIImage(data: data)
                 }
             case .failure(let err):
                 print(err)

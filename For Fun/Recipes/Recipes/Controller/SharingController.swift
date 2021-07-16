@@ -40,6 +40,69 @@ class SharingController {
         
     }
     
+    func getSentShareRequests(completion: @escaping ([SentBookShareRequest]?) -> Void) {
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        path.document("SentBookShareRequests").addSnapshotListener { doc, err in
+            if let doc = doc {
+                guard let docData = doc.data(),
+                      let requests = docData["Requests"] as? [Any] else {return}
+                let shareRequests = requests.compactMap { request -> SentBookShareRequest? in
+                    let jsonDecoder = JSONDecoder()
+                    if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
+                        do {
+                            let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
+                            return result
+                        } catch {
+                            print(error)
+                            return nil
+                        }
+                    } else {
+                        return nil
+                    }
+                }
+                completion(shareRequests)
+            } else if let err = err {
+                print(err.localizedDescription)
+                completion(nil)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func getShareRequests(completion: @escaping ([BookShareRequest]?) -> Void) {
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        path.document("BookShareRequests").addSnapshotListener { doc, err in
+            if let doc = doc {
+                guard let docData = doc.data(),
+                      let requests = docData["Requests"] as? [Any] else {return}
+                let shareRequests = requests.compactMap({ request -> BookShareRequest? in
+                    let jsonDecoder = JSONDecoder()
+                    if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
+                        print(data.prettyPrintedJSONString())
+                        do {
+                            let result = try jsonDecoder.decode(BookShareRequest.self, from: data)
+                            print(data.prettyPrintedJSONString())
+                            print(result)
+                            return result
+                        } catch {
+                            print(error.localizedDescription)
+                            return nil
+                        }
+                    } else {
+                        return nil
+                    }
+                })
+                completion(shareRequests)
+            } else if let err = err {
+                print(err.localizedDescription)
+                completion(nil)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
     func getUserPath() -> CollectionReference? {
         if testingEnabled {
             return db.collection("TestUsers")
@@ -80,9 +143,11 @@ class SharingController {
     
     func sendShareRequest(book: Book, profile: Profile, completion: @escaping (SharingError?) -> Void) {
         
+        guard let selfUser = UserControllerAuth.shared.user else {return}
+        
         let owner: [String: Any] = [
-            "Name": profile.name,
-            "imageURL": profile.imageURL
+            "Name": selfUser.id,
+            "imageURL": selfUser.imageURL
         ]
         
         let request: [String: Any] = [
@@ -95,6 +160,19 @@ class SharingController {
         // Send Request to other user
         path.document("BookShareRequests").setData([
             "Requests": FieldValue.arrayUnion([request])
+        ], mergeFields: [
+            "Requests"
+        ])
+                
+        let sentRequest: [String: Any] = [
+            "BookName": book.name,
+            "User": profile.email
+        ]
+        
+        // Update Sent Requests
+        guard let selfPath = getPath(path: .sharedAlbum, email: nil) else {return}
+        selfPath.document("SentBookShareRequests").setData([
+            "Requests": FieldValue.arrayUnion([sentRequest])
         ], mergeFields: [
             "Requests"
         ])
