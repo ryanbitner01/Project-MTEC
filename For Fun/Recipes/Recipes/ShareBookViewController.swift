@@ -65,7 +65,7 @@ class ShareBookViewController: UIViewController {
         guard let profile = UserControllerAuth.shared.profile, let sentShared = UserControllerAuth.shared.user?.shareRequestsSent else {return}
         let friends = profile.friends
         availableFriends = friends.compactMap({user -> String? in
-            if sharedWith.contains(user) ||  sentShared.contains( {
+            if sharedWith.contains(user) {
                 return nil
             } else {
                 return user
@@ -157,8 +157,8 @@ class ShareBookViewController: UIViewController {
         }
     }
     
-    func displaySharingAlertController(user: String, cell: PersonCollectionViewCell) {
-        let alertController = UIAlertController(title: "Share With User \(user)", message: "Would you like to share with this user?", preferredStyle: .actionSheet)
+    func displaySharingAlertController(user: Profile, cell: PersonCollectionViewCell) {
+        let alertController = UIAlertController(title: "Share with user", message: "Would you like to share with \(user.name)?", preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
@@ -216,7 +216,7 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
         case .availableFriends:
             let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
             guard let shareToProfile = cell.profile else {return}
-            displaySharingAlertController(user: shareToProfile.email, cell: cell)
+            displaySharingAlertController(user: shareToProfile, cell: cell)
             
         case .sharedWith:
             print("Unshare")

@@ -25,7 +25,7 @@ class RequestViewController: UIViewController {
     
     func updateUI() {
         nameLabel.text = profile?.name
-        if let imageData = profile?.image {
+        if let imageURL = profile?.imageURL, let url = URL(string: imageURL), let imageData = try? Data(contentsOf: url) {
             profilePic.image = UIImage(data: imageData)
         }
         requestView.layer.cornerRadius = 25
