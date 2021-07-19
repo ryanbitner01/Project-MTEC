@@ -414,8 +414,8 @@
             filePath = "Recipes/ShareBookViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -593,6 +593,70 @@
             startingLineNumber = "174"
             endingLineNumber = "174"
             landmarkName = "sendShareRequest(book:profile:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09502A7E-AA0E-4F05-B44F-42FB5941C170"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Recipes/ShareBookViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "getAvailableShare()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "09502A7E-AA0E-4F05-B44F-42FB5941C170 - b5cfbf5559f066f5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String) -&gt; Swift.Optional&lt;Swift.String&gt; in Recipes.ShareBookViewController.getAvailableShare() -&gt; ()"
+                  moduleName = "Recipes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/ShareBookViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "09502A7E-AA0E-4F05-B44F-42FB5941C170 - f8ce08dd18120653"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Recipes.SentBookShareRequest) -&gt; Swift.Bool in implicit closure #1 () throws -&gt; Swift.Bool in closure #1 (Swift.String) -&gt; Swift.Optional&lt;Swift.String&gt; in Recipes.ShareBookViewController.getAvailableShare() -&gt; ()"
+                  moduleName = "Recipes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/ShareBookViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9062A08A-97ED-4A97-A3D9-2B930E9F477C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Recipes/ShareBookViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "getPendingShare()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

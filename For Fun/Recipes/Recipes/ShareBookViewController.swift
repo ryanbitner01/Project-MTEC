@@ -41,12 +41,14 @@ class ShareBookViewController: UIViewController {
         hideAlert()
         setupBookImage()
         setupPeople()
+        getPendingShare()
         // Do any additional setup after loading the view.
     }
     
     func setupPeople() {
         getSharedWith()
         getAvailableShare()
+        sharingCollectionView.reloadData()
     }
     
     func getPendingShare() {
@@ -65,7 +67,7 @@ class ShareBookViewController: UIViewController {
         guard let profile = UserControllerAuth.shared.profile, let sentShared = UserControllerAuth.shared.user?.shareRequestsSent else {return}
         let friends = profile.friends
         availableFriends = friends.compactMap({user -> String? in
-            if sharedWith.contains(user) {
+            if let book = book, sharedWith.contains(user) || sentShared.contains(where: {$0.user == user && $0.bookName == book.name}) {
                 return nil
             } else {
                 return user
