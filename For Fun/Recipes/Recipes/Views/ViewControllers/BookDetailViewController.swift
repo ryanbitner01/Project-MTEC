@@ -19,6 +19,8 @@ class BookDetailViewController: UIViewController {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var deleteStackView: UIStackView!
+    @IBOutlet weak var addStack: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,10 +66,10 @@ class BookDetailViewController: UIViewController {
         guard let book = book else {return}
         let owner = BookController.shared.isOwner(book: book)
         if !owner {
-            deleteButton.isHidden = true
+            deleteStackView.isHidden = true
             shareButton.isHidden = true
             editButton.isHidden = true
-            addButton.isHidden = true
+            addStack.isHidden = true
         }
     }
     

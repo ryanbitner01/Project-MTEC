@@ -14,6 +14,7 @@ class RecipeDetailViewController: UIViewController {
         case steps
     }
     
+    @IBOutlet weak var deleteStack: UIStackView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
@@ -51,7 +52,7 @@ class RecipeDetailViewController: UIViewController {
         guard let book = book else {return}
         let owner = BookController.shared.isOwner(book: book)
         if !owner {
-            deleteButton.isHidden = true
+            deleteStack.isHidden = true
             editButton.isHidden = true
         }
     }

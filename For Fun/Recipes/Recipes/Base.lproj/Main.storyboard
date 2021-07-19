@@ -771,8 +771,10 @@
                     <navigationItem key="navigationItem" id="hsR-6p-85D"/>
                     <connections>
                         <outlet property="addButton" destination="qKa-Lk-s90" id="5Bx-k9-JY8"/>
+                        <outlet property="addStack" destination="Oyv-3T-NLO" id="9ob-Wl-Hs6"/>
                         <outlet property="bookNameLabel" destination="uY7-kl-vo2" id="kXB-Kh-p8J"/>
                         <outlet property="deleteButton" destination="cUr-Po-KU2" id="Pgg-5d-ofX"/>
+                        <outlet property="deleteStackView" destination="Qaz-S9-1bI" id="xGl-OD-xqb"/>
                         <outlet property="editButton" destination="J5V-SB-EYN" id="by0-qz-0Do"/>
                         <outlet property="imageView" destination="J1I-wa-6sf" id="Baf-DH-52S"/>
                         <outlet property="recipeCollectionView" destination="hHw-3q-qra" id="Qht-tJ-0sk"/>
@@ -943,6 +945,7 @@
                     <connections>
                         <outlet property="contentTableView" destination="KWA-1H-OI6" id="uMY-VU-ohf"/>
                         <outlet property="deleteButton" destination="IZp-B1-erB" id="cXs-Yt-Bq9"/>
+                        <outlet property="deleteStack" destination="Cht-W0-mS5" id="vSi-vc-yTJ"/>
                         <outlet property="editButton" destination="XWg-pH-dIv" id="3Pt-lN-7jb"/>
                         <outlet property="nameLabel" destination="SDG-bW-1QS" id="7Vo-IM-yhO"/>
                         <outlet property="recipeImageView" destination="tG4-wV-sOK" id="7Uo-4x-UCc"/>
