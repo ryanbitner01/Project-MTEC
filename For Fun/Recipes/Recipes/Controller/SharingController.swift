@@ -40,8 +40,21 @@ class SharingController {
         
     }
     
-    func getSentShareRequests(completion: @escaping ([SentBookShareRequest]?) -> Void) {
+    func revokeShareRequest(profile: Profile, request: SentBookShareRequest) {
+        
+        let sentRequest: [String: Any] = [
+            "BookName": request.bookName,
+            "User": request.user
+        ]
+        
         guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        path.document("SentBookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([sentRequest])
+        ])
+    }
+    
+    func getSentShareRequests(completion: @escaping ([SentBookShareRequest]?) -> Void) {
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {return completion(nil)}
         path.document("SentBookShareRequests").addSnapshotListener { doc, err in
             if let doc = doc {
                 guard let docData = doc.data(),

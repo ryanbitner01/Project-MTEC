@@ -22,9 +22,15 @@ class ShareBookViewController: UIViewController {
     enum SharingSection: Int, CaseIterable {
         case availableFriends
         case sharedWith
+        case pendingShare
     }
     
     var book: Book?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getPendingShare()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +47,6 @@ class ShareBookViewController: UIViewController {
         hideAlert()
         setupBookImage()
         setupPeople()
-        getPendingShare()
         // Do any additional setup after loading the view.
     }
     
@@ -55,6 +60,11 @@ class ShareBookViewController: UIViewController {
         SharingController.shared.getSentShareRequests { requests in
             if let requests = requests {
                 UserControllerAuth.shared.user?.shareRequestsSent = requests
+                DispatchQueue.main.async {
+                    self.setupPeople()
+                    self.sharingCollectionView.reloadData()
+                }
+            } else {
                 DispatchQueue.main.async {
                     self.setupPeople()
                     self.sharingCollectionView.reloadData()
@@ -159,6 +169,26 @@ class ShareBookViewController: UIViewController {
         }
     }
     
+    func revokeRequest(profile: Profile) {
+        
+    }
+    
+    func displayCancelShareAlertController(user: Profile, cell: PersonCollectionViewCell) {
+        let alertController = UIAlertController(title: "Cancel Share", message: "Are you sure you would like to revoke your share request with \(user.name)?", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let shareAction = UIAlertAction(title: "Revoke", style: .destructive, handler: {action in
+            guard let profile = cell.profile else {return}
+            self.revokeRequest(profile: profile)
+        })
+        alertController.addAction(shareAction)
+        present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = cell
+        alertController.popoverPresentationController?.sourceRect = cell.bounds
+    }
+    
     func displaySharingAlertController(user: Profile, cell: PersonCollectionViewCell) {
         let alertController = UIAlertController(title: "Share with user", message: "Would you like to share with \(user.name)?", preferredStyle: .actionSheet)
         
@@ -180,7 +210,7 @@ class ShareBookViewController: UIViewController {
 extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -190,6 +220,8 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
             return availableFriends.count
         case .sharedWith:
             return sharedWith.count
+        case .pendingShare:
+            return UserControllerAuth.shared.user?.shareRequestsSent.count ?? 0
         }
     }
     
@@ -208,8 +240,17 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
             cell.email = person
             cell.getProfile()
             return cell
+        case .pendingShare:
+            if let pendingShare = UserControllerAuth.shared.user?.shareRequestsSent {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCollectionViewCell
+                let person = pendingShare[indexPath.row]
+                cell.email = person.user
+                cell.getProfile()
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -219,10 +260,11 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
             let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
             guard let shareToProfile = cell.profile else {return}
             displaySharingAlertController(user: shareToProfile, cell: cell)
-            
         case .sharedWith:
             print("Unshare")
         // Action sheet to unshare
+        case .pendingShare:
+            return
         }
     }
     
@@ -231,10 +273,25 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
         let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! SectionHeader
         switch section {
         case .availableFriends:
-            sectionHeader.sectionTitleLabel.text = "Available Friends"
+            if availableFriends.count == 0 {
+                sectionHeader.sectionTitleLabel.text = ""
+            } else {
+                sectionHeader.sectionTitleLabel.text = "Available Friends"
+            }
         case .sharedWith:
-            sectionHeader.sectionTitleLabel.text = "Shared With"
+            if sharedWith.count == 0 {
+                sectionHeader.sectionTitleLabel.text = ""
+            } else {
+                sectionHeader.sectionTitleLabel.text = "Shared With"
+            }
+        case .pendingShare:
+            if let pendingShare = UserControllerAuth.shared.user?.shareRequestsSent, pendingShare.count == 0 {
+                sectionHeader.sectionTitleLabel.text = ""
+            } else {
+                sectionHeader.sectionTitleLabel.text = "Pending Share"
+            }
         }
+        
         return sectionHeader
     }
 

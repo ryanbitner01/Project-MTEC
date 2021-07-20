@@ -319,7 +319,7 @@
             <objects>
                 <viewController id="vwF-Wp-K7N" customClass="RequestViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xO5-if-VDM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mb5-Mn-KkY">
@@ -371,6 +371,7 @@
                                             <color key="titleColor" name="Red"/>
                                         </state>
                                         <connections>
+                                            <action selector="closePressed:" destination="vwF-Wp-K7N" eventType="touchUpInside" id="MSU-WM-krc"/>
                                             <action selector="closePressed:" destination="qLL-Ch-7pL" eventType="touchUpInside" id="fKT-LO-E9p"/>
                                         </connections>
                                     </button>
@@ -419,7 +420,7 @@
             <objects>
                 <viewController id="qLL-Ch-7pL" customClass="ProfileSnapshotViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0j8-hg-kgh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w2l-cy-s8c">
@@ -883,21 +884,21 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PersonCell" id="2mF-c3-6Yy" customClass="PersonCollectionViewCell" customModule="Recipes" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="128" height="180"/>
+                                        <rect key="frame" x="0.0" y="50" width="100" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UL1-UC-v3D">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="180"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="120"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2i7-ci-DBI" customClass="CircleImageView" customModule="Recipes" customModuleProvider="target">
-                                                    <rect key="frame" x="5" y="5.5" width="118" height="117"/>
+                                                    <rect key="frame" x="5" y="5.5" width="90" height="89"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="2i7-ci-DBI" secondAttribute="height" id="DJX-5S-kR3"/>
                                                         <constraint firstAttribute="height" constant="90" id="vMR-P2-V0z"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jY-E1-k7w">
-                                                    <rect key="frame" x="0.0" y="131" width="128" height="49"/>
+                                                    <rect key="frame" x="0.0" y="103" width="100" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -913,7 +914,6 @@
                                                 <constraint firstItem="2i7-ci-DBI" firstAttribute="top" secondItem="UL1-UC-v3D" secondAttribute="top" constant="5" id="uiG-XN-hsT"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="128" height="180"/>
                                         <connections>
                                             <outlet property="nameLabel" destination="1jY-E1-k7w" id="Rjf-vT-YTe"/>
                                             <outlet property="personImageView" destination="2i7-ci-DBI" id="Ybw-pw-HOK"/>
@@ -2029,21 +2029,21 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PersonCell" id="tXI-do-lUq" customClass="PersonCollectionViewCell" customModule="Recipes" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="128" height="180"/>
+                                        <rect key="frame" x="0.0" y="50" width="100" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="6dn-qz-R3r">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="180"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="103"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uik-rY-alM" customClass="CircleImageView" customModule="Recipes" customModuleProvider="target">
-                                                    <rect key="frame" x="5" y="5.5" width="118" height="117"/>
+                                                    <rect key="frame" x="5" y="5.5" width="90" height="89"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="90" id="BVt-Xk-E9v"/>
                                                         <constraint firstAttribute="width" secondItem="uik-rY-alM" secondAttribute="height" id="x1v-gg-JgB"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-dF-2Cv">
-                                                    <rect key="frame" x="0.0" y="131" width="128" height="49"/>
+                                                    <rect key="frame" x="0.0" y="103" width="100" height="0.0"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2059,7 +2059,6 @@
                                                 <constraint firstItem="LKf-dF-2Cv" firstAttribute="top" secondItem="uik-rY-alM" secondAttribute="bottom" constant="8" symbolic="YES" id="rv4-oJ-YUO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="128" height="180"/>
                                         <connections>
                                             <outlet property="nameLabel" destination="LKf-dF-2Cv" id="jru-92-bKV"/>
                                             <outlet property="personImageView" destination="uik-rY-alM" id="25e-cN-PF7"/>
