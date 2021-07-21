@@ -170,7 +170,8 @@ class ShareBookViewController: UIViewController {
     }
     
     func revokeRequest(profile: Profile) {
-        
+        guard let request = UserControllerAuth.shared.user?.shareRequestsSent.first(where: {$0.bookName == book?.name && $0.user == profile.email}) else {return print("No request Found")}
+        SharingController.shared.revokeShareRequest(profile: profile, request: request)
     }
     
     func displayCancelShareAlertController(user: Profile, cell: PersonCollectionViewCell) {
@@ -264,7 +265,10 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
             print("Unshare")
         // Action sheet to unshare
         case .pendingShare:
-            return
+            let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
+            if let profile = cell.profile {
+                displayCancelShareAlertController(user: profile, cell: cell)
+            }
         }
     }
     

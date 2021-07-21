@@ -47,9 +47,30 @@ class SharingController {
             "User": request.user
         ]
         
+        //Remove sent request
+        
         guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
         path.document("SentBookShareRequests").updateData([
             "Requests": FieldValue.arrayRemove([sentRequest])
+        ])
+        
+        //Remove request
+        
+        let owner: [String: Any] = [
+            "Name": selfUser.id,
+            "imageURL": selfUser.imageURL
+        ]
+        
+        let otherRequest: [String: Any] = [
+            "bookName": book.name,
+            "bookImage": book.imageURL ?? "",
+            "bookColor": book.bookColor,
+            "bookOwner": owner
+        ]
+        
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email)
+        path.document("SentBookShareRequests").updateData([
+            
         ])
     }
     
