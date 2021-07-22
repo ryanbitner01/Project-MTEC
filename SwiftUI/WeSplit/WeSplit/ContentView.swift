@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+struct LargeBlueFont: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.blue)
+    }
+}
+
+extension View {
+    func fontStyleBlue() -> some View {
+        self.modifier(LargeBlueFont())
+    }
+}
+
+
 struct ContentView: View {
     
     @State private var checkAmount = ""
@@ -64,6 +80,7 @@ struct ContentView: View {
                 
                 Section(header: Text("Grand Total")) {
                     Text("$\(grandTotal, specifier: "%.2f")")
+                        .background(tipPercentage == 4 ? Color.red : Color.white)
                 }
             }
             .navigationBarTitle("We Split")
