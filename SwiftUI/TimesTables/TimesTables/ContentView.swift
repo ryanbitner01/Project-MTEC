@@ -9,21 +9,27 @@ import SwiftUI
 
 struct Controls: View {
     @Binding var practiceNumber: Double
+    @Binding var numberOfRounds: Int
     var body: some View {
         VStack {
             Stepper("Practice my times by \(practiceNumber, specifier: "%.0f")'s", value: $practiceNumber, in: 0...12)
                 .padding(15)
+            Stepper("Number of Questions \(numberOfRounds)", value: $numberOfRounds, in: 0...25)
         }
     }
 }
 
 struct Game: View {
     
+    @Binding var isShowingControls: Bool
+    @State var isShowingEndOfGame = false
     @State var animationAmount = true
     @State var practiceNumber: Double
     @State var answer = ""
     @State var score = 0
     @State var isCorrect = true
+    @Binding var round: Int
+    @State var numberOfRounds: Int
 
     @State private var mulipliedBy = Int.random(in: 0...12)
     
@@ -57,8 +63,21 @@ struct Game: View {
             .clipShape(Capsule())
             
             Text("Score: \(score)")
+            Text("Question \(round)/\(numberOfRounds)")
         }
         .padding()
+        .alert(isPresented: $isShowingEndOfGame, content: {
+            Alert(title: Text("End of Game"),
+                  message: Text("Your score was \(score), great job!"),
+                  dismissButton: .default(Text("Restart"), action: newGame))
+        })
+    }
+    
+    func newGame() {
+        score = 0
+        round = 0
+        numberOfRounds = 0
+        isShowingControls = true
     }
     
     func scoreAnswer() {
@@ -75,6 +94,11 @@ struct Game: View {
     }
     
     func newRound() {
+        round += 1
+        if round > numberOfRounds {
+            isShowingEndOfGame = true
+            return
+        }
         withAnimation(.spring()) {
             animationAmount.toggle()
             mulipliedBy = Int.random(in: 0...12)
@@ -88,6 +112,8 @@ struct Game: View {
 struct ContentView: View {
     @State private var practiceNumber = 0.0
     @State private var isShowingControls = true
+    @State private var numberOfRounds = 0
+    @State private var round = 1
     
     var multipliedBy: [Double] {
         var empty: [Double] = []
@@ -101,9 +127,9 @@ struct ContentView: View {
         VStack(spacing: 20) {
             Spacer()
             if isShowingControls {
-                Controls(practiceNumber: $practiceNumber)
+                Controls(practiceNumber: $practiceNumber, numberOfRounds: $numberOfRounds)
             } else {
-                Game(practiceNumber: practiceNumber)
+                Game(isShowingControls: $isShowingControls, practiceNumber: practiceNumber, round: $round, numberOfRounds: numberOfRounds)
             }
             
             Spacer()
