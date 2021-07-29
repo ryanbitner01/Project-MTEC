@@ -170,8 +170,8 @@ class ShareBookViewController: UIViewController {
     }
     
     func revokeRequest(profile: Profile) {
-        guard let request = UserControllerAuth.shared.user?.shareRequestsSent.first(where: {$0.bookName == book?.name && $0.user == profile.email}) else {return print("No request Found")}
-        SharingController.shared.revokeShareRequest(profile: profile, request: request)
+        guard let request = UserControllerAuth.shared.user?.shareRequestsSent.first(where: {$0.bookName == book?.name && $0.user == profile.email}), let book = book else {return print("No request Found")}
+        SharingController.shared.revokeShareRequest(profile: profile, request: request, book: book)
     }
     
     func displayCancelShareAlertController(user: Profile, cell: PersonCollectionViewCell) {

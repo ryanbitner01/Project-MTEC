@@ -40,7 +40,7 @@ class SharingController {
         
     }
     
-    func revokeShareRequest(profile: Profile, request: SentBookShareRequest) {
+    func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {
         
         let sentRequest: [String: Any] = [
             "BookName": request.bookName,
@@ -55,7 +55,8 @@ class SharingController {
         ])
         
         //Remove request
-        
+        guard let selfUser = UserControllerAuth.shared.user else {return}
+
         let owner: [String: Any] = [
             "Name": selfUser.id,
             "imageURL": selfUser.imageURL
@@ -68,9 +69,9 @@ class SharingController {
             "bookOwner": owner
         ]
         
-        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email)
-        path.document("SentBookShareRequests").updateData([
-            
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
+        otherPath.document("BookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([otherRequest])
         ])
     }
     
