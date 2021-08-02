@@ -15,22 +15,22 @@ class BookShareCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
     func updateCell() {
-        label.text = bookShareRequest?.name
+        label.text = bookShareRequest?.book?.name
         setupImageView()
         //print(book?.bookColor)
     }
     
     func setupImageView() {
-        if let image = bookShareRequest?.imageURL {
+        if let image = bookShareRequest?.book?.imageURL {
             guard let imageURL = URL(string: image), let imageData = try? Data(contentsOf: imageURL) else {return}
             imageView.image = UIImage(data: imageData)
             imageView.layer.cornerRadius = 25
         } else {
-            guard let imageUrl = bookShareRequest?.imageURL, imageUrl != "" else {
-                label.text = bookShareRequest?.name
+            guard let imageUrl = bookShareRequest?.book?.imageURL, imageUrl != "" else {
+                label.text = bookShareRequest?.book?.name
                 imageView.image = UIImage(systemName: "book.closed.fill")
-                if let book = bookShareRequest {
-                    let color = UIColor(named: book.color)
+                if let book = bookShareRequest?.book {
+                    let color = UIColor(named: book.bookColor)
                     imageView.tintColor = color
                     return
                 } else {

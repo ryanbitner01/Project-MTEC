@@ -5,49 +5,61 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            uuid = "C5697FF0-7199-4B99-A8C1-0D138E3F84AF"
-            shouldBeEnabled = "No"
+            uuid = "7CB293F0-416B-4FBA-80F3-16D25D1BCC94"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Recipes/ShareBookViewController.swift"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4534FCAB-1F4D-403F-A1F4-D2E188DFC3D9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Recipes/Controller/SharingController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "revokeRequest(profile:)"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "getShareRequests(completion:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "C5697FF0-7199-4B99-A8C1-0D138E3F84AF - 126e137d09f84792"
+                  uuid = "4534FCAB-1F4D-403F-A1F4-D2E188DFC3D9 - bb99bec860e64327"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Recipes.ShareBookViewController.revokeRequest(profile: Recipes.Profile) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Recipes.SharingController.getShareRequests(completion: (Swift.Optional&lt;Swift.Array&lt;Recipes.BookShareRequest&gt;&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Recipes"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/ShareBookViewController.swift"
+                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/Controller/SharingController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "173"
-                  endingLineNumber = "173"
-                  offsetFromSymbolStart = "76">
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "764">
                </Location>
                <Location
-                  uuid = "C5697FF0-7199-4B99-A8C1-0D138E3F84AF - 1c39943732944a4c"
+                  uuid = "4534FCAB-1F4D-403F-A1F4-D2E188DFC3D9 - 654e1c85c2d8a28a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Recipes.SentBookShareRequest) -&gt; Swift.Bool in Recipes.ShareBookViewController.revokeRequest(profile: Recipes.Profile) -&gt; ()"
+                  symbolName = "closure #1 (Any) -&gt; Swift.Optional&lt;Recipes.BookShareRequest&gt; in closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Recipes.SharingController.getShareRequests(completion: (Swift.Optional&lt;Swift.Array&lt;Recipes.BookShareRequest&gt;&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Recipes"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/ShareBookViewController.swift"
+                  urlString = "file:///Users/ryanbitner/Desktop/Project%20MTEC/For%20Fun/Recipes/Recipes/Controller/SharingController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "173"
-                  endingLineNumber = "173"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "149"
+                  endingLineNumber = "149"
+                  offsetFromSymbolStart = "172">
                </Location>
             </Locations>
          </BreakpointContent>

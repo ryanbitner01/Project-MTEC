@@ -8,22 +8,24 @@
 import Foundation
 
 struct BookShareRequest: Codable {
-    let name: String
     let ownerProfile: ProfileResult?
-    let imageURL: String
-    let color: String
+    let book: Book?
     
-    init(name: String, ownerProfile: ProfileResult? = nil, imageURL: String, bookColor: String) {
-        self.name = name
+    init(ownerProfile: ProfileResult? = nil, book: Book? = nil) {
+        self.book = book
         self.ownerProfile = ownerProfile
-        self.imageURL = imageURL
-        self.color = bookColor
+        
     }
     
     enum CodingKeys: String, CodingKey {
-        case color = "bookColor"
-        case imageURL = "bookImage"
-        case name = "bookName"
+        case book = "book"
         case ownerProfile = "bookOwner"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let data = try values.decode(Data.self, forKey: .book)
+        book = try JSONDecoder().decode(Book.self, from: data)
+        ownerProfile = try values.decode(ProfileResult.self, forKey: .ownerProfile)
     }
 }
