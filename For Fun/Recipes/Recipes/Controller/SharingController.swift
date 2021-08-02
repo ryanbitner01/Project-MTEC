@@ -42,37 +42,47 @@ class SharingController {
     
     //MARK: Sharing Controls
     
-//    func acceptRequest(shareRequest: BookShareRequest) {
-//        guard let user = UserControllerAuth.shared.user else {return}
-//        let sentRequest: [String: Any] = [
-//            "BookName": shareRequest.name,
-//            "User": user.id
-//        ]
-//        
-//        let owner: [String: Any] = [
-//            "Name": shareRequest.ownerProfile?.name ?? "",
-//            "imageURL": shareRequest.ownerProfile?.image ?? ""
-//        ]
-//        
-//        let otherRequest: [String: Any] = [
-//            "bookName": shareRequest.name,
-//            "bookImage": shareRequest.imageURL,
-//            "bookColor": shareRequest.color,
-//            "bookOwner": owner
-//        ]
-//        
-//        // Remove Request from other user
-//        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
-//        guard let otherPath = getPath(path: .otherSharedAlbum, email: shareRequest.ownerProfile?.name) else {return}
-//
-//        otherPath.document("SentBookShareRequests").updateData([
-//            "Requests": FieldValue.arrayRemove([sentRequest])
-//        ])
-//        // Remove Request from self
-//        path.document("BookShareRequests").updateData([
-//            "Requests": FieldValue.arrayRemove([otherRequest])
-//        ])
-//    }
+    func acceptRequest(shareRequest: BookShareRequest) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        let book = shareRequest.book
+        guard let owner = shareRequest.ownerProfile else {return}
+        
+        let ownerData: [String: Any] = [
+            "Name": owner.name,
+            "imageURL": owner.image
+        ]
+        let jsonEncoder = JSONEncoder()
+        guard let bookData = try? jsonEncoder.encode(book) else {return}
+        
+        let request: [String: Any] = [
+            "book": bookData,
+            "bookOwner": ownerData
+        ]
+        
+        let sentRequest: [String: Any] = [
+            "BookName": book.name,
+            "User": user.id
+        ]
+        
+        // Remove Request from other user
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: shareRequest.ownerProfile?.name) else {return}
+
+        otherPath.document("SentBookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([sentRequest])
+        ])
+        // Remove Request from self
+        path.document("BookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([request])
+        ])
+        
+        // Add Book
+        addSharedBook(book: shareRequest.book)
+    }
+    
+    func addSharedBook(book: Book) {
+        BookController.shared.addBook(book: book, path: .sharedAlbum)
+    }
     
     func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {
         
@@ -147,13 +157,14 @@ class SharingController {
                       let requests = docData["Requests"] as? [Any] else {return}
                 let shareRequests = requests.compactMap({ request -> BookShareRequest? in
                     let jsonDecoder = JSONDecoder()
-                    if let data = try? JSONSerialization.data(withJSONObject: request) {
+                    guard let request = request as? [String: Any], let bookData = request["book"] as? Data, let bookOwner = request["bookOwner"] as? [String: Any] else {return nil}
+                    if let data = try? JSONSerialization.data(withJSONObject: bookOwner) {
                         print(data.prettyPrintedJSONString())
                         do {
-                            let result = try jsonDecoder.decode(BookShareRequest.self, from: data)
-                            print(data.prettyPrintedJSONString())
-                            print(result)
-                            return result
+                            let bookOwnerResult = try jsonDecoder.decode(ProfileResult.self, from: data)
+                            let bookResult = try jsonDecoder.decode(Book.self, from: bookData)
+                            //print(data.prettyPrintedJSONString())
+                            return BookShareRequest(ownerProfile: bookOwnerResult, book: bookResult)
                         } catch {
                             print(error.localizedDescription)
                             return nil
@@ -218,11 +229,11 @@ class SharingController {
             "Name": selfUser.id,
             "imageURL": selfUser.imageURL
         ]
-        let jsonEncoder = JSONEncoder()
-        guard let bookData = try? jsonEncoder.encode(book) else {return}
+        
+        guard let docReference = book.documentReference else {return}
         
         let request: [String: Any] = [
-            "book": bookData,
+            "book": docReference,
             "bookOwner": owner
         ]
         

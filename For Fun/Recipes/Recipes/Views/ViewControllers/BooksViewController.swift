@@ -212,6 +212,37 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return sectionHeader
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = Section(rawValue: indexPath.section)!
+        if section == .pendingShare {
+            guard let cell = bookCollectionView.cellForItem(at: indexPath) as? BookShareCell else {return}
+            displaySharingActionSheet(cell: cell)
+        }
+    }
+    
+    func displaySharingActionSheet(cell: BookShareCell) {
+        guard let request = cell.bookShareRequest else {return}
+        let userName = request.ownerProfile?.name ?? ""
+        let bookName = request.book.name
+        let alertController = UIAlertController(title: "\(bookName)", message: "\(userName) has requested to share this book with you. Would you like to accept?", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let acceptAction = UIAlertAction(title: "Accept", style: .default, handler: {action in
+            SharingController.shared.acceptRequest(shareRequest: request)
+        })
+        
+        let declineAction = UIAlertAction(title: "Decline", style: .destructive, handler: {action in
+            // Decline Request
+        })
+        alertController.addAction(acceptAction)
+        alertController.addAction(declineAction)
+        present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = cell
+        alertController.popoverPresentationController?.sourceRect = cell.bounds
+    }
+    
     
 }
 

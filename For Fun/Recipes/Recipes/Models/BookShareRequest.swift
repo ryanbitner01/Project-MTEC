@@ -9,9 +9,9 @@ import Foundation
 
 struct BookShareRequest: Codable {
     let ownerProfile: ProfileResult?
-    let book: Book?
+    let book: Book
     
-    init(ownerProfile: ProfileResult? = nil, book: Book? = nil) {
+    init(ownerProfile: ProfileResult? = nil, book: Book) {
         self.book = book
         self.ownerProfile = ownerProfile
         
