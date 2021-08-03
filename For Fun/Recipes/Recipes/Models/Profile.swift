@@ -33,9 +33,11 @@ class Profile: Codable {
 struct ProfileResult: Codable {
     let name: String
     let image: String
+    let id: String
     
     enum CodingKeys: String, CodingKey {
         case name = "Name"
         case image = "imageURL"
+        case id = "id"
     }
 }

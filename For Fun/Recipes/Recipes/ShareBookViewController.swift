@@ -91,32 +91,27 @@ class ShareBookViewController: UIViewController {
     }
     
     func setupBookImage() {
-        if let image = book?.image {
-            bookImageView.image = UIImage(data: image)
-            
-        } else {
-            guard let imageUrl = book?.imageURL, imageUrl != "" else {
-                bookImageView.image = UIImage(systemName: "book.closed.fill")
-                if let book = book {
-                    let color = UIColor(named: book.bookColor)
-                    bookImageView.tintColor = color
-                    return
-                } else {
-                    bookImageView.tintColor = .black
-                }
+        guard let imageUrl = book?.imageURL, imageUrl != "" else {
+            bookImageView.image = UIImage(systemName: "book.closed.fill")
+            if let book = book {
+                let color = UIColor(named: book.bookColor)
+                bookImageView.tintColor = color
                 return
+            } else {
+                bookImageView.tintColor = .black
             }
-            //imageView.image = UIImage(systemName: "book.closed.fill")
-            BookController.shared.getBookImage(url: imageUrl) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        self.bookImageView.image = image
-                        self.bookImageView.layer.cornerRadius = 25
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
+            return
+        }
+        //imageView.image = UIImage(systemName: "book.closed.fill")
+        BookController.shared.getBookImage(url: imageUrl) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.bookImageView.image = image
+                    self.bookImageView.layer.cornerRadius = 25
                 }
+            case .failure(let err):
+                print(err.localizedDescription)
             }
         }
     }

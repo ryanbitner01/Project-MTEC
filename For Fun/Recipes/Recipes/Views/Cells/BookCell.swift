@@ -21,35 +21,31 @@ class BookCell: UICollectionViewCell {
     }
     
     func setupImageView() {
-        if let image = book?.image {
-            imageView.image = UIImage(data: image)
-            imageView.layer.cornerRadius = 25
-        } else {
-            guard let imageUrl = book?.imageURL, imageUrl != "" else {
-                label.text = book?.name
-                imageView.image = UIImage(systemName: "book.closed.fill")
-                if let book = book {
-                    let color = UIColor(named: book.bookColor)
-                    imageView.tintColor = color
-                    return
-                } else {
-                    imageView.tintColor = .black
-                }
+        guard let imageUrl = book?.imageURL, imageUrl != "" else {
+            label.text = book?.name
+            imageView.image = UIImage(systemName: "book.closed.fill")
+            if let book = book {
+                let color = UIColor(named: book.bookColor)
+                imageView.tintColor = color
                 return
+            } else {
+                imageView.tintColor = .black
             }
-            //imageView.image = UIImage(systemName: "book.closed.fill")
-            BookController.shared.getBookImage(url: imageUrl) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        self.imageView.image = image
-                        self.imageView.layer.cornerRadius = 25
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
+            return
+        }
+        //imageView.image = UIImage(systemName: "book.closed.fill")
+        BookController.shared.getBookImage(url: imageUrl) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                    self.imageView.layer.cornerRadius = 25
                 }
+            case .failure(let err):
+                print(err.localizedDescription)
             }
         }
+        
     }
     
 }

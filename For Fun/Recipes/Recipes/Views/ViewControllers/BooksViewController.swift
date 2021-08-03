@@ -223,7 +223,7 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func displaySharingActionSheet(cell: BookShareCell) {
         guard let request = cell.bookShareRequest else {return}
         let userName = request.ownerProfile?.name ?? ""
-        let bookName = request.book.name
+        let bookName = request.bookName
         let alertController = UIAlertController(title: "\(bookName)", message: "\(userName) has requested to share this book with you. Would you like to accept?", preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

@@ -44,40 +44,27 @@ class SharingController {
     
     func acceptRequest(shareRequest: BookShareRequest) {
         guard let user = UserControllerAuth.shared.user else {return}
-        let book = shareRequest.book
-        guard let owner = shareRequest.ownerProfile else {return}
         
-        let ownerData: [String: Any] = [
-            "Name": owner.name,
-            "imageURL": owner.image
-        ]
+        let sentRequest = SentBookShareRequest(bookName: shareRequest.bookName, user: user.id)
+        
         let jsonEncoder = JSONEncoder()
-        guard let bookData = try? jsonEncoder.encode(book) else {return}
         
-        let request: [String: Any] = [
-            "book": bookData,
-            "bookOwner": ownerData
-        ]
-        
-        let sentRequest: [String: Any] = [
-            "BookName": book.name,
-            "User": user.id
-        ]
+        guard let requestData = try? jsonEncoder.encode(shareRequest),
+              let sentRequestData = try? jsonEncoder.encode(sentRequest) else {return}
         
         // Remove Request from other user
         guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
         guard let otherPath = getPath(path: .otherSharedAlbum, email: shareRequest.ownerProfile?.name) else {return}
-
+        
         otherPath.document("SentBookShareRequests").updateData([
-            "Requests": FieldValue.arrayRemove([sentRequest])
+            "Requests": FieldValue.arrayRemove([sentRequestData])
         ])
         // Remove Request from self
         path.document("BookShareRequests").updateData([
-            "Requests": FieldValue.arrayRemove([request])
+            "Requests": FieldValue.arrayRemove([requestData])
         ])
         
         // Add Book
-        addSharedBook(book: shareRequest.book)
     }
     
     func addSharedBook(book: Book) {
@@ -86,10 +73,18 @@ class SharingController {
     
     func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {
         
-        let sentRequest: [String: Any] = [
-            "BookName": request.bookName,
-            "User": request.user
-        ]
+        guard let selfUser = UserControllerAuth.shared.user else {return}
+        
+        let ownerProfile = ProfileResult(name: profile.name, image: selfUser.imageURL, id: selfUser.id)
+        
+        let request = BookShareRequest(ownerProfile: ownerProfile, book: book.id, bookName: book.name, bookColor: book.bookColor, bookImageURL: book.imageURL ?? "")
+        
+        let sentRequest = SentBookShareRequest(bookName: book.name, user: profile.email)
+        
+        let jsonEncoder = JSONEncoder()
+        
+        guard let requestData = try? jsonEncoder.encode(request),
+              let sentRequestData = try? jsonEncoder.encode(sentRequest) else {return}
         
         //Remove sent request
         
@@ -99,54 +94,42 @@ class SharingController {
         ])
         
         //Remove request
-        guard let selfUser = UserControllerAuth.shared.user else {return}
-
-        let owner: [String: Any] = [
-            "Name": selfUser.id,
-            "imageURL": selfUser.imageURL
-        ]
         
-        let otherRequest: [String: Any] = [
-            "bookName": book.name,
-            "bookImage": book.imageURL ?? "",
-            "bookColor": book.bookColor,
-            "bookOwner": owner
-        ]
         
-        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
-        otherPath.document("BookShareRequests").updateData([
-            "Requests": FieldValue.arrayRemove([otherRequest])
-        ])
+//        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
+//        otherPath.document("BookShareRequests").updateData([
+//            "Requests": FieldValue.arrayRemove([otherRequest])
+//        ])
     }
     
     func getSentShareRequests(completion: @escaping ([SentBookShareRequest]?) -> Void) {
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {return completion(nil)}
-        path.document("SentBookShareRequests").addSnapshotListener { doc, err in
-            if let doc = doc {
-                guard let docData = doc.data(),
-                      let requests = docData["Requests"] as? [Any] else {return}
-                let shareRequests = requests.compactMap { request -> SentBookShareRequest? in
-                    let jsonDecoder = JSONDecoder()
-                    if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
-                        do {
-                            let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
-                            return result
-                        } catch {
-                            print(error)
-                            return nil
-                        }
-                    } else {
-                        return nil
-                    }
-                }
-                completion(shareRequests)
-            } else if let err = err {
-                print(err.localizedDescription)
-                completion(nil)
-            } else {
-                completion(nil)
-            }
-        }
+        //        guard let path = getPath(path: .sharedAlbum, email: nil) else {return completion(nil)}
+        //        path.document("SentBookShareRequests").addSnapshotListener { doc, err in
+        //            if let doc = doc {
+        //                guard let docData = doc.data(),
+        //                      let requests = docData["Requests"] as? [Any] else {return}
+        //                let shareRequests = requests.compactMap { request -> SentBookShareRequest? in
+        //                    let jsonDecoder = JSONDecoder()
+        //                    if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
+        //                        do {
+        //                            let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
+        //                            return result
+        //                        } catch {
+        //                            print(error)
+        //                            return nil
+        //                        }
+        //                    } else {
+        //                        return nil
+        //                    }
+        //                }
+        //                completion(shareRequests)
+        //            } else if let err = err {
+        //                print(err.localizedDescription)
+        //                completion(nil)
+        //            } else {
+        //                completion(nil)
+        //            }
+        //        }
     }
     
     func getShareRequests(completion: @escaping ([BookShareRequest]?) -> Void) {
@@ -157,21 +140,16 @@ class SharingController {
                       let requests = docData["Requests"] as? [Any] else {return}
                 let shareRequests = requests.compactMap({ request -> BookShareRequest? in
                     let jsonDecoder = JSONDecoder()
-                    guard let request = request as? [String: Any], let bookData = request["book"] as? Data, let bookOwner = request["bookOwner"] as? [String: Any] else {return nil}
-                    if let data = try? JSONSerialization.data(withJSONObject: bookOwner) {
-                        print(data.prettyPrintedJSONString())
-                        do {
-                            let bookOwnerResult = try jsonDecoder.decode(ProfileResult.self, from: data)
-                            let bookResult = try jsonDecoder.decode(Book.self, from: bookData)
-                            //print(data.prettyPrintedJSONString())
-                            return BookShareRequest(ownerProfile: bookOwnerResult, book: bookResult)
-                        } catch {
-                            print(error.localizedDescription)
-                            return nil
-                        }
-                    } else {
+                    guard let request = request as? Data else {return nil}
+                    do {
+                        let shareRequest = try jsonDecoder.decode(BookShareRequest.self, from: request)
+                        return shareRequest
+                        //print(data.prettyPrintedJSONString())
+                    } catch {
+                        print(error.localizedDescription)
                         return nil
                     }
+                    
                 })
                 completion(shareRequests)
             } else if let err = err {
@@ -225,37 +203,49 @@ class SharingController {
         
         guard let selfUser = UserControllerAuth.shared.user else {return}
         
-        let owner: [String: Any] = [
-            "Name": selfUser.id,
-            "imageURL": selfUser.imageURL
-        ]
+        let ownerProfile = ProfileResult(name: profile.name, image: selfUser.imageURL, id: selfUser.id)
         
-        guard let docReference = book.documentReference else {return}
+        let request = BookShareRequest(ownerProfile: ownerProfile, book: book.id, bookName: book.name, bookColor: book.bookColor, bookImageURL: book.imageURL ?? "")
         
-        let request: [String: Any] = [
-            "book": docReference,
-            "bookOwner": owner
-        ]
+        let sentRequest = SentBookShareRequest(bookName: book.name, user: profile.email)
         
-        let sentRequest: [String: Any] = [
-            "BookName": book.name,
-            "User": profile.email
-        ]
+        let jsonEncoder = JSONEncoder()
+        
+        guard let requestData = try? jsonEncoder.encode(request),
+              let sentRequestData = try? jsonEncoder.encode(sentRequest) else {return}
+        
+        //        let owner: [String: Any] = [
+        //            "Name": selfUser.id,
+        //            "imageURL": selfUser.imageURL
+        //        ]
+        //
+        //        let request: [String: Any] = [
+        //            "book": book.id,
+        //            "bookName": book.name,
+        //            "bookColor": book.bookColor,
+        //            "bookImageURL": book.imageURL,
+        //            "bookOwner": owner
+        //        ]
+        //
+        //        let sentRequest: [String: Any] = [
+        //            "BookName": book.name,
+        //            "User": profile.email
+        //        ]
         
         guard let path = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
         // Send Request to other user
         path.document("BookShareRequests").setData([
-            "Requests": FieldValue.arrayUnion([request])
+            "Requests": FieldValue.arrayUnion([requestData])
         ], mergeFields: [
             "Requests"
         ])
-                
+        
         
         
         // Update Sent Requests
         guard let selfPath = getPath(path: .sharedAlbum, email: nil) else {return}
         selfPath.document("SentBookShareRequests").setData([
-            "Requests": FieldValue.arrayUnion([sentRequest])
+            "Requests": FieldValue.arrayUnion([sentRequestData])
         ], mergeFields: [
             "Requests"
         ])
@@ -265,8 +255,8 @@ class SharingController {
     func canShare(book: Book, email: String, completion: @escaping (SharingError?) -> Void) {
         if checkDuplicateUser(book: book, email: email) {
             completion(.duplicateUser)
-//        } else if checkForSameEmail(book: book, email: email) {
-//            completion(.selfUser)
+            //        } else if checkForSameEmail(book: book, email: email) {
+            //            completion(.selfUser)
         } else {
             userExists(email: email) { err in
                 if let err = err {
@@ -285,14 +275,14 @@ class SharingController {
             return false
         }
     }
-//
-//    func checkForSameEmail(book: Book, email: String) -> Bool{
-//        if book.owner == email {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
+    //
+    //    func checkForSameEmail(book: Book, email: String) -> Bool{
+    //        if book.owner == email {
+    //            return true
+    //        } else {
+    //            return false
+    //        }
+    //    }
     
     func userExists(email: String, completion: @escaping (SharingError?) -> Void) {
         let docRef = db.collection("Users").document(email)
