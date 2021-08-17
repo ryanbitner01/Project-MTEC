@@ -14,14 +14,12 @@ class Book: Codable {
     var imageURL: String?
     var bookColor: String
     var id: UUID
-    var recipes: [Recipe]
     var sharedUsers: [String]
     var isShared: Bool
     var owner: String
     var image: Data?
     
-    init(name: String, id: UUID = UUID(), recipes: [Recipe] = [], imageURL: String = "", bookColor: String = "Blue",sharedUsers: [String] = [], isShared: Bool = false, owner: String = "", image: Data? = nil) {
-        self.recipes = recipes
+    init(name: String, id: UUID = UUID(), imageURL: String = "", bookColor: String = "Blue",sharedUsers: [String] = [], isShared: Bool = false, owner: String = "", image: Data? = nil) {
         self.id = id
         self.name = name
         self.image = image
