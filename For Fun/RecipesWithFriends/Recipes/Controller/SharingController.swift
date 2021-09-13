@@ -65,10 +65,16 @@ class SharingController {
         ])
         
         // Add Book
+        let book = Book(name: shareRequest.bookName, owner: shareRequest.ownerProfile?.id ?? "")
+        addSharedBook(book: book)
     }
     
     func addSharedBook(book: Book) {
-        BookController.shared.addBook(book: book, path: .sharedAlbum)
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        path.document(book.id.uuidString).setData([
+            "bookOwner": book.owner
+        ])
+        
     }
     
     func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {
