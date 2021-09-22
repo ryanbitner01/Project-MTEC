@@ -42,5 +42,15 @@ class TDD_Model_objectsTests: XCTestCase {
         XCTAssertNotNil(newPersonWithHeightWithWeight.height)
         XCTAssertNotNil(newPersonWithHeightWithWeight.weight)
     }
+    
+    func test_EvenNumbers_ReturnValuesEven() throws {
+        let evenNumbers = evenNumbers(numbers: [1,2,3,4,5])
+        XCTAssertEqual(evenNumbers, [2, 4])
+    }
+    
+    func test_EvenNumbers_DifferentValuesEven() throws {
+        let evenNumbers = evenNumbers(numbers: [2, 6, 8, 3, 7])
+        XCTAssertEqual(evenNumbers, [2, 6, 8])
+    }
 
 }

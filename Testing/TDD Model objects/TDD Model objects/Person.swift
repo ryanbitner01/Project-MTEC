@@ -13,3 +13,7 @@ struct Person {
     var height: Int?
     var weight: Int?
 }
+
+func evenNumbers(numbers: [Int]) -> [Int] {
+    return numbers.filter({$0 % 2 == 0})
+}
