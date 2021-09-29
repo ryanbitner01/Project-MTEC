@@ -9,8 +9,8 @@ import Foundation
 
 class User: Codable {
     var id: String
-    var album: [Book]
-    var sharedAlbum: [Book]
+    var album: [BookCover]
+    var sharedAlbum: [BookCover]
     var displayName: String
     var image: Data?
     var imageURL: String
@@ -19,7 +19,7 @@ class User: Codable {
     var shareRequestsSent: [SentBookShareRequest]
     var shareRequests: [BookShareRequest]
     
-    init(id: String = "", album: [Book] = [], sharedAlbum: [Book] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = [], imageURL: String = "", shareRequestsSent: [SentBookShareRequest] = [], shareRequests: [BookShareRequest] = []) {
+    init(id: String = "", album: [BookCover] = [], sharedAlbum: [BookCover] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = [], imageURL: String = "", shareRequestsSent: [SentBookShareRequest] = [], shareRequests: [BookShareRequest] = []) {
         self.id = id
         self.album = album
         self.sharedAlbum = sharedAlbum

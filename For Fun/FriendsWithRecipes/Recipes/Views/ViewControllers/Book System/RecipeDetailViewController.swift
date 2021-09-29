@@ -49,7 +49,8 @@ class RecipeDetailViewController: UIViewController {
     
     func checkShared() {
         guard let book = book else {return}
-        let owner = BookController.shared.isOwner(book: book)
+        let bookCover = BookCover(name: book.name, id: book.id, imageURL: book.imageURL ?? "", bookColor: book.bookColor, owner: book.owner)
+        let owner = BookController.shared.isOwner(book: bookCover)
         if !owner {
             deleteButton.isHidden = true
             editButton.isHidden = true

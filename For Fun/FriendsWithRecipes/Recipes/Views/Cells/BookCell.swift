@@ -9,14 +9,17 @@ import UIKit
 
 class BookCell: UICollectionViewCell {
     
-    var book: Book?
+    var book: BookCover?
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
     func updateCell() {
-        label.text = book?.name
-        setupImageView()
+        if let book = book {
+            label.text = book.name
+            setupImageView()
+        }
+        
         //print(book?.bookColor)
     }
     

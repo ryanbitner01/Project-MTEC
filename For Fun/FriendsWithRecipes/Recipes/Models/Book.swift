@@ -8,7 +8,16 @@
 import Foundation
 import Firebase
 
-class Book: Codable {
+protocol BookProtocol {
+    var name: String { get set }
+    var imageURL: String? { get set }
+    var bookColor: String { get set }
+    var id: UUID { get set }
+    var owner: String { get set }
+
+}
+
+class Book: Codable, BookProtocol {
     
     var name: String
     var imageURL: String?
@@ -30,5 +39,22 @@ class Book: Codable {
         self.isShared = isShared
         self.owner = owner
         self.recipes = recipes
+    }
+}
+
+class BookCover: Codable, BookProtocol {
+    
+    var name: String
+    var imageURL: String?
+    var bookColor: String
+    var id: UUID
+    var owner: String
+    
+    init(name: String, id: UUID = UUID(), imageURL: String = "", bookColor: String = "Blue", owner: String = "") {
+        self.id = id
+        self.name = name
+        self.imageURL = imageURL
+        self.bookColor = bookColor
+        self.owner = owner
     }
 }

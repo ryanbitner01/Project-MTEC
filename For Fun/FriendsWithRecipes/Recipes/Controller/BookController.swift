@@ -58,7 +58,7 @@ class BookController {
         ])
     }
     
-    func isOwner(book: Book) -> Bool {
+    func isOwner(book: BookCover) -> Bool {
         guard let user = UserControllerAuth.shared.user else {return false}
         return book.owner == user.id
     }
@@ -82,7 +82,7 @@ class BookController {
             }
         case .album:
             if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("Album")
+                return userPath.document(email ?? user.id).collection("Album")
             } else {
                 return nil
             }
@@ -97,6 +97,40 @@ class BookController {
                 return userPath.document(user.id).collection("SharedAlbum")
             } else {
                 return nil
+            }
+        }
+    }
+    
+    func getBookCovers(user: User, path: FireBasePath, email: String? = nil, completion: @escaping (Result<[BookCover], Error>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.getDocuments { querySnapshot, error in
+            if let querySS = querySnapshot {
+                let books = querySS.documents.compactMap { doc -> BookCover? in
+                    let data = doc.data()
+                    guard let name = data["name"] as? String, let url = data["imageUrl"] as? String, let bookColor = data["color"] as? String, let owner = data["Owner"] as? String ,let uuidString = UUID(uuidString: doc.documentID) else {return nil}
+                    let book = BookCover(name: name, id: uuidString, imageURL: url, bookColor: bookColor, owner: owner)
+                    return book
+                }
+                completion(.success(books))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getBook(bookCover: BookCover, path: FireBasePath, email: String? = nil, completion: @escaping (Result<Book, Error>) -> Void) {
+        guard let path = getPath(path: path, email: email) else {return}
+        path.document(bookCover.id.uuidString).addSnapshotListener { qs, err in
+            if let qs = qs {
+                guard let data = qs.data(),
+                      let name = data["name"] as? String,
+                      let url = data["imageUrl"] as? String,
+                      let bookColor = data["color"] as? String,
+                      let sharedUsers = data["SharedUsers"] as? [String],
+                      let owner = data["Owner"] as? String,
+                      let uuidString = UUID(uuidString: qs.documentID) else {return}
+                let book = Book(name: name, id: uuidString, imageURL: url, bookColor: bookColor, sharedUsers: sharedUsers, owner: owner)
+                completion(.success(book))
             }
         }
     }
@@ -223,7 +257,7 @@ class BookController {
         }
     }
     
-    func getAlbum() -> [Book] {
+    func getAlbum() -> [BookCover] {
         if let user = UserControllerAuth.shared.user {
             return user.album
         } else {

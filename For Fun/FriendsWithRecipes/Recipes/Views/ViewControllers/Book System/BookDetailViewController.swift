@@ -11,6 +11,7 @@ class BookDetailViewController: UIViewController {
     
     //var recipes: [Recipe] = []
     var book: Book?
+    var bookCover: BookCover?
     
     @IBOutlet weak var recipeCollectionView: UICollectionView!
     @IBOutlet weak var bookNameLabel: UILabel!
@@ -23,18 +24,35 @@ class BookDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         recipeCollectionView.dataSource = self
-        if let book = book {
-            bookNameLabel.text = book.name
-            setupBookImage()
-        }
         checkShared()
-        guard let book = book else {return}
-        if !book.isShared {
-            getRecipes()
-        }
-        imageView.layer.cornerRadius = 25
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getBook()
+    }
+    
+    func getBook() {
+        guard let bookCover = bookCover else {return}
+        BookController.shared.getBook(bookCover: bookCover, path: .album, email: bookCover.owner) { result in
+            switch result {
+            case .success(let book):
+                self.book = book
+                DispatchQueue.main.async {
+                    self.updateUI()
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func updateUI() {
+        getRecipes()
+        bookNameLabel.text = book?.name
+        setupBookImage()
+    }
+    
     @IBSegueAction func segueToRecipeDetailViewController(_ coder: NSCoder, sender: Any?) -> RecipeDetailViewController? {
         guard let cell = sender as? RecipeCell, let indexPath = recipeCollectionView.indexPath(for: cell), let book = book else {return nil}
         let recipeDetailVC = RecipeDetailViewController(coder: coder)
@@ -61,8 +79,8 @@ class BookDetailViewController: UIViewController {
     }
     
     func checkShared() {
-        guard let book = book else {return}
-        let owner = BookController.shared.isOwner(book: book)
+        guard let bookCover = bookCover else {return}
+        let owner = BookController.shared.isOwner(book: bookCover)
         if !owner {
             deleteButton.isHidden = true
             shareButton.isHidden = true
@@ -73,12 +91,7 @@ class BookDetailViewController: UIViewController {
     
     func getRecipes() {
         guard let book = book else {return}
-        let isOwner = BookController.shared.isOwner(book: book)
-        var path: FireBasePath = .album
-        if !isOwner {
-            path = .sharedAlbum
-        }
-        RecipeController.shared.fetchRecipes(book: book, path: path) { result in
+        RecipeController.shared.fetchRecipes(book: book, path: .album, email: book.owner) { result in
             switch result {
             case .success(let recipes):
                 self.book?.recipes = recipes
@@ -92,6 +105,8 @@ class BookDetailViewController: UIViewController {
     }
     
     func setupBookImage() {
+        imageView.layer.cornerRadius = 25
+        
         if let image = book?.image {
             imageView.image = UIImage(data: image)
             

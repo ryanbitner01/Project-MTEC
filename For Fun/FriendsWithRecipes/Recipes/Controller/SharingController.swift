@@ -65,16 +65,38 @@ class SharingController {
         ])
         
         // Add Book
-        let book = Book(name: shareRequest.bookName, owner: shareRequest.ownerProfile?.id ?? "")
+        let book = BookCover(name: shareRequest.bookName, id: shareRequest.book, imageURL: shareRequest.bookImageURL, bookColor: shareRequest.bookColor, owner: shareRequest.ownerProfile?.id ?? "")
         addSharedBook(book: book)
     }
     
-    func addSharedBook(book: Book) {
+    func addSharedBook(book: BookCover) {
         guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
         path.document(book.id.uuidString).setData([
-            "bookOwner": book.owner
+            "bookOwner": book.owner,
+            "bookColor": book.bookColor,
+            "bookName": book.name,
+            "bookImageURL": book.imageURL ?? ""
         ])
         
+    }
+    
+    func getSharedBookCovers(completion: @escaping (Result<[BookCover], SharingError>) -> Void) {
+        guard let path = getPath(path: .sharedAlbum, email: nil) else {
+            return completion(.failure(.noUser))
+        }
+        path.addSnapshotListener { qs, err in
+            if let qs = qs {
+                let bookCovers = qs.documents.compactMap { qds -> BookCover? in
+                    let data = qds.data()
+                    guard let name = data["bookName"] as? String, let color = data["bookColor"] as? String, let owner = data["bookOwner"] as? String, let imageURL = data["bookImageURL"] as? String, let uuid = UUID(uuidString: qds.documentID) else {return nil}
+                    return BookCover(name: name, id: uuid, imageURL: imageURL, bookColor: color, owner: owner)
+                }
+                completion(.success(bookCovers))
+            } else if let err = err {
+                completion(.failure(.noUser))
+                print(err.localizedDescription)
+            }
+        }
     }
     
     func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {

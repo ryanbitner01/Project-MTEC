@@ -21,13 +21,13 @@ class BooksViewController: UIViewController {
         super.viewDidLoad()
         bookCollectionView.dataSource = self
         bookCollectionView.delegate = self
-        getRecipeBooks()
+        getRecipeBookCovers()
         getShareRequests()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getSharedBook()
+        getSharedBookCovers()
     }
     
     func getShareRequests() {
@@ -41,13 +41,28 @@ class BooksViewController: UIViewController {
         }
     }
     
-    func getSharedBook() {
+    //    func getSharedBook() {
+    //        guard let user = UserControllerAuth.shared.user else {return}
+    //        BookController.shared.getBooks(user: user, path: .sharedAlbum) { result in
+    //            switch result {
+    //            case .success(let books):
+    //                UserControllerAuth.shared.user?.sharedAlbum = books
+    //                print("got shared books")
+    //                DispatchQueue.main.async {
+    //                    self.bookCollectionView.reloadData()
+    //                }
+    //            case .failure(let err):
+    //                print(err.localizedDescription)
+    //            }
+    //        }
+    //    }
+    
+    func getSharedBookCovers() {
         guard let user = UserControllerAuth.shared.user else {return}
-        BookController.shared.getBooks(user: user, path: .sharedAlbum) { result in
+        SharingController.shared.getSharedBookCovers { result in
             switch result {
-            case .success(let books):
-                UserControllerAuth.shared.user?.sharedAlbum = books
-                print("got shared books")
+            case .success(let bookCovers):
+                user.sharedAlbum = bookCovers
                 DispatchQueue.main.async {
                     self.bookCollectionView.reloadData()
                 }
@@ -57,21 +72,36 @@ class BooksViewController: UIViewController {
         }
     }
     
-    func getRecipeBooks() {
+    func getRecipeBookCovers() {
         guard let user = UserControllerAuth.shared.user else {return}
-        BookController.shared.getBooks(user: user, path: .album) { result in
+        BookController.shared.getBookCovers(user: user, path: .album) { result in
             switch result {
-            case .success(let books):
-                UserControllerAuth.shared.user?.album = books
-                //print("GOT BOOKS")
+            case .success(let bookCovers):
+                user.album = bookCovers
                 DispatchQueue.main.async {
                     self.bookCollectionView.reloadData()
                 }
             case .failure(let err):
-                print(err.localizedDescription)
+                print(err)
             }
         }
     }
+    
+    //    func getRecipeBooks() {
+    //        guard let user = UserControllerAuth.shared.user else {return}
+    //        BookController.shared.getBooks(user: user, path: .album) { result in
+    //            switch result {
+    //            case .success(let books):
+    //                UserControllerAuth.shared.user?.album = books
+    //                //print("GOT BOOKS")
+    //                DispatchQueue.main.async {
+    //                    self.bookCollectionView.reloadData()
+    //                }
+    //            case .failure(let err):
+    //                print(err.localizedDescription)
+    //            }
+    //        }
+    //    }
     
     @IBAction func deleteBookUnwind(_ unwindSegue: UIStoryboardSegue) {
         if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
@@ -106,13 +136,13 @@ class BooksViewController: UIViewController {
     
     @IBAction func unwindToBooks(_ unwindSegue: UIStoryboardSegue) {
         if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
-            if let existingIndex = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == newBook.id}) {
-                UserControllerAuth.shared.user?.album[existingIndex] = newBook
-                bookCollectionView.reloadData()
-            } else {
-                UserControllerAuth.shared.user?.album.append(newBook)
-                bookCollectionView.reloadData()
-            }
+            //            if let existingIndex = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == newBook.id}) {
+            //                UserControllerAuth.shared.user?.album[existingIndex] = newBook
+            //                bookCollectionView.reloadData()
+            //            } else {
+            //                UserControllerAuth.shared.user?.album.append(newBook)
+            //                bookCollectionView.reloadData()
+            //            }
         }
         //        if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
         //            guard let book = bookDetailVC.book else {return}
@@ -142,7 +172,7 @@ class BooksViewController: UIViewController {
     @IBSegueAction func segueToBookDetailVC(_ coder: NSCoder, sender: Any) -> BookDetailViewController? {
         let bookDetailVC = BookDetailViewController(coder: coder)
         guard let cell = sender as? BookCell, let book = cell.book else {return nil}
-        bookDetailVC?.book = book
+        bookDetailVC?.bookCover = book
         return bookDetailVC
     }
 }
@@ -250,16 +280,16 @@ extension Data {
     func prettyPrintedJSONString() {
         guard
             let jsonObject = try?
-               JSONSerialization.jsonObject(with: self,
-               options: []),
+                JSONSerialization.jsonObject(with: self,
+                                             options: []),
             let jsonData = try?
-               JSONSerialization.data(withJSONObject:
-               jsonObject, options: [.prettyPrinted]),
+                JSONSerialization.data(withJSONObject:
+                                        jsonObject, options: [.prettyPrinted]),
             let prettyJSONString = String(data: jsonData,
-               encoding: .utf8) else {
+                                          encoding: .utf8) else {
                 print("Failed to read JSON Object.")
                 return
-        }
+            }
         print(prettyJSONString)
     }
 }

@@ -60,8 +60,8 @@ class MigrationController {
     func changeEmail(new: String) {
         guard let user = UserControllerAuth.shared.user else {return}
         guard let newUser = newUser(new: new) else {return}
-        newDirectory(user: user, new: newUser)
-        deleteDirectory(user: user, new: newUser)
+//        newDirectory(user: user, new: newUser)
+//        deleteDirectory(user: user, new: newUser)
         auth.currentUser?.updateEmail(to: new, completion: { err in
             if let err = err  {
                 print(err)
@@ -78,36 +78,36 @@ class MigrationController {
         }
     }
     
-    func newDirectory(user: User, new: User) {
-        for book in user.album {
-            BookController.shared.addBook(book: book, path: .newAlbum, email: new.id)
-            for recipe in book.recipes {
-                RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: recipe.instruction, ingredients: recipe.ingredients, path: .newAlbum, email: new.id)
-            }
-        }
-    }
+//    func newDirectory(user: User, new: User) {
+//        for book in user.album {
+//            BookController.shared.addBook(book: book, path: .newAlbum, email: new.id)
+//            for recipe in book.recipes {
+//                RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: recipe.instruction, ingredients: recipe.ingredients, path: .newAlbum, email: new.id)
+//            }
+//        }
+//    }
     
-    func deleteDirectory(user: User, new: User) {
-        for book in user.album {
-            // delete the book from old alum
-            book.owner = new.id
-            BookController.shared.deleteBook(book: book, path: .album) { err in
-                if let err = err {
-                    print(err.localizedDescription)
-                }
-            }
-            for user in book.sharedUsers {
-                // delete shared books
-                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
-                    if let err = err {
-                        print(err.localizedDescription + user)
-                    }
-                }
-                // Reshare the book
-                reshare(book: book, email: user)
-            }
-        }
-    }
+//    func deleteDirectory(user: User, new: User) {
+//        for book in user.album {
+//            // delete the book from old alum
+//            book.owner = new.id
+//            BookController.shared.deleteBook(book: book, path: .album) { err in
+//                if let err = err {
+//                    print(err.localizedDescription)
+//                }
+//            }
+//            for user in book.sharedUsers {
+//                // delete shared books
+//                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
+//                    if let err = err {
+//                        print(err.localizedDescription + user)
+//                    }
+//                }
+//                // Reshare the book
+//                reshare(book: book, email: user)
+//            }
+//        }
+//    }
     
     func reshare(book: Book, email: String) {
         BookController.shared.addBook(book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: email)
