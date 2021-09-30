@@ -75,7 +75,7 @@ class SharingController {
         // Remove Request from other user
         guard let path = getPath(path: .sharedAlbum, email: user.id) else {return}
         guard let ownerProfile = shareRequest.ownerProfile else {return}
-        guard let otherPath = getPath(path: .otherSharedAlbum, email: ownerProfile.name) else {return}
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: ownerProfile.id) else {return}
         
         otherPath.document("SentBookShareRequests").updateData([
             "Requests": FieldValue.arrayRemove([sentRequestData])
@@ -88,6 +88,9 @@ class SharingController {
         // Add Book
         let book = BookCover(name: shareRequest.bookName, id: shareRequest.book, imageURL: shareRequest.bookImageURL, bookColor: shareRequest.bookColor, owner: shareRequest.ownerProfile?.id ?? "")
         addSharedBook(book: book)
+        
+        // Update Shared Users
+        BookController.shared.addSharedUser(user: user.id, bookID: shareRequest.book, bookOwner: ownerProfile .id)
     }
     
     func addSharedBook(book: BookCover) {

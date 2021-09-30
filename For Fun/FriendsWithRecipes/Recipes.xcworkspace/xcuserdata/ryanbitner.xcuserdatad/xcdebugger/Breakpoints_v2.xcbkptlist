@@ -51,16 +51,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "77E06C09-EC73-4DB9-BFFC-DA114865311A"
-            shouldBeEnabled = "Yes"
+            uuid = "369363CA-2EED-464B-9484-F4F2B8A27B50"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Recipes/Controller/SharingController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "getSentShareRequests(completion:)"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "revokeBookShare(profile:book:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

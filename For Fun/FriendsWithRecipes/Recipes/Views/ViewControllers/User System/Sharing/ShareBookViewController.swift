@@ -197,6 +197,28 @@ class ShareBookViewController: UIViewController {
         alertController.popoverPresentationController?.sourceView = cell
         alertController.popoverPresentationController?.sourceRect = cell.bounds
     }
+    
+    func displayUnshareAlertController(user: Profile, cell: PersonCollectionViewCell) {
+        guard let book = book else {
+            return
+        }
+
+        let alertController = UIAlertController(title: "Unshare with user", message: "Would you like to unshare \(book.name) with \(user.name)", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let unshareAction = UIAlertAction(title: "Unshare", style: .destructive, handler: {action in
+            SharingController.shared.revokeBookShare(profile: user, book: book)
+            self.navigationController?.popViewController(animated: true)
+
+        })
+        
+        alertController.addAction(unshareAction)
+        present(alertController, animated: true, completion: nil)
+        alertController.popoverPresentationController?.sourceView = cell
+        alertController.popoverPresentationController?.sourceRect = cell.bounds
+    }
 }
 
 extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -254,7 +276,9 @@ extension ShareBookViewController: UICollectionViewDelegate, UICollectionViewDat
             displaySharingAlertController(user: shareToProfile, cell: cell)
         case .sharedWith:
             print("Unshare")
-        // Action sheet to unshare
+            let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
+            guard let shareToProfile = cell.profile else {return}
+            displayUnshareAlertController(user: shareToProfile, cell: cell)
         case .pendingShare:
             let cell = collectionView.cellForItem(at: indexPath) as! PersonCollectionViewCell
             if let profile = cell.profile {

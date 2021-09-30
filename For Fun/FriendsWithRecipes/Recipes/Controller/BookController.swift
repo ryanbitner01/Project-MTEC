@@ -79,9 +79,9 @@ class BookController {
         ])
     }
     
-    func addSharedUser(user: String, book: Book) {
-        guard let path = getPath(path: .album, email: book.owner) else {return}
-        path.document(book.id.uuidString).updateData([
+    func addSharedUser(user: String, bookID: UUID, bookOwner: String) {
+        guard let path = getPath(path: .album, email: bookOwner) else {return}
+        path.document(bookID.uuidString).updateData([
             "SharedUsers": FieldValue.arrayUnion([user])
         ])
     }
