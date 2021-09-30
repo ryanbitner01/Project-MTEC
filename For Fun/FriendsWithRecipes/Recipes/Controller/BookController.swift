@@ -46,7 +46,7 @@ func getPath(path: FireBasePath, email: String) -> CollectionReference? {
         return userPath.document(email).collection("SharedAlbum")
     case .sharedAlbum:
         if let user = UserControllerAuth.shared.user {
-            return userPath.document(user.id).collection("SharedAlbum")
+            return userPath.document(email).collection("SharedAlbum")
         } else {
             return nil
         }

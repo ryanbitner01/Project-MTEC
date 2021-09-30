@@ -42,6 +42,26 @@ class SharingController {
     
     //MARK: Sharing Controls
     
+    func declineRequest(shareRequest: BookShareRequest) {
+        guard let user = UserControllerAuth.shared.user, let selfPath = getPath(path: .sharedAlbum, email: user.id), let ownerProfile = shareRequest.ownerProfile, let otherPath = getPath(path: .otherSharedAlbum, email: ownerProfile.id) else {return}
+        
+        let sentRequest = SentBookShareRequest(bookName: shareRequest.bookName, user: user.id)
+        
+        let jsonEncoder = JSONEncoder()
+        
+        guard let requestData = try? jsonEncoder.encode(shareRequest),
+              let sentRequestData = try? jsonEncoder.encode(sentRequest) else {return}
+        //remove from self
+        selfPath.document("BookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([requestData])
+        ])
+        
+        //remove from other user
+        otherPath.document("SentBookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([sentRequestData])
+        ])
+    }
+    
     func acceptRequest(shareRequest: BookShareRequest) {
         guard let user = UserControllerAuth.shared.user else {return}
         

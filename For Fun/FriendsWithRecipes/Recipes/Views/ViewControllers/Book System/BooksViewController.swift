@@ -264,7 +264,7 @@ extension BooksViewController: UICollectionViewDataSource, UICollectionViewDeleg
         })
         
         let declineAction = UIAlertAction(title: "Decline", style: .destructive, handler: {action in
-            // Decline Request
+            SharingController.shared.declineRequest(shareRequest: request)
         })
         alertController.addAction(acceptAction)
         alertController.addAction(declineAction)
