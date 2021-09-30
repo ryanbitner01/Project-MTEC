@@ -33,6 +33,8 @@ class MigrationController {
     
     static let shared = MigrationController()
     
+    var oldAlbum = [Book]()
+    
     private init() {
         
     }
@@ -60,8 +62,12 @@ class MigrationController {
     func changeEmail(new: String) {
         guard let user = UserControllerAuth.shared.user else {return}
         guard let newUser = newUser(new: new) else {return}
-//        newDirectory(user: user, new: newUser)
-//        deleteDirectory(user: user, new: newUser)
+        getAlbum { didComplete in
+            if didComplete {
+                self.newDirectory(user: user, new: newUser)
+                self.deleteDirectory(user: user, new: newUser)
+            }
+        }
         auth.currentUser?.updateEmail(to: new, completion: { err in
             if let err = err  {
                 print(err)
@@ -78,43 +84,105 @@ class MigrationController {
         }
     }
     
-//    func newDirectory(user: User, new: User) {
-//        for book in user.album {
-//            BookController.shared.addBook(book: book, path: .newAlbum, email: new.id)
-//            for recipe in book.recipes {
-//                RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: recipe.instruction, ingredients: recipe.ingredients, path: .newAlbum, email: new.id)
-//            }
-//        }
-//    }
-    
-//    func deleteDirectory(user: User, new: User) {
-//        for book in user.album {
-//            // delete the book from old alum
-//            book.owner = new.id
-//            BookController.shared.deleteBook(book: book, path: .album) { err in
-//                if let err = err {
-//                    print(err.localizedDescription)
-//                }
-//            }
-//            for user in book.sharedUsers {
-//                // delete shared books
-//                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
-//                    if let err = err {
-//                        print(err.localizedDescription + user)
-//                    }
-//                }
-//                // Reshare the book
-//                reshare(book: book, email: user)
-//            }
-//        }
-//    }
-    
-    func reshare(book: Book, email: String) {
-        BookController.shared.addBook(book: book, imageUrl: book.imageURL ?? "", path: .otherSharedAlbum, email: email)
-        for recipe in book.recipes {
-            RecipeController.shared.addRecipe(recipe: recipe, book: book, imageURL: book.imageURL ?? "", instructions: recipe.instruction, ingredients: recipe.ingredients, path: .otherSharedAlbum, email: email)
+    func getAlbum(completion: @escaping (Bool) -> Void) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        BookController.shared.getBooks(user: user, path: .album, email: user.id) { result in
+            switch result {
+            case .success(let books):
+                self.oldAlbum = books
+            case.failure(let err):
+                print(err.localizedDescription)
+            }
         }
-        BookController.shared.updateSharedUsers(users: book.sharedUsers, book: book)
+    }
+    
+    func getRecipes(completion: @escaping (Bool) -> Void) {
+        for book in oldAlbum {
+            RecipeController.shared.fetchRecipes(book: book, path: .album) { result in
+                switch result {
+                case .success(let recipes):
+                    book.recipes = recipes
+                    self.getIngredients(book: book) { didComplete in
+                        completion(true)
+                    }
+                case .failure(let err):
+                    print(err)
+                }
+            }
+        }
+    }
+    
+    func getIngredients(book: Book, completion: @escaping (Bool) -> Void) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        for recipe in book.recipes {
+            RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album) { result in
+                switch result {
+                case .success(let ingredients):
+                    recipe.ingredients = ingredients
+                    self.getSteps(book: book) { didComplete in
+                        completion(true)
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func getSteps(book: Book, completion: @escaping (Bool) -> Void) {
+        guard let user = UserControllerAuth.shared.user else {return}
+        for recipe in book.recipes {
+            RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album) { result in
+                switch result {
+                case .success(let steps):
+                    recipe.instruction = steps
+                    completion(true)
+                case .failure(let err):
+                    print(err)
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    func newDirectory(user: User, new: User) {
+        for book in oldAlbum {
+            let cover = BookCover(name: book.name, id: book.id, imageURL: book.imageURL ?? "", bookColor: book.bookColor, owner: book.owner)
+            BookController.shared.addBook(book: cover, path: .album, email: new.id)
+            for recipe in book.recipes {
+                RecipeController.shared.addRecipe(recipe: recipe, book: book, instructions: recipe.instruction, ingredients: recipe.ingredients, path: .album, email: new.id)
+            }
+        }
+    }
+    
+    func deleteDirectory(user: User, new: User) {
+        for book in oldAlbum {
+            // delete the book from old alum
+            book.owner = new.id
+            let cover = BookCover(name: book.name, id: book.id, imageURL: book.imageURL ?? "", bookColor: book.bookColor, owner: book.owner)
+
+            BookController.shared.deleteBook(book: book, path: .album) { err in
+                if let err = err {
+                    print(err.localizedDescription)
+                }
+            }
+            for user in book.sharedUsers {
+                // delete shared books
+                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
+                    if let err = err {
+                        print(err.localizedDescription + user)
+                    }
+                }
+                let profile = Profile(name: "", email: user, imageURL: "", image: nil, friends: [], requests: [], pendingFriends: [])
+                SharingController.shared.revokeBookShare(profile: profile, book: book)
+                // Reshare the book
+                reshare(email: user, cover: cover)
+            }
+        }
+    }
+    
+    func reshare(email: String, cover: BookCover) {
+        SharingController.shared.reshareBook(cover: cover, userID: email, shared: false)
     }
     
     //MARK: Password Change

@@ -158,20 +158,15 @@ class BookController {
         completion(.success(image))
     }
     
-    func addBookImage(book: Book, new: Bool, path: FireBasePath, email: String = "") {
-        guard let imageData = book.image else {return}
+    func addBookImage(image: Data, book: BookCover, new: Bool, path: FireBasePath, email: String = "") {
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
-        imageRef.putData(imageData, metadata: nil) {metaData, error in
+        imageRef.putData(image, metadata: nil) {metaData, error in
             imageRef.downloadURL { url, err in
                 if let err = err {
                     print(err.localizedDescription)
                 } else if let url = url{
-                    if new {
-                        self.addBook(book: book, imageUrl: url.absoluteString, path: path, email: email)
-                    } else {
-                        self.updateBook(book: book, imageURL: url.absoluteString, path: path, email: email)
-                    }
+                    self.addBook(book: book, imageUrl: url.absoluteString, path: path, email: email)
                 }
             }
         }
@@ -210,28 +205,14 @@ class BookController {
         }
     }
     
-    func updateBook(book: Book, imageURL: String = " ", path: FireBasePath, email: String = "") {
-        guard let path = getPath(path: path, email: email) else {return}
-        path.document(book.id.uuidString).updateData([
-            "name": book.name,
-            "imageUrl": imageURL,
-            "color": book.bookColor
-        ])
-        for user in book.sharedUsers {
-            updateBook(book: book, path: .otherSharedAlbum, email: user)
-        }
-        //delegate?.booksUpdated()
-        //print("Updated Book")
-    }
-    
-    func addBook(book: Book, imageUrl: String = "",path: FireBasePath, email: String = "") {
+    func addBook(book: BookCover, imageUrl: String = "",path: FireBasePath, email: String = "") {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).setData([
             "name": book.name,
-            "imageUrl": imageUrl,
+            "imageUrl": book.imageURL ?? "",
             "color": book.bookColor,
             "Owner": book.owner,
-            "SharedUsers": book.sharedUsers
+            "SharedUsers": []
         ])
         //delegate?.booksUpdated()
         //print("NEW BOOK!")

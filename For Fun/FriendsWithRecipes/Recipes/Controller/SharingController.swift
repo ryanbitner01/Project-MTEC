@@ -230,6 +230,19 @@ class SharingController {
         }
     }
     
+    func reshareBook(cover: BookCover, userID: String, shared: Bool) {
+        guard let path = getPath(path: .sharedAlbum, email: userID) else {return}
+        path.document(cover.id.uuidString).setData([
+            "bookOwner": cover.owner,
+            "bookColor": cover.bookColor,
+            "bookName": cover.name,
+            "bookImageURL": cover.imageURL ?? ""
+        ])
+        if !shared {
+            BookController.shared.addSharedUser(user: userID, bookID: cover.id, bookOwner: cover.owner)
+        }
+    }
+    
     func sendShareRequest(book: Book, profile: Profile, completion: @escaping (SharingError?) -> Void) {
         
         guard let selfUser = UserControllerAuth.shared.user else {return}
