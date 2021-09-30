@@ -13,6 +13,7 @@ class BookDetailViewController: UIViewController {
     var book: Book?
     var bookCover: BookCover?
     
+    @IBOutlet weak var createRecipeLabel: UILabel!
     @IBOutlet weak var recipeCollectionView: UICollectionView!
     @IBOutlet weak var bookNameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -86,6 +87,7 @@ class BookDetailViewController: UIViewController {
             shareButton.isHidden = true
             editButton.isHidden = true
             addButton.isHidden = true
+            createRecipeLabel.isHidden = true
         }
     }
     

@@ -53,44 +53,6 @@ class UserControllerAuth {
     var profile: Profile?
     static let shared = UserControllerAuth()
     
-    func getUserPath() -> CollectionReference? {
-        if testingEnabled {
-            return db.collection("TestUsers")
-        } else {
-            return db.collection("Users")
-        }
-    }
-    
-    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
-        guard let userPath = getUserPath() else {return nil}
-        switch path {
-        case .newAlbum:
-            if let email = email {
-                return userPath.document(email).collection("Album")
-            } else {
-                return nil
-            }
-        case .album:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("Album")
-            } else {
-                return nil
-            }
-        case .otherSharedAlbum:
-            if let email = email {
-                return userPath.document(email).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        case .sharedAlbum:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        }
-    }
-    
     func createUser(email: String, password: String, displayName: String, completion: @escaping (UserControllerError?) -> Void) {
         auth.createUser(withEmail: email, password: password) {authResult, error in
             if error != nil {

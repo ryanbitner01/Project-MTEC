@@ -74,7 +74,7 @@ class BooksViewController: UIViewController {
     
     func getRecipeBookCovers() {
         guard let user = UserControllerAuth.shared.user else {return}
-        BookController.shared.getBookCovers(user: user, path: .album) { result in
+        BookController.shared.getBookCovers { result in
             switch result {
             case .success(let bookCovers):
                 user.album = bookCovers

@@ -29,16 +29,37 @@ enum FireBasePath {
     case otherSharedAlbum
     case sharedAlbum
     case album
-    case newAlbum
 }
 
 enum UserPath {
     case testUsers
     case users
 }
-//protocol BookControllerDelegate {
-//    func booksUpdated()
-//}
+
+func getPath(path: FireBasePath, email: String) -> CollectionReference? {
+    guard let userPath = getUserPath() else {return nil}
+    switch path {
+    case .album:
+        return userPath.document(email).collection("Album")
+        
+    case .otherSharedAlbum:
+        return userPath.document(email).collection("SharedAlbum")
+    case .sharedAlbum:
+        if let user = UserControllerAuth.shared.user {
+            return userPath.document(user.id).collection("SharedAlbum")
+        } else {
+            return nil
+        }
+    }
+}
+
+func getUserPath() -> CollectionReference? {
+    if testingEnabled {
+        return db.collection("TestUsers")
+    } else {
+        return db.collection("Users")
+    }
+}
 
 class BookController {
     
@@ -52,9 +73,23 @@ class BookController {
     
     
     func updateSharedUsers(users: [String], book: Book) {
-        guard let path = getPath(path: .album, email: nil) else {return}
+        guard let path = getPath(path: .album, email: book.owner) else {return}
         path.document(book.id.uuidString).updateData([
             "SharedUsers": users
+        ])
+    }
+    
+    func addSharedUser(user: String, book: Book) {
+        guard let path = getPath(path: .album, email: book.owner) else {return}
+        path.document(book.id.uuidString).updateData([
+            "SharedUsers": FieldValue.arrayUnion([user])
+        ])
+    }
+    
+    func removeSharedUser(user: String, book: Book) {
+        guard let path = getPath(path: .album, email: book.owner) else {return}
+        path.document(book.id.uuidString).updateData([
+            "SharedUsers": FieldValue.arrayRemove([user])
         ])
     }
     
@@ -63,46 +98,8 @@ class BookController {
         return book.owner == user.id
     }
     
-    func getUserPath() -> CollectionReference? {
-        if testingEnabled {
-            return db.collection("TestUsers")
-        } else {
-            return db.collection("Users")
-        }
-    }
-    
-    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
-        guard let userPath = getUserPath() else {return nil}
-        switch path {
-        case .newAlbum:
-            if let email = email {
-                return userPath.document(email).collection("Album")
-            } else {
-                return nil
-            }
-        case .album:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(email ?? user.id).collection("Album")
-            } else {
-                return nil
-            }
-        case .otherSharedAlbum:
-            if let email = email {
-                return userPath.document(email).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        case .sharedAlbum:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        }
-    }
-    
-    func getBookCovers(user: User, path: FireBasePath, email: String? = nil, completion: @escaping (Result<[BookCover], Error>) -> Void) {
-        guard let path = getPath(path: path, email: email) else {return}
+    func getBookCovers(completion: @escaping (Result<[BookCover], Error>) -> Void) {
+        guard let user = UserControllerAuth.shared.user, let path = getPath(path: .album, email: user.id) else {return}
         path.getDocuments { querySnapshot, error in
             if let querySS = querySnapshot {
                 let books = querySS.documents.compactMap { doc -> BookCover? in
@@ -118,7 +115,7 @@ class BookController {
         }
     }
     
-    func getBook(bookCover: BookCover, path: FireBasePath, email: String? = nil, completion: @escaping (Result<Book, Error>) -> Void) {
+    func getBook(bookCover: BookCover, path: FireBasePath, email: String, completion: @escaping (Result<Book, Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(bookCover.id.uuidString).addSnapshotListener { qs, err in
             if let qs = qs {
@@ -135,7 +132,7 @@ class BookController {
         }
     }
     
-    func getBooks(user: User, path: FireBasePath, email: String = "", completion: @escaping (Result<[Book], Error>) -> Void) {
+    func getBooks(user: User, path: FireBasePath, email: String, completion: @escaping (Result<[Book], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.getDocuments { querySnapshot, error in
             if let querySS = querySnapshot {

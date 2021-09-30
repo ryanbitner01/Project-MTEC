@@ -33,44 +33,6 @@ class RecipeController {
         
     }
     
-    func getUserPath() -> CollectionReference? {
-        if testingEnabled {
-            return db.collection("TestUsers")
-        } else {
-            return db.collection("Users")
-        }
-    }
-    
-    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
-        guard let userPath = getUserPath() else {return nil}
-        switch path {
-        case .newAlbum:
-            if let email = email {
-                return userPath.document(email).collection("Album")
-            } else {
-                return nil
-            }
-        case .album:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(email ?? user.id).collection("Album")
-            } else {
-                return nil
-            }
-        case .otherSharedAlbum:
-            if let email = email {
-                return userPath.document(email).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        case .sharedAlbum:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        }
-    }
-    
     func fetchRecipes(book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).collection("Recipes").addSnapshotListener { qs, err in
@@ -91,7 +53,7 @@ class RecipeController {
     
     func getInstructions(user: User, recipe: Recipe, book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Step], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
-
+        
         let recipeDirectory = path.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         let instructionsDoc = recipeDirectory.collection("Instructions")
         instructionsDoc.getDocuments { querySnapshot, err in
@@ -111,7 +73,7 @@ class RecipeController {
     
     func getIngredients(user: User, recipe: Recipe, book: Book,path: FireBasePath, email: String = "", completion: @escaping (Result<[Ingredient], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
-
+        
         let recipeDirectory = path.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         let ingredientsDoc = recipeDirectory.collection("Ingredients")
         ingredientsDoc.getDocuments { querySnapshot, err in
@@ -152,13 +114,13 @@ class RecipeController {
             }
         }
         
-
+        
     }
     
     func addRecipe(recipe: Recipe, book: Book, imageURL: String = "", instructions: [Step]?, ingredients: [Ingredient]?, path: FireBasePath, email: String = "") {
         guard let directory = getPath(path: path, email: email) else {return}
         let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes")
-            
+        
         recipeDirectory.document(recipe.id.uuidString).setData([
             "name": recipe.name,
             "imageURL": imageURL
@@ -210,7 +172,7 @@ class RecipeController {
     
     func deleteRecipe(recipe: Recipe, book: Book, path: FireBasePath, email: String = "") {
         guard let directory = getPath(path: path, email: email) else {return}
-
+        
         guard let user = UserControllerAuth.shared.user else {return}
         let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         if recipe.imageURL != " " {

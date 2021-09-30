@@ -61,20 +61,14 @@ class CreateRecipeViewController: UIViewController {
             let data = image.jpegData(compressionQuality: 0.9)
             let newRecipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, image: data, instruction: steps, ingredients: ingredients)
             //newRecipe.image = data
-            RecipeController.shared.addRecipeImage(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album)
+            RecipeController.shared.addRecipeImage(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album, email: book.owner)
             self.recipe = newRecipe
             performSegue(withIdentifier: "Save", sender: self)
-            for user in book.sharedUsers {
-                RecipeController.shared.addRecipeImage(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .otherSharedAlbum, email: user)
-            }
         } else {
             let newRecipe = Recipe(id: self.recipe?.id ?? UUID(), name: nameTextField.text!, instruction: steps, ingredients: ingredients)
-            RecipeController.shared.addRecipe(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album)
+            RecipeController.shared.addRecipe(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .album, email: book.owner)
             self.recipe = newRecipe
             performSegue(withIdentifier: "Save", sender: self)
-            for user in book.sharedUsers {
-                RecipeController.shared.addRecipe(recipe: newRecipe, book: book, instructions: steps, ingredients: ingredients, path: .otherSharedAlbum, email: user)
-            }
         }
         
     }

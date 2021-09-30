@@ -53,8 +53,9 @@ class SharingController {
               let sentRequestData = try? jsonEncoder.encode(sentRequest) else {return}
         
         // Remove Request from other user
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
-        guard let otherPath = getPath(path: .otherSharedAlbum, email: shareRequest.ownerProfile?.name) else {return}
+        guard let path = getPath(path: .sharedAlbum, email: user.id) else {return}
+        guard let ownerProfile = shareRequest.ownerProfile else {return}
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: ownerProfile.name) else {return}
         
         otherPath.document("SentBookShareRequests").updateData([
             "Requests": FieldValue.arrayRemove([sentRequestData])
@@ -70,7 +71,7 @@ class SharingController {
     }
     
     func addSharedBook(book: BookCover) {
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        guard let user = UserControllerAuth.shared.user, let path = getPath(path: .sharedAlbum, email: user.id) else {return}
         path.document(book.id.uuidString).setData([
             "bookOwner": book.owner,
             "bookColor": book.bookColor,
@@ -81,7 +82,7 @@ class SharingController {
     }
     
     func getSharedBookCovers(completion: @escaping (Result<[BookCover], SharingError>) -> Void) {
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {
+        guard let user = UserControllerAuth.shared.user, let path = getPath(path: .sharedAlbum, email: user.id) else {
             return completion(.failure(.noUser))
         }
         path.addSnapshotListener { qs, err in
@@ -97,6 +98,15 @@ class SharingController {
                 print(err.localizedDescription)
             }
         }
+    }
+    
+    func revokeBookShare(profile: Profile, book: Book) {
+        // Update shared with
+        BookController.shared.removeSharedUser(user: profile.email, book: book)
+                
+        // Update Shared Album
+        guard let path = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
+        path.document(book.id.uuidString).delete()
     }
     
     func revokeShareRequest(profile: Profile, request: SentBookShareRequest, book: Book) {
@@ -116,52 +126,60 @@ class SharingController {
         
         //Remove sent request
         
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        guard let path = getPath(path: .sharedAlbum, email: selfUser.id) else {return}
         path.document("SentBookShareRequests").updateData([
-            "Requests": FieldValue.arrayRemove([sentRequest])
+            "Requests": FieldValue.arrayRemove([sentRequestData])
         ])
         
         //Remove request
         
         
-//        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
-//        otherPath.document("BookShareRequests").updateData([
-//            "Requests": FieldValue.arrayRemove([otherRequest])
-//        ])
+        guard let otherPath = getPath(path: .otherSharedAlbum, email: profile.email) else {return}
+        otherPath.document("BookShareRequests").updateData([
+            "Requests": FieldValue.arrayRemove([requestData])
+        ])
     }
     
     func getSentShareRequests(completion: @escaping ([SentBookShareRequest]?) -> Void) {
-        //        guard let path = getPath(path: .sharedAlbum, email: nil) else {return completion(nil)}
-        //        path.document("SentBookShareRequests").addSnapshotListener { doc, err in
-        //            if let doc = doc {
-        //                guard let docData = doc.data(),
-        //                      let requests = docData["Requests"] as? [Any] else {return}
-        //                let shareRequests = requests.compactMap { request -> SentBookShareRequest? in
-        //                    let jsonDecoder = JSONDecoder()
-        //                    if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
-        //                        do {
-        //                            let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
-        //                            return result
-        //                        } catch {
-        //                            print(error)
-        //                            return nil
-        //                        }
-        //                    } else {
-        //                        return nil
-        //                    }
-        //                }
-        //                completion(shareRequests)
-        //            } else if let err = err {
-        //                print(err.localizedDescription)
-        //                completion(nil)
-        //            } else {
-        //                completion(nil)
-        //            }
-        //        }
+        guard let user = UserControllerAuth.shared.user, let path = getPath(path: .sharedAlbum, email: user.id) else {return completion(nil)}
+                path.document("SentBookShareRequests").addSnapshotListener { doc, err in
+                    if let doc = doc {
+                        guard let docData = doc.data(),
+                              let requests = docData["Requests"] as? [Any] else {return}
+                        let shareRequests = requests.compactMap { request -> SentBookShareRequest? in
+                            let jsonDecoder = JSONDecoder()
+                            guard let data = request as? Data else {return nil}
+                            do {
+                                let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
+                                return result
+                            } catch {
+                                print(error.localizedDescription)
+                                return nil
+                            }
+//                            if let data = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted) {
+//                                do {
+//                                    let result = try jsonDecoder.decode(SentBookShareRequest.self, from: data)
+//                                    return result
+//                                } catch {
+//                                    print(error)
+//                                    return nil
+//                                }
+//                            } else {
+//                                return nil
+//                            }
+                        }
+                        completion(shareRequests)
+                    } else if let err = err {
+                        print(err.localizedDescription)
+                        completion(nil)
+                    } else {
+                        completion(nil)
+                    }
+                }
     }
     
     func getShareRequests(completion: @escaping ([BookShareRequest]?) -> Void) {
-        guard let path = getPath(path: .sharedAlbum, email: nil) else {return}
+        guard let user = UserControllerAuth.shared.user, let path = getPath(path: .sharedAlbum, email: user.id) else {return}
         path.document("BookShareRequests").addSnapshotListener { doc, err in
             if let doc = doc {
                 guard let docData = doc.data(),
@@ -185,44 +203,6 @@ class SharingController {
                 completion(nil)
             } else {
                 completion(nil)
-            }
-        }
-    }
-    
-    func getUserPath() -> CollectionReference? {
-        if testingEnabled {
-            return db.collection("TestUsers")
-        } else {
-            return db.collection("Users")
-        }
-    }
-    
-    func getPath(path: FireBasePath, email: String?) -> CollectionReference? {
-        guard let userPath = getUserPath() else {return nil}
-        switch path {
-        case .newAlbum:
-            if let email = email {
-                return userPath.document(email).collection("Album")
-            } else {
-                return nil
-            }
-        case .album:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("Album")
-            } else {
-                return nil
-            }
-        case .otherSharedAlbum:
-            if let email = email {
-                return userPath.document(email).collection("SharedAlbum")
-            } else {
-                return nil
-            }
-        case .sharedAlbum:
-            if let user = UserControllerAuth.shared.user {
-                return userPath.document(user.id).collection("SharedAlbum")
-            } else {
-                return nil
             }
         }
     }
@@ -271,7 +251,7 @@ class SharingController {
         
         
         // Update Sent Requests
-        guard let selfPath = getPath(path: .sharedAlbum, email: nil) else {return}
+        guard let selfPath = getPath(path: .sharedAlbum, email: selfUser.id) else {return}
         selfPath.document("SentBookShareRequests").setData([
             "Requests": FieldValue.arrayUnion([sentRequestData])
         ], mergeFields: [

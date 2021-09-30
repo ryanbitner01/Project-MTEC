@@ -78,12 +78,7 @@ class RecipeDetailViewController: UIViewController {
     
     func fetchInstructions() {
         guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
-        let isOwner = book.owner == user.id
-        var path: FireBasePath = .album
-        if !isOwner {
-            path = .sharedAlbum
-        }
-        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: path) { result in
+        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album, email: book.owner) { result in
             switch result {
             case .success(let steps):
                 recipe.instruction = steps
@@ -98,12 +93,7 @@ class RecipeDetailViewController: UIViewController {
     
     func fetchIngredients() {
         guard let user = UserControllerAuth.shared.user, let recipe = recipe, let book = book else {return}
-        let isOwner = book.owner == user.id
-        var path: FireBasePath = .album
-        if !isOwner {
-            path = .sharedAlbum
-        }
-        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: path) { result in
+        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album, email: book.owner) { result in
             switch result {
             case .success(let ingredients):
                 recipe.ingredients = ingredients

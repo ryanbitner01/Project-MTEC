@@ -39,10 +39,6 @@ class ShareBookViewController: UIViewController {
         sharingCollectionView.dataSource = self
         if let book = book {
             nameLabel.text = book.name
-            for recipe in book.recipes {
-                fetchIngredients(recipe: recipe)
-                fetchInstructions(recipe: recipe)
-            }
         }
         hideAlert()
         setupBookImage()
@@ -140,29 +136,29 @@ class ShareBookViewController: UIViewController {
         }
     }
     
-    func fetchInstructions(recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user, let book = book else {return}
-        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album) { result in
-            switch result {
-            case .success(let steps):
-                recipe.instruction = steps
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
-    
-    func fetchIngredients(recipe: Recipe) {
-        guard let user = UserControllerAuth.shared.user, let book = book else {return}
-        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album) { result in
-            switch result {
-            case .success(let ingredients):
-                recipe.ingredients = ingredients
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
-    }
+//    func fetchInstructions(recipe: Recipe) {
+//        guard let user = UserControllerAuth.shared.user, let book = book else {return}
+//        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album) { result in
+//            switch result {
+//            case .success(let steps):
+//                recipe.instruction = steps
+//            case .failure(let err):
+//                print(err.localizedDescription)
+//            }
+//        }
+//    }
+//
+//    func fetchIngredients(recipe: Recipe) {
+//        guard let user = UserControllerAuth.shared.user, let book = book else {return}
+//        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album) { result in
+//            switch result {
+//            case .success(let ingredients):
+//                recipe.ingredients = ingredients
+//            case .failure(let err):
+//                print(err.localizedDescription)
+//            }
+//        }
+//    }
     
     func revokeRequest(profile: Profile) {
         guard let request = UserControllerAuth.shared.user?.shareRequestsSent.first(where: {$0.bookName == book?.name && $0.user == profile.email}), let book = book else {return print("No request Found")}

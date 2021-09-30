@@ -19,80 +19,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F7546351-E7B4-407B-BB44-B0C9AA2BAE12"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Recipes/Views/ViewControllers/Book System/BookDetailViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "getRecipes()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BEB242C0-2432-40ED-B135-D193F8381802"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Recipes/Views/ViewControllers/Book System/BookDetailViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "getBook()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "38C05D6C-9C1A-4FF2-BC3C-BD86B2737F02"
+            uuid = "E2C68217-5357-4AC3-B72B-32E540DF6224"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Recipes/Views/ViewControllers/Book System/BooksViewController.swift"
+            filePath = "Recipes/Views/ViewControllers/User System/Sharing/ShareBookViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "segueToBookDetailVC(_:sender:)"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "getSharedWith()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB2F3D0C-7FF1-4952-AED7-43B723D67C7C"
-            shouldBeEnabled = "Yes"
+            uuid = "B1BE1EE8-02E8-4B41-8846-22705D0DD77E"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Recipes/Views/ViewControllers/Book System/BookDetailViewController.swift"
+            filePath = "Recipes/Views/ViewControllers/User System/Sharing/ShareBookViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "getBook()"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "getAvailableShare()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D9A4087A-9274-4CB5-B71D-8E3A336CAC39"
+            uuid = "77E06C09-EC73-4DB9-BFFC-DA114865311A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Recipes/Views/ViewControllers/Book System/BookDetailViewController.swift"
+            filePath = "Recipes/Controller/SharingController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "getRecipes()"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "getSentShareRequests(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
