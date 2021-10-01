@@ -53,8 +53,10 @@ class MigrationController {
     func changeName(new: String, completion: (MigrationError?) -> Void) {
         guard let path = getUserPath(), let user = UserControllerAuth.shared.user else {return completion(.nameChange)}
         completion(nil)
-        path.document(user.id).updateData([
+        path.document(user.id).setData([
             "DisplayName": new
+        ], mergeFields: [
+            "DisplayName"
         ])
         
     }

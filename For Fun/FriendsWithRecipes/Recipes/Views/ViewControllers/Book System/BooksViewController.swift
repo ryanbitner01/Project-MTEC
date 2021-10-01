@@ -120,7 +120,7 @@ class BooksViewController: UIViewController {
             if book.image != nil {
                 BookController.shared.deleteBookImage(book: book)
             }
-            BookController.shared.deleteBook(book: book, path: .album) {err in
+            BookController.shared.deleteBook(book: book, path: .album, email: book.owner) {err in
                 if let err = err {
                     print(err.localizedDescription + book.name)
                     return

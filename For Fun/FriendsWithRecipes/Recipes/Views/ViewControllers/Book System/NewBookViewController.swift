@@ -72,7 +72,7 @@ class NewBookViewController: UIViewController {
         if let image = image, let imageData: Data = image.jpegData(compressionQuality: 0.9) {
             let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), sharedUsers: self.book?.sharedUsers ?? [], owner: selfUser.id, image: imageData)
             let cover = BookCover(name: book.name, id: book.id, imageURL: book.imageURL ?? "", bookColor: book.bookColor, owner: book.owner)
-            BookController.shared.addBookImage(image: imageData, book: cover, new: true, path: .album)
+            BookController.shared.addBookImage(image: imageData, book: cover, new: true, path: .album, email: selfUser.id)
             book.image = imageData
             self.book = book
             for user in book.sharedUsers {
@@ -82,7 +82,7 @@ class NewBookViewController: UIViewController {
         } else {
             let book = Book(name: nameTextField.text ?? "", id: self.book?.id ?? UUID(), bookColor: colorName ?? "", sharedUsers: self.book?.sharedUsers ?? [], owner: selfUser.id)
             let cover = BookCover(name: book.name, id: book.id, imageURL: book.imageURL ?? "", bookColor: book.bookColor, owner: book.owner)
-            BookController.shared.addBook(book: cover, path: .album)
+            BookController.shared.addBook(book: cover, imageUrl: "", path: .album, email: selfUser.id)
             self.book = book
             for user in book.sharedUsers {
                 SharingController.shared.reshareBook(cover: cover, userID: user, shared: true)

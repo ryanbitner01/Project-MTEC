@@ -77,8 +77,10 @@ class BookController {
     
     func addSharedUser(user: String, bookID: UUID, bookOwner: String) {
         guard let path = getPath(path: .album, email: bookOwner) else {return}
-        path.document(bookID.uuidString).updateData([
+        path.document(bookID.uuidString).setData([
             "SharedUsers": FieldValue.arrayUnion([user])
+        ], mergeFields: [
+            "SharedUsers"
         ])
     }
     
@@ -96,7 +98,7 @@ class BookController {
     
     func getBookCovers(completion: @escaping (Result<[BookCover], Error>) -> Void) {
         guard let user = UserControllerAuth.shared.user, let path = getPath(path: .album, email: user.id) else {return}
-        path.getDocuments { querySnapshot, error in
+        path.addSnapshotListener { querySnapshot, error in
             if let querySS = querySnapshot {
                 let books = querySS.documents.compactMap { doc -> BookCover? in
                     let data = doc.data()
@@ -154,7 +156,7 @@ class BookController {
         completion(.success(image))
     }
     
-    func addBookImage(image: Data, book: BookCover, new: Bool, path: FireBasePath, email: String = "") {
+    func addBookImage(image: Data, book: BookCover, new: Bool, path: FireBasePath, email: String) {
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
         imageRef.putData(image, metadata: nil) {metaData, error in
@@ -182,7 +184,7 @@ class BookController {
         }
     }
     
-    func deleteBook(book: Book, path: FireBasePath, email: String = "", completion: @escaping (BookError?) -> Void) {
+    func deleteBook(book: Book, path: FireBasePath, email: String, completion: @escaping (BookError?) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         if book.imageURL != " " {
             deleteBookImage(book: book)
@@ -201,11 +203,11 @@ class BookController {
         }
     }
     
-    func addBook(book: BookCover, imageUrl: String = "",path: FireBasePath, email: String = "") {
+    func addBook(book: BookCover, imageUrl: String,path: FireBasePath, email: String) {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).setData([
             "name": book.name,
-            "imageUrl": book.imageURL ?? "",
+            "imageUrl": imageUrl,
             "color": book.bookColor,
             "Owner": book.owner,
             "SharedUsers": []
