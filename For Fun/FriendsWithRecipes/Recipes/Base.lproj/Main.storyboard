@@ -668,7 +668,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="uVW-C1-Iql">
-                                <rect key="frame" x="30" y="315.5" width="354" height="265.5"/>
+                                <rect key="frame" x="30" y="345" width="354" height="206.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iv0-9c-5Lw">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="30"/>
@@ -692,18 +692,8 @@
                                             <segue destination="lKC-8Y-3HJ" kind="show" id="wM1-zg-kfQ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZR-44-nBl">
-                                        <rect key="frame" x="0.0" y="177.5" width="354" height="29"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <state key="normal" title="Change Email">
-                                            <color key="titleColor" name="tintColor"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="Uji-XH-k3t" kind="show" id="E2x-EH-Z59"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yv-z9-0dy">
-                                        <rect key="frame" x="0.0" y="236.5" width="354" height="29"/>
+                                        <rect key="frame" x="0.0" y="177.5" width="354" height="29"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <state key="normal" title="Change Name">
                                             <color key="titleColor" name="tintColor"/>
@@ -805,47 +795,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nw1-Co-BpA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1474" y="2819"/>
-        </scene>
-        <!--New Email View Controller-->
-        <scene sceneID="O3E-vt-QFj">
-            <objects>
-                <viewController id="Uji-XH-k3t" customClass="NewEmailViewController" customModule="Recipes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Guu-kl-fK6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Email" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MTy-pd-5SX">
-                                <rect key="frame" x="50" y="431" width="314" height="34"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <action selector="donePressed:" destination="Uji-XH-k3t" eventType="primaryActionTriggered" id="NGt-Hz-lmT"/>
-                                </connections>
-                            </textField>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6SE-u8-Vsb"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="MTy-pd-5SX" firstAttribute="leading" secondItem="6SE-u8-Vsb" secondAttribute="leading" constant="50" id="7x8-cT-Hmm"/>
-                            <constraint firstItem="6SE-u8-Vsb" firstAttribute="trailing" secondItem="MTy-pd-5SX" secondAttribute="trailing" constant="50" id="O2Y-ti-5eu"/>
-                            <constraint firstItem="MTy-pd-5SX" firstAttribute="centerY" secondItem="Guu-kl-fK6" secondAttribute="centerY" id="jGe-4v-2dr"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="YqD-Bf-nht">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="kBz-L3-Lg7">
-                            <color key="tintColor" name="tintColor"/>
-                            <connections>
-                                <action selector="savePressed:" destination="Uji-XH-k3t" id="KNz-Bw-1I0"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="emailTF" destination="MTy-pd-5SX" id="hgV-3V-jG2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="009-R1-GDM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1474" y="3467"/>
         </scene>
         <!--Share Book-->
         <scene sceneID="JRi-Ur-UnS">

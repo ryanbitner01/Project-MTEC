@@ -33,7 +33,7 @@ class RecipeController {
         
     }
     
-    func fetchRecipes(book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
+    func fetchRecipes(book: Book, path: FireBasePath, email: String, completion: @escaping (Result<[Recipe], RecipeControllerError>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).collection("Recipes").addSnapshotListener { qs, err in
             if let qs = qs {
@@ -51,7 +51,7 @@ class RecipeController {
         }
     }
     
-    func getInstructions(user: User, recipe: Recipe, book: Book, path: FireBasePath, email: String = "", completion: @escaping (Result<[Step], Error>) -> Void) {
+    func getInstructions(user: User, recipe: Recipe, book: Book, path: FireBasePath, email: String, completion: @escaping (Result<[Step], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         
         let recipeDirectory = path.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)

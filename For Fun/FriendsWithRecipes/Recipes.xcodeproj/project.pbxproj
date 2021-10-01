@@ -26,7 +26,6 @@
 		1E6C4768268CC19900A4E82F /* SocialController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6C4767268CC19900A4E82F /* SocialController.swift */; };
 		1E9C8CCA268385F500A49D0F /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C8CC9268385F500A49D0F /* AccountDetailViewController.swift */; };
 		1E9C8CCC2683862000A49D0F /* NewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C8CCB2683862000A49D0F /* NewPasswordViewController.swift */; };
-		1E9C8CCE2683862F00A49D0F /* NewEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9C8CCD2683862F00A49D0F /* NewEmailViewController.swift */; };
 		1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA60EE02633B8D100878D81 /* LoginViewController.swift */; };
 		1EAD918426989FAE00798B01 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EAD918326989FAE00798B01 /* RequestViewController.swift */; };
 		1EB96F082647893B007B6236 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB96F072647893B007B6236 /* BookCell.swift */; };
@@ -84,7 +83,6 @@
 		1E6C4767268CC19900A4E82F /* SocialController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialController.swift; sourceTree = "<group>"; };
 		1E9C8CC9268385F500A49D0F /* AccountDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
 		1E9C8CCB2683862000A49D0F /* NewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewPasswordViewController.swift; path = "Recipes/Views/ViewControllers/User System/NewPasswordViewController.swift"; sourceTree = SOURCE_ROOT; };
-		1E9C8CCD2683862F00A49D0F /* NewEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEmailViewController.swift; sourceTree = "<group>"; };
 		1EA60EE02633B8D100878D81 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = "Recipes/Views/ViewControllers/User System/LoginViewController.swift"; sourceTree = SOURCE_ROOT; };
 		1EAD918326989FAE00798B01 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
 		1EB96F072647893B007B6236 /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				1E80C8B526CC1AA200BBF3E5 /* Sharing */,
 				1E340A2B26A0753600A65C09 /* NewNameViewController.swift */,
 				1E0080412694AC3D0096B2CD /* ProfileSnapshotViewController.swift */,
-				1E9C8CCD2683862F00A49D0F /* NewEmailViewController.swift */,
 				1EBA7864268B794C00F6F07A /* UserSearchViewController.swift */,
 				1E9C8CC9268385F500A49D0F /* AccountDetailViewController.swift */,
 				1E9C8CCB2683862000A49D0F /* NewPasswordViewController.swift */,
@@ -446,7 +443,6 @@
 				1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */,
 				1EA60EE12633B8D100878D81 /* LoginViewController.swift in Sources */,
 				1EECF63C268A0F34000CA17A /* NoBookCell.swift in Sources */,
-				1E9C8CCE2683862F00A49D0F /* NewEmailViewController.swift in Sources */,
 				1E051D372642D98A00137B73 /* CreateUserViewController.swift in Sources */,
 				1ED0678C26692FDB00A86F12 /* RecipeDetailViewController.swift in Sources */,
 				1E9C8CCC2683862000A49D0F /* NewPasswordViewController.swift in Sources */,

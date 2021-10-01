@@ -45,11 +45,7 @@ func getPath(path: FireBasePath, email: String) -> CollectionReference? {
     case .otherSharedAlbum:
         return userPath.document(email).collection("SharedAlbum")
     case .sharedAlbum:
-        if let user = UserControllerAuth.shared.user {
-            return userPath.document(email).collection("SharedAlbum")
-        } else {
-            return nil
-        }
+        return userPath.document(email).collection("SharedAlbum")
     }
 }
 
@@ -132,7 +128,7 @@ class BookController {
         }
     }
     
-    func getBooks(user: User, path: FireBasePath, email: String, completion: @escaping (Result<[Book], Error>) -> Void) {
+    func getBooks(path: FireBasePath, email: String, completion: @escaping (Result<[Book], Error>) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
         path.getDocuments { querySnapshot, error in
             if let querySS = querySnapshot {
