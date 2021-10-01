@@ -209,8 +209,7 @@ class BookController {
             "name": book.name,
             "imageUrl": imageUrl,
             "color": book.bookColor,
-            "Owner": book.owner,
-            "SharedUsers": []
+            "Owner": book.owner
         ])
         //delegate?.booksUpdated()
         //print("NEW BOOK!")
