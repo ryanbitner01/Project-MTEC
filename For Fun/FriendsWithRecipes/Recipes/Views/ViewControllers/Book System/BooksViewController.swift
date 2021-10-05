@@ -108,65 +108,23 @@ class BooksViewController: UIViewController {
             guard let book = bookDetailVC.book else {return}
             let recipes = bookDetailVC.book?.recipes ?? []
             for recipe in recipes {
-                RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
+                RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album, email: book.owner)
             }
-            for user in book.sharedUsers {
-                BookController.shared.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
-                    if let err = err {
-                        print(err.localizedDescription + user)
-                    }
-                }
-            }
-            if book.image != nil {
-                BookController.shared.deleteBookImage(book: book)
-            }
+//            if book.image != nil {
+//                BookController.shared.deleteBookImage(book: book)
+//            }
             BookController.shared.deleteBook(book: book, path: .album, email: book.owner) {err in
                 if let err = err {
                     print(err.localizedDescription + book.name)
                     return
                 }
             }
-            if let indexPath = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == book.id}) {
-                UserControllerAuth.shared.user?.album.remove(at: indexPath)
-                self.bookCollectionView.reloadData()
-            }
             
         }
     }
     
     @IBAction func unwindToBooks(_ unwindSegue: UIStoryboardSegue) {
-        if let newBookVC = unwindSegue.source as? NewBookViewController, let newBook = newBookVC.book {
-            //            if let existingIndex = UserControllerAuth.shared.user?.album.firstIndex(where: {$0.id == newBook.id}) {
-            //                UserControllerAuth.shared.user?.album[existingIndex] = newBook
-            //                bookCollectionView.reloadData()
-            //            } else {
-            //                UserControllerAuth.shared.user?.album.append(newBook)
-            //                bookCollectionView.reloadData()
-            //            }
-        }
-        //        if let bookDetailVC = unwindSegue.source as? BookDetailViewController, unwindSegue.identifier == "DELETE" {
-        //            guard let book = bookDetailVC.book else {return}
-        //            let recipes = bookDetailVC.recipes
-        //            for recipe in recipes {
-        //                RecipeController.shared.deleteRecipe(recipe: recipe, book: book)
-        //            }
-        //
-        //            if book.image != nil {
-        //                BookController.shared.deleteBookImage(book: book)
-        //            }
-        //            BookController.shared.deleteBook(book: book) {err in
-        //                if let err = err {
-        //                    print(err.localizedDescription + book.name)
-        //                    return
-        //                }
-        //            }
-        //            if let indexPath = self.books.firstIndex(where: {$0.id == book.id}) {
-        //                self.books.remove(at: indexPath)
-        //                self.bookCollectionView.reloadData()
-        //            }
-        //
-        //        }
-        // Use data from the view controller which initiated the unwind segue
+    
     }
     
     @IBSegueAction func segueToBookDetailVC(_ coder: NSCoder, sender: Any) -> BookDetailViewController? {

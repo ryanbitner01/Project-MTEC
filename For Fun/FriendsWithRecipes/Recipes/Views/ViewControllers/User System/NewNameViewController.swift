@@ -15,10 +15,11 @@ class NewNameViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     
     var displayNameIsValid = true
+    var names = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkText()
+        getNames()
         updateSaveButtonState()
         updateNameLabel()
         // Do any additional setup after loading the view.
@@ -29,23 +30,27 @@ class NewNameViewController: UIViewController {
         nameLabel.text = "Display Name: " + name
     }
     
-    func checkText() {
+    func getNames() {
         UserControllerAuth.shared.getAllDisplayNames { result in
             switch result {
             case .success(let names):
-                if !names.contains(where: {$0.lowercased() == self.newNameTF.text?.lowercased()}) {
-                    self.displayNameIsValid = true
-                    self.hideAlert()
-                    self.updateSaveButtonState()
-                    //self.verifyPassword()
-                } else {
-                    self.displayNameIsValid = false
-                    self.showAlert(err: MigrationError.invalidName)
-                    self.updateSaveButtonState()
-                }
+                self.names = names
+                self.checkText()
             case .failure(let err):
                 print(err.localizedDescription)
             }
+        }
+    }
+    
+    func checkText() {
+        if !names.contains(where: {$0.lowercased() == self.newNameTF.text?.lowercased()}) {
+            self.displayNameIsValid = true
+            self.hideAlert()
+            self.updateSaveButtonState()
+        } else {
+            self.displayNameIsValid = false
+            self.showAlert(err: MigrationError.invalidName)
+            self.updateSaveButtonState()
         }
     }
     

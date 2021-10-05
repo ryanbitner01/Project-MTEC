@@ -139,13 +139,13 @@ class RecipeController {
         }
     }
     
-    func deleteInstruction(instruction: Step, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+    func deleteInstruction(instruction: Step, book: Book, recipe: Recipe, path: FireBasePath, email: String) {
         guard let directory = getPath(path: path, email: email) else {return}
         let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Instructions").document("\(instruction.order)").delete()
     }
     
-    func deleteIngredient(ingredeint: Ingredient, book: Book, recipe: Recipe, path: FireBasePath, email: String = "") {
+    func deleteIngredient(ingredeint: Ingredient, book: Book, recipe: Recipe, path: FireBasePath, email: String) {
         guard let directory = getPath(path: path, email: email) else {return}
         let recipeDirectory = directory.document(book.id.uuidString).collection("Recipes").document(recipe.id.uuidString)
         recipeDirectory.collection("Ingredients").document("\(ingredeint.count)").delete()
@@ -170,7 +170,7 @@ class RecipeController {
         ])
     }
     
-    func deleteRecipe(recipe: Recipe, book: Book, path: FireBasePath, email: String = "") {
+    func deleteRecipe(recipe: Recipe, book: Book, path: FireBasePath, email: String) {
         guard let directory = getPath(path: path, email: email) else {return}
         
         guard let user = UserControllerAuth.shared.user else {return}

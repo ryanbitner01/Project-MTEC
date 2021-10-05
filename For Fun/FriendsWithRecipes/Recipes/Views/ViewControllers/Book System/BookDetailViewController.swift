@@ -141,8 +141,8 @@ class BookDetailViewController: UIViewController {
     
     @IBAction func deleteRecipeUnwind(_ unwindSegue: UIStoryboardSegue) {
         let sourceViewController = unwindSegue.source as! RecipeDetailViewController
-        guard let recipe = sourceViewController.recipe, let book = book else {return}
-        RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album)
+        guard let user = UserControllerAuth.shared.user, let recipe = sourceViewController.recipe, let book = book else {return}
+        RecipeController.shared.deleteRecipe(recipe: recipe, book: book, path: .album, email: user.id)
         if let recipeIndex = book.recipes.firstIndex(where: {$0.id == recipe.id}) {
             self.book?.recipes.remove(at: recipeIndex)
             recipeCollectionView.reloadData()
@@ -156,16 +156,7 @@ class BookDetailViewController: UIViewController {
     }
     
     @IBAction func saveBookUnwind(_ unwindSegue: UIStoryboardSegue) {
-        if let sourceVC = unwindSegue.source as? CreateRecipeViewController {
-            guard let recipe = sourceVC.recipe else {return}
-            if let indexPath = book?.recipes.firstIndex(where: {$0.id == recipe.id}) {
-                book?.recipes[indexPath] = recipe
-            } else {
-                book?.recipes.append(recipe)
-            }
-            recipeCollectionView.reloadData()
-        }
-        // Use data from the view controller which initiated the unwind segue
+       
     }
     
     @IBAction func unwindFromShareBook(_ unwindSegue: UIStoryboardSegue) {

@@ -235,7 +235,7 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
                 guard let index = ingredients.firstIndex(where: {$0.count == ingredient.count}), let book = book, let recipe = recipe else {return}
                 ingredients.remove(at: index)
                 componentTableView.deleteRows(at: [indexPath], with: .automatic)
-                RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: .album)
+                RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: .album, email: book.owner)
                 for user in book.sharedUsers {
                     RecipeController.shared.deleteIngredient(ingredeint: ingredient, book: book, recipe: recipe, path: .otherSharedAlbum, email: user)
                 }
@@ -244,7 +244,7 @@ extension CreateRecipeViewController: UITableViewDataSource, UITableViewDelegate
                 guard let index = steps.firstIndex(where: {$0.order == step.order}), let book = book, let recipe = recipe else {return}
                 steps.remove(at: index)
                 componentTableView.deleteRows(at: [indexPath], with: .automatic)
-                RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe, path: .album)
+                RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe, path: .album, email: book.owner)
                 for user in book.sharedUsers {
                     RecipeController.shared.deleteInstruction(instruction: step, book: book, recipe: recipe, path: .otherSharedAlbum, email: user)
                 }

@@ -90,7 +90,7 @@ class SharingController {
         addSharedBook(book: book)
         
         // Update Shared Users
-        BookController.shared.addSharedUser(user: user.id, bookID: shareRequest.book, bookOwner: ownerProfile .id)
+        BookController.shared.setupSharedUser(user: user.id, bookID: shareRequest.book, bookOwner: ownerProfile .id)
     }
     
     func addSharedBook(book: BookCover) {
@@ -230,17 +230,19 @@ class SharingController {
         }
     }
     
-    func reshareBook(cover: BookCover, userID: String, shared: Bool) {
+      func reshareBook(cover: BookCover, userID: String, imageURL: String?) {
         guard let path = getPath(path: .sharedAlbum, email: userID) else {return}
         path.document(cover.id.uuidString).setData([
             "bookOwner": cover.owner,
             "bookColor": cover.bookColor,
             "bookName": cover.name,
-            "bookImageURL": cover.imageURL ?? ""
+            "bookImageURL": imageURL ?? ""
+        ], mergeFields: [
+            "bookOwner",
+            "bookColor",
+            "bookName",
+            "bookImageURL"
         ])
-        if !shared {
-            BookController.shared.addSharedUser(user: userID, bookID: cover.id, bookOwner: cover.owner)
-        }
     }
     
     func sendShareRequest(book: Book, profile: Profile, completion: @escaping (SharingError?) -> Void) {

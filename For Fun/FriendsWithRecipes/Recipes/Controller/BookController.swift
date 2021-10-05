@@ -75,6 +75,15 @@ class BookController {
         ])
     }
     
+    func setupSharedUser(user: String, bookID: UUID, bookOwner: String) {
+        guard let path = getPath(path: .album, email: bookOwner) else {return}
+        path.document(bookID.uuidString).setData([
+            "SharedUsers": [user]
+        ], mergeFields: [
+            "SharedUsers"
+        ])
+    }
+    
     func addSharedUser(user: String, bookID: UUID, bookOwner: String) {
         guard let path = getPath(path: .album, email: bookOwner) else {return}
         path.document(bookID.uuidString).setData([
@@ -121,9 +130,9 @@ class BookController {
                       let name = data["name"] as? String,
                       let url = data["imageUrl"] as? String,
                       let bookColor = data["color"] as? String,
-                      let sharedUsers = data["SharedUsers"] as? [String],
                       let owner = data["Owner"] as? String,
                       let uuidString = UUID(uuidString: qs.documentID) else {return}
+                let sharedUsers = data["SharedUsers"] as? [String] ?? []
                 let book = Book(name: name, id: uuidString, imageURL: url, bookColor: bookColor, sharedUsers: sharedUsers, owner: owner)
                 completion(.success(book))
             }
@@ -156,7 +165,7 @@ class BookController {
         completion(.success(image))
     }
     
-    func addBookImage(image: Data, book: BookCover, new: Bool, path: FireBasePath, email: String) {
+    func addBookImage(image: Data, book: BookCover, new: Bool, path: FireBasePath, email: String, sharedUsers: [String] = []) {
         let storageRef = storage.reference()
         let imageRef = storageRef.child(book.id.uuidString)
         imageRef.putData(image, metadata: nil) {metaData, error in
@@ -164,7 +173,7 @@ class BookController {
                 if let err = err {
                     print(err.localizedDescription)
                 } else if let url = url{
-                    self.addBook(book: book, imageUrl: url.absoluteString, path: path, email: email)
+                    self.addBook(book: book, imageUrl: url.absoluteString, path: path, email: email, sharedUsers: sharedUsers)
                 }
             }
         }
@@ -186,15 +195,13 @@ class BookController {
     
     func deleteBook(book: Book, path: FireBasePath, email: String, completion: @escaping (BookError?) -> Void) {
         guard let path = getPath(path: path, email: email) else {return}
-        if book.imageURL != " " {
+        if book.imageURL != "" {
             deleteBookImage(book: book)
         }
         for user in book.sharedUsers {
-            self.deleteBook(book: book, path: .otherSharedAlbum, email: user) { err in
-                if let err = err {
-                    print(err.localizedDescription)
-                }
-            }
+            let profile = Profile(name: "", email: user, imageURL: "", image: nil, friends: [], requests: [], pendingFriends: [])
+
+            SharingController.shared.revokeBookShare(profile: profile, book: book)
         }
         path.document(book.id.uuidString).delete { err in
             if err != nil {
@@ -203,14 +210,23 @@ class BookController {
         }
     }
     
-    func addBook(book: BookCover, imageUrl: String,path: FireBasePath, email: String) {
+    func addBook(book: BookCover, imageUrl: String,path: FireBasePath, email: String, sharedUsers: [String] = []) {
         guard let path = getPath(path: path, email: email) else {return}
         path.document(book.id.uuidString).setData([
             "name": book.name,
             "imageUrl": imageUrl,
             "color": book.bookColor,
             "Owner": book.owner
+        ], mergeFields: [
+            "name",
+            "imageUrl",
+            "color",
+            "Owner"
         ])
+        
+        for user in sharedUsers {
+            SharingController.shared.reshareBook(cover: book, userID: user, imageURL: imageUrl)
+        }
         //delegate?.booksUpdated()
         //print("NEW BOOK!")
     }

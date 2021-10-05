@@ -40,6 +40,7 @@ class ShareBookViewController: UIViewController {
         if let book = book {
             nameLabel.text = book.name
         }
+        bookImageView.layer.cornerRadius = 25
         hideAlert()
         setupBookImage()
         setupPeople()
@@ -104,7 +105,6 @@ class ShareBookViewController: UIViewController {
             case .success(let image):
                 DispatchQueue.main.async {
                     self.bookImageView.image = image
-                    self.bookImageView.layer.cornerRadius = 25
                 }
             case .failure(let err):
                 print(err.localizedDescription)
@@ -135,30 +135,6 @@ class ShareBookViewController: UIViewController {
             }
         }
     }
-    
-//    func fetchInstructions(recipe: Recipe) {
-//        guard let user = UserControllerAuth.shared.user, let book = book else {return}
-//        RecipeController.shared.getInstructions(user: user, recipe: recipe, book: book, path: .album) { result in
-//            switch result {
-//            case .success(let steps):
-//                recipe.instruction = steps
-//            case .failure(let err):
-//                print(err.localizedDescription)
-//            }
-//        }
-//    }
-//
-//    func fetchIngredients(recipe: Recipe) {
-//        guard let user = UserControllerAuth.shared.user, let book = book else {return}
-//        RecipeController.shared.getIngredients(user: user, recipe: recipe, book: book, path: .album) { result in
-//            switch result {
-//            case .success(let ingredients):
-//                recipe.ingredients = ingredients
-//            case .failure(let err):
-//                print(err.localizedDescription)
-//            }
-//        }
-//    }
     
     func revokeRequest(profile: Profile) {
         guard let request = UserControllerAuth.shared.user?.shareRequestsSent.first(where: {$0.bookName == book?.name && $0.user == profile.email}), let book = book else {return print("No request Found")}
