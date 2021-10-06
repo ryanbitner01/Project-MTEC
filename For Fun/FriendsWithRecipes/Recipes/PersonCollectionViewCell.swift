@@ -23,8 +23,10 @@ class PersonCollectionViewCell: UICollectionViewCell {
         guard let email = email else {return}
         SocialController.shared.getProfile(self: false, email: email) { profile in
             DispatchQueue.main.async {
-                self.profile = profile
-                self.updateCell()
+                DispatchQueue.main.async {
+                    self.profile = profile
+                    self.updateCell()
+                }
             }
         }
     }

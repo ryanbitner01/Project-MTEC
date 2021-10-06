@@ -1980,10 +1980,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PersonCell" id="tXI-do-lUq" customClass="PersonCollectionViewCell" customModule="Recipes" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="100" height="103"/>
+                                        <rect key="frame" x="0.0" y="50" width="100" height="117"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="6dn-qz-R3r">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="103"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="117"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uik-rY-alM" customClass="CircleImageView" customModule="Recipes" customModuleProvider="target">
@@ -1993,8 +1993,8 @@
                                                         <constraint firstAttribute="width" secondItem="uik-rY-alM" secondAttribute="height" id="x1v-gg-JgB"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-dF-2Cv">
-                                                    <rect key="frame" x="0.0" y="103" width="100" height="0.0"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LKf-dF-2Cv">
+                                                    <rect key="frame" x="0.0" y="100" width="100" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2003,11 +2003,11 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="uik-rY-alM" secondAttribute="trailing" constant="5" id="I2Z-EP-hSo"/>
                                                 <constraint firstAttribute="trailing" secondItem="LKf-dF-2Cv" secondAttribute="trailing" id="UvL-lE-NSX"/>
+                                                <constraint firstItem="LKf-dF-2Cv" firstAttribute="top" secondItem="uik-rY-alM" secondAttribute="bottom" constant="5" id="eqC-8q-rW8"/>
                                                 <constraint firstItem="LKf-dF-2Cv" firstAttribute="leading" secondItem="6dn-qz-R3r" secondAttribute="leading" id="gGS-x6-gdP"/>
                                                 <constraint firstAttribute="bottom" secondItem="LKf-dF-2Cv" secondAttribute="bottom" id="mKc-i1-pUc"/>
                                                 <constraint firstItem="uik-rY-alM" firstAttribute="top" secondItem="6dn-qz-R3r" secondAttribute="top" constant="5" id="oFT-FY-npv"/>
                                                 <constraint firstItem="uik-rY-alM" firstAttribute="leading" secondItem="6dn-qz-R3r" secondAttribute="leading" constant="5" id="rSI-Sk-HQ7"/>
-                                                <constraint firstItem="LKf-dF-2Cv" firstAttribute="top" secondItem="uik-rY-alM" secondAttribute="bottom" constant="8" symbolic="YES" id="rv4-oJ-YUO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
