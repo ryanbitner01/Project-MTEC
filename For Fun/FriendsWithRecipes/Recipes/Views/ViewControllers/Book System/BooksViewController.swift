@@ -23,11 +23,11 @@ class BooksViewController: UIViewController {
         bookCollectionView.delegate = self
         getRecipeBookCovers()
         getShareRequests()
+        getSharedBookCovers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getSharedBookCovers()
     }
     
     func getShareRequests() {
