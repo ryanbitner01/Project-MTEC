@@ -23,13 +23,11 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         friendsCollectionView.delegate = self
         friendsCollectionView.dataSource = self
-        //getProfile()
-        //updateUI()
+        getProfile()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getProfile()
     }
     
     func updateUI() {
