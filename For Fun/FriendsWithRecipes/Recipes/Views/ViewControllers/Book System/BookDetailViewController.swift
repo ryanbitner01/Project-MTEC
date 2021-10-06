@@ -26,11 +26,11 @@ class BookDetailViewController: UIViewController {
         super.viewDidLoad()
         recipeCollectionView.dataSource = self
         checkShared()
+        getBook()
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        getBook()
     }
     
     func getBook() {
