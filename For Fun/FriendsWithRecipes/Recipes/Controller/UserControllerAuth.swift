@@ -192,7 +192,7 @@ class UserControllerAuth {
     
     func getAllDisplayNames(completion: @escaping (Result<[String], UserControllerError>)-> Void) {
         let userPath = getUserPath()
-        userPath?.getDocuments(completion: { docs, err in
+        userPath?.addSnapshotListener { docs, err in
             if let docs = docs {
                 let displayNames = docs.documents.compactMap { doc -> String? in
                     let data = doc.data()
@@ -206,7 +206,7 @@ class UserControllerAuth {
             } else {
                 completion(.failure(.otherErr))
             }
-        })
+        }
     }
     
 }
