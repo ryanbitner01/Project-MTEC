@@ -43,6 +43,9 @@ class PersonCollectionViewCell: UICollectionViewCell {
                     }
                 }
             case .failure(let err):
+                DispatchQueue.main.async {
+                    self.personImageView.image = UIImage(systemName: "person.circle.fill")
+                }
                 print(err)
             }
         }

@@ -54,11 +54,12 @@ class PersonTableViewCell: UITableViewCell {
             case .success(let image):
                 DispatchQueue.main.async {
                     self.profile?.image = image
-                    if let imageData = self.profile?.image {
-                        self.personImage.image = UIImage(data: imageData)
-                    }
+                    self.personImage.image = UIImage(data: image)
                 }
             case .failure(let err):
+                DispatchQueue.main.async {
+                    self.personImage.image = UIImage(systemName: "person.circle.fill")
+                }
                 print(err.localizedDescription)
             }
         }
