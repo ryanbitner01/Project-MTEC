@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var staySignedInButton: UIButton!
     @IBOutlet weak var alertLabel: UILabel!
     
     //var canLogin: Bool = false
@@ -21,12 +22,28 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         loginButton.layer.cornerRadius = 5
         self.hideKeyboardTappedAround()
-    
+        getRememberedEmail()
+        getSignedIn()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         alertLabel.isHidden = true
-        getRememberedEmail()
+        
+
+    }
+    
+    func getSignedIn() {
+        if UserControllerAuth.shared.getStaySignedIn() {
+            staySignedInButton.isSelected = true
+            getSignedInUser()
+        }
+    }
+    
+    func getSignedInUser() {
+        guard let user = UserControllerAuth.shared.getUserStillSignedIn() else {return}
+        usernameTextField.text = user.email
+        passwordTextField.text = user.userPassword
+        login(password: user.userPassword, email: user.email)
     }
     
     func getRememberedEmail() {
@@ -40,8 +57,7 @@ class LoginViewController: UIViewController {
         alertLabel.text = message
     }
     
-    @IBAction func loginPressed(_ sender: UIButton) {
-        guard let email = usernameTextField.text, let password = passwordTextField.text else {return}
+    func login(password: String, email: String) {
         UserControllerAuth.shared.loginUser(email: email, password: password) { err in
             if let err = err {
                 DispatchQueue.main.async {
@@ -50,21 +66,35 @@ class LoginViewController: UIViewController {
             } else {
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "LoginUser", sender: self)
-                    print("LOGIN SUCCESSFUL")
+                    print("Login Successful")
                 }
             }
         }
+    }
+    
+    @IBAction func loginPressed(_ sender: UIButton) {
+        guard let email = usernameTextField.text, let password = passwordTextField.text else {return}
+        login(password: password, email: email)
     }
     
     @IBAction func logoutUnwind(_ unwindSegue: UIStoryboardSegue) {
         UserControllerAuth.shared.logoutUser()
         usernameTextField.text = ""
         passwordTextField.text = ""
+        staySignedInButton.isSelected = false
+        rememberMeButton.isSelected = false
+        rememberEmail()
+        staySignedIn()
         // Use data from the view controller which initiated the unwind segue
     }
     
     @IBAction func donePressed(_ sender: UITextField) {
         sender.resignFirstResponder()
+    }
+    
+    @IBAction func staySignedInPressed(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        rememberMeButton.isSelected = sender.isSelected
     }
     
     @IBAction func rememberMeButton(_ sender: UIButton) {
@@ -82,8 +112,17 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func staySignedIn() {
+        if staySignedInButton.state == .selected {
+            UserControllerAuth.shared.staySignedIn(email: usernameTextField.text!, password: passwordTextField.text!, staySignedIn: true)
+        } else if staySignedInButton.state == .normal {
+            UserControllerAuth.shared.staySignedIn(email: "", password: "", staySignedIn: false)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         rememberEmail()
+        staySignedIn()
     }
     
 }

@@ -125,17 +125,33 @@ class UserControllerAuth {
     }
     
     func rememberEmail(email: String, rememberMe: Bool) {
-        UserDefaults.standard.setValue(email, forKey: "userEmail")
-        UserDefaults.standard.setValue(rememberMe, forKey: "rememberMe")
+        UserDefaults.standard.userEmail = email
+        UserDefaults.standard.rememberMe = rememberMe
+    }
+    
+    func staySignedIn(email: String, password: String, staySignedIn: Bool) {
+        UserDefaults.standard.userEmail = email
+        UserDefaults.standard.userPassword = password
+        UserDefaults.standard.staySignedIn = staySignedIn
+    }
+    
+    func getUserStillSignedIn() -> (email: String, userPassword: String)? {
+        guard let password = UserDefaults.standard.userPassword, let email = UserDefaults.standard.userEmail else {return nil}
+        return (email: email, userPassword: password)
+    }
+    
+    func getStaySignedIn() -> Bool{
+        guard let staySignedIn = UserDefaults.standard.staySignedIn else {return false}
+        return staySignedIn
     }
     
     func getRememberedEmail() -> String {
-        guard let email = UserDefaults.standard.value(forKey: "userEmail") as? String else {return ""}
+        guard let email = UserDefaults.standard.userEmail else {return ""}
         return email
     }
     
     func getRememberMe() -> Bool {
-        guard let rememberMe = UserDefaults.standard.value(forKey: "rememberMe") as? Bool else {return false}
+        guard let rememberMe = UserDefaults.standard.rememberMe else {return false}
         return rememberMe
     }
     

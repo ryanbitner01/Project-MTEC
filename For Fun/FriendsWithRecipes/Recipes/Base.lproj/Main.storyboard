@@ -52,7 +52,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zB-Kz-yxV">
-                                <rect key="frame" x="129.5" y="536" width="155" height="42"/>
+                                <rect key="frame" x="129.5" y="591" width="155" height="42"/>
                                 <color key="backgroundColor" name="tintColor"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jpu-KK-Dbh">
-                                <rect key="frame" x="152.5" y="598" width="109" height="68"/>
+                                <rect key="frame" x="152.5" y="653" width="109" height="68"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTs-Ct-j51">
                                         <rect key="frame" x="0.0" y="0.0" width="109" height="29"/>
@@ -94,30 +94,61 @@
                                 <color key="textColor" red="0.8945111147" green="0.20812782260000001" blue="0.33158723579999999" alpha="0.8980392157" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="center" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sgJ-IC-5SY">
-                                <rect key="frame" x="72.5" y="486" width="269" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gbc-8m-c0v">
+                                <rect key="frame" x="72.5" y="486" width="269" height="100"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80a-tW-Vdy">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="80a-tW-Vdy" secondAttribute="height" id="Zzv-ii-2Pm"/>
-                                            <constraint firstAttribute="width" constant="50" id="i2R-Iw-Ugr"/>
-                                        </constraints>
-                                        <color key="tintColor" name="tintColor"/>
-                                        <state key="normal" image="square" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
-                                        </state>
-                                        <state key="selected" image="checkmark.square.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="rememberMeButton:" destination="7Du-uV-mHK" eventType="touchUpInside" id="aFA-tj-41s"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQc-Hr-5z8">
-                                        <rect key="frame" x="58" y="16.5" width="211" height="17"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="center" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ghf-Xc-oya">
+                                        <rect key="frame" x="0.0" y="0.0" width="269" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuJ-BV-XIf">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="az5-YX-Hr6"/>
+                                                    <constraint firstAttribute="width" secondItem="zuJ-BV-XIf" secondAttribute="height" id="vlD-wR-lOA"/>
+                                                </constraints>
+                                                <color key="tintColor" name="tintColor"/>
+                                                <state key="normal" image="square" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                                </state>
+                                                <state key="selected" image="checkmark.square.fill" catalog="system"/>
+                                                <connections>
+                                                    <action selector="staySignedInPressed:" destination="7Du-uV-mHK" eventType="touchUpInside" id="WaD-Aq-Yg6"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stay Signed In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOk-B6-eEA">
+                                                <rect key="frame" x="58" y="16.5" width="211" height="17"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="center" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sgJ-IC-5SY">
+                                        <rect key="frame" x="0.0" y="50" width="269" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80a-tW-Vdy">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="80a-tW-Vdy" secondAttribute="height" id="Zzv-ii-2Pm"/>
+                                                    <constraint firstAttribute="width" constant="50" id="i2R-Iw-Ugr"/>
+                                                </constraints>
+                                                <color key="tintColor" name="tintColor"/>
+                                                <state key="normal" image="square" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                                </state>
+                                                <state key="selected" image="checkmark.square.fill" catalog="system"/>
+                                                <connections>
+                                                    <action selector="rememberMeButton:" destination="7Du-uV-mHK" eventType="touchUpInside" id="aFA-tj-41s"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IQc-Hr-5z8">
+                                                <rect key="frame" x="58" y="16.5" width="211" height="17"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -125,22 +156,22 @@
                         <color key="backgroundColor" name="BGColor"/>
                         <color key="tintColor" name="tintColor"/>
                         <constraints>
+                            <constraint firstItem="gbc-8m-c0v" firstAttribute="top" secondItem="HGO-iZ-P84" secondAttribute="bottom" id="09P-Vi-hh1"/>
                             <constraint firstItem="ehf-re-7Pe" firstAttribute="top" secondItem="bcX-A6-syT" secondAttribute="top" constant="25" id="6g6-Hy-GeI"/>
                             <constraint firstItem="ktE-dv-FAN" firstAttribute="width" secondItem="pbu-7m-flq" secondAttribute="width" id="9eE-S3-mIn"/>
-                            <constraint firstItem="5zB-Kz-yxV" firstAttribute="top" secondItem="80a-tW-Vdy" secondAttribute="bottom" id="Ccg-c4-HmD"/>
                             <constraint firstItem="5zB-Kz-yxV" firstAttribute="width" secondItem="8la-kd-Iff" secondAttribute="width" multiplier="0.374396" id="GVG-XB-xjd"/>
                             <constraint firstItem="5zB-Kz-yxV" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="Hu9-Sk-Lru"/>
-                            <constraint firstItem="sgJ-IC-5SY" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="Mkl-CW-iNp"/>
+                            <constraint firstItem="gbc-8m-c0v" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="M8m-Gl-lom"/>
                             <constraint firstItem="pbu-7m-flq" firstAttribute="centerY" secondItem="8la-kd-Iff" secondAttribute="centerY" id="NnM-Iq-xM0"/>
-                            <constraint firstItem="sgJ-IC-5SY" firstAttribute="top" secondItem="pbu-7m-flq" secondAttribute="bottom" id="Soa-0Y-XfF"/>
+                            <constraint firstItem="5zB-Kz-yxV" firstAttribute="top" secondItem="gbc-8m-c0v" secondAttribute="bottom" constant="5" id="OIF-Jb-K7C"/>
                             <constraint firstItem="ehf-re-7Pe" firstAttribute="height" secondItem="8la-kd-Iff" secondAttribute="height" multiplier="0.3" id="UyR-Tf-Aau"/>
                             <constraint firstItem="ehf-re-7Pe" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="b9d-Nj-trM"/>
                             <constraint firstItem="Jpu-KK-Dbh" firstAttribute="top" secondItem="5zB-Kz-yxV" secondAttribute="bottom" constant="20" id="cfZ-mi-Erc"/>
                             <constraint firstItem="pbu-7m-flq" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="ctl-ev-3nr"/>
                             <constraint firstItem="pbu-7m-flq" firstAttribute="top" secondItem="ktE-dv-FAN" secondAttribute="bottom" constant="8" symbolic="YES" id="gBR-Pe-V9E"/>
-                            <constraint firstItem="sgJ-IC-5SY" firstAttribute="width" secondItem="HGO-iZ-P84" secondAttribute="width" id="lX0-1l-lqh"/>
                             <constraint firstItem="ktE-dv-FAN" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="mpJ-Nq-pCN"/>
                             <constraint firstItem="pbu-7m-flq" firstAttribute="width" secondItem="ehf-re-7Pe" secondAttribute="width" id="nwW-5M-6fO"/>
+                            <constraint firstItem="gbc-8m-c0v" firstAttribute="width" secondItem="HGO-iZ-P84" secondAttribute="width" id="s3K-4P-CBL"/>
                             <constraint firstItem="Jpu-KK-Dbh" firstAttribute="centerX" secondItem="8la-kd-Iff" secondAttribute="centerX" id="uqY-pE-kiR"/>
                         </constraints>
                     </view>
@@ -149,13 +180,14 @@
                         <outlet property="loginButton" destination="5zB-Kz-yxV" id="ZVo-lc-3AD"/>
                         <outlet property="passwordTextField" destination="HGO-iZ-P84" id="Byk-7t-7cM"/>
                         <outlet property="rememberMeButton" destination="80a-tW-Vdy" id="hZZ-7W-kCd"/>
+                        <outlet property="staySignedInButton" destination="zuJ-BV-XIf" id="FWc-sK-eOt"/>
                         <outlet property="usernameTextField" destination="L9n-Ps-taI" id="ysu-rV-j3K"/>
                         <segue destination="QC8-6v-9kv" kind="presentation" identifier="LoginUser" id="QVN-MR-Umy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yDh-V2-70f" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.840579710144929" y="88.392857142857139"/>
+            <point key="canvasLocation" x="-32" y="88"/>
         </scene>
         <!--Recipe Books-->
         <scene sceneID="oKk-uN-hsR">
