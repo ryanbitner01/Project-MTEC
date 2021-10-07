@@ -9,21 +9,43 @@ import UIKit
 import Firebase
 import FirebaseStorage
 import FirebaseAuth
+import FirebaseMessaging
+import UserNotifications
 let db = Firestore.firestore()
 let storage = Storage.storage()
 let auth = Auth.auth()
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, err in
+            guard success else {return}
+            
+            
+        }
+        
+        application.registerForRemoteNotifications()
+        
         return true
     }
-
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        messaging.token { token, err in
+            guard let token = token else {return}
+            print(token)
+        }
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
