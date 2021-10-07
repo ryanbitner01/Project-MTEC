@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         loginButton.layer.cornerRadius = 5
         self.hideKeyboardTappedAround()
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
