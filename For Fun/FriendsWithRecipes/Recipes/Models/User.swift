@@ -18,8 +18,9 @@ class User: Codable {
     var friends: [String]
     var shareRequestsSent: [SentBookShareRequest]
     var shareRequests: [BookShareRequest]
+    var notificationToken: String?
     
-    init(id: String = "", album: [BookCover] = [], sharedAlbum: [BookCover] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = [], imageURL: String = "", shareRequestsSent: [SentBookShareRequest] = [], shareRequests: [BookShareRequest] = []) {
+    init(id: String = "", album: [BookCover] = [], sharedAlbum: [BookCover] = [], displayName: String, image: Data? = nil, friends: [String] = [], pendingFriends: [String] = [], imageURL: String = "", shareRequestsSent: [SentBookShareRequest] = [], shareRequests: [BookShareRequest] = [], notificationToken: String? = "") {
         self.id = id
         self.album = album
         self.sharedAlbum = sharedAlbum
@@ -30,6 +31,7 @@ class User: Codable {
         self.imageURL = imageURL
         self.shareRequestsSent = shareRequestsSent
         self.shareRequests = shareRequests
+        self.notificationToken = notificationToken
     }
     
 }

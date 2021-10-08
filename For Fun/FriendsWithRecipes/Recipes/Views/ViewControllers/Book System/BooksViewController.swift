@@ -24,10 +24,15 @@ class BooksViewController: UIViewController {
         getRecipeBookCovers()
         getShareRequests()
         getSharedBookCovers()
+        updateToken()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    func updateToken() {
+        NotificationController.shared.updateToken()
     }
     
     func getShareRequests() {

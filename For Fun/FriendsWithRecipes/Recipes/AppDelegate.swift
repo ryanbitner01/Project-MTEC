@@ -45,6 +45,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         }
     }
     
+//    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+//        print(remoteMessage.appData)
+//    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // reset badge count
+        application.applicationIconBadgeNumber = 0
+    }
     
     // MARK: UISceneSession Lifecycle
 

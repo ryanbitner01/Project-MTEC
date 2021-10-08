@@ -16,8 +16,9 @@ class Profile: Codable {
     var friends: [String]
     var requests: [String]
     var pendingFriends: [String]
+    var noticationTokens: [String]
     
-    init(name: String, email: String = "", imageURL: String = "",image: Data? = nil, friends: [String] = [], requests: [String] = [], pendingFriends: [String] = []) {
+    init(name: String, email: String = "", imageURL: String = "",image: Data? = nil, friends: [String] = [], requests: [String] = [], pendingFriends: [String] = [], notificationTokens: [String] = []) {
         self.name = name
         self.email = email
         self.image = image
@@ -25,6 +26,7 @@ class Profile: Codable {
         self.friends = friends
         self.requests = requests
         self.pendingFriends = pendingFriends
+        self.noticationTokens = notificationTokens
     }
     
     
