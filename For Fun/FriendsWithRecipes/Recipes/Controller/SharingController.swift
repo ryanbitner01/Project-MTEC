@@ -296,6 +296,16 @@ class SharingController {
             "Requests"
         ])
         
+        // send notification
+        for token in profile.noticationTokens {
+            bookRequestNotification(token: token, book: book)
+        }
+        
+    }
+    
+    func bookRequestNotification(token: String, book: Book) {
+        guard let displayName = UserControllerAuth.shared.profile?.name else {return}
+        NotificationController.shared.sendPushNotification(to: token, title: "New Book Share Request", body: "\(displayName) would like to share a book with you.")
     }
     
     func canShare(book: Book, email: String, completion: @escaping (SharingError?) -> Void) {

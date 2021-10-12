@@ -79,6 +79,7 @@
 		1E3FF14726A1C83100A8D019 /* SentBookShareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentBookShareRequest.swift; sourceTree = "<group>"; };
 		1E3FF14926A1E43A00A8D019 /* BookShareCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShareCell.swift; sourceTree = "<group>"; };
 		1E4D21812695FCD500622E95 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
+		1E5AE4D827109BCC009B6C4A /* Recipes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recipes.entitlements; sourceTree = "<group>"; };
 		1E5BD55A268B63AD004BF3BA /* PersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonTableViewCell.swift; path = Recipes/PersonTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		1E64720C264AF98C00A99E18 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		1E64720E264AFABD00A99E18 /* RecipeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeController.swift; sourceTree = "<group>"; };
@@ -286,6 +287,7 @@
 		1EFB1D4D25F92836004B87DB /* Recipes */ = {
 			isa = PBXGroup;
 			children = (
+				1E5AE4D827109BCC009B6C4A /* Recipes.entitlements */,
 				1E17BF83270F4BB5008AF94C /* Extensions */,
 				1EBA7857268B6C2700F6F07A /* Models */,
 				1E051D352642D8D200137B73 /* Controller */,
@@ -631,15 +633,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DD77Z52DR7;
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ryanbit.Recipes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -653,15 +656,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Recipes/Recipes.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DD77Z52DR7;
 				INFOPLIST_FILE = Recipes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ryanbit.Recipes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

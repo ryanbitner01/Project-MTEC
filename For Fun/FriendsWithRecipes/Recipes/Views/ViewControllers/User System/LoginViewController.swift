@@ -24,12 +24,17 @@ class LoginViewController: UIViewController {
         self.hideKeyboardTappedAround()
         getRememberedEmail()
         getSignedIn()
+        clearBadge()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         alertLabel.isHidden = true
         
 
+    }
+    
+    func clearBadge() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func getSignedIn() {

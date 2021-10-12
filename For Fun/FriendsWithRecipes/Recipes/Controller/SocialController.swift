@@ -56,7 +56,7 @@ class SocialController {
         }
     }
     
-    func sendFriendRequest(user: String, completion: @escaping (SocialError?) -> Void) {
+    func sendFriendRequest(profile: Profile, user: String, completion: @escaping (SocialError?) -> Void) {
         guard let path = getUserPath() else {return completion(.friendRequestErr)}
         guard let self = UserControllerAuth.shared.user?.id else {return completion(.friendRequestErr)}
         path.document(user).updateData([
@@ -71,6 +71,13 @@ class SocialController {
         path.document(self).updateData([
             "Requests": FieldValue.arrayUnion([user])
         ])
+        
+        //Send notification
+        let tokens = profile.noticationTokens
+        for token in tokens {
+            friendRequestNotification(token: token)
+        }
+    
         completion(nil)
     }
     
@@ -87,6 +94,11 @@ class SocialController {
                 completion(.failure(.otherErr))
             }
         }
+    }
+    
+    func friendRequestNotification(token: String) {
+        guard let displayName = UserControllerAuth.shared.profile?.name else {return}
+        NotificationController.shared.sendPushNotification(to: token, title: "New Friend Request", body: "\(displayName) has sent you a friend request")
     }
     
     func denyRequest(otherUser: String, completion: @escaping (SocialError?) -> Void) {
@@ -177,7 +189,8 @@ class SocialController {
                 let requests = data["Requests"] as? [String] ?? []
                 let pendingFriends = data["PendingFriends"] as? [String] ?? []
                 let imageURL = data["ProfilePic"] as? String ?? ""
-                let newProfile = Profile(name: name, email: email, imageURL: imageURL, friends: friends, requests: requests, pendingFriends: pendingFriends)
+                let notificationTokens = data["notificationToken"] as? [String] ?? []
+                let newProfile = Profile(name: name, email: email, imageURL: imageURL, friends: friends, requests: requests, pendingFriends: pendingFriends, notificationTokens: notificationTokens)
                 if self {
                     UserControllerAuth.shared.profile = newProfile
                     completion?(newProfile)

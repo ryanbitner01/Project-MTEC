@@ -104,8 +104,8 @@ class ProfileSnapshotViewController: UIViewController {
             DispatchQueue.main.async {
                 self.updateRequestButton()
             }
-            guard let email = profile?.email else {return}
-            SocialController.shared.sendFriendRequest(user: email) { err in
+            guard let profile = profile else {return}
+            SocialController.shared.sendFriendRequest(profile: profile ,user: profile.email) { err in
                 if let err = err {
                     print(err)
                 } else {
