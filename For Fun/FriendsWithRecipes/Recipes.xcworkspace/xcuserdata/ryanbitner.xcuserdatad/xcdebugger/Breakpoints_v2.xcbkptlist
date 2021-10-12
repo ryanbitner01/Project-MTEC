@@ -42,7 +42,6 @@
             filePath = "Recipes/Views/ViewControllers/Book System/BookDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-<<<<<<< Updated upstream
             startingLineNumber = "61"
             endingLineNumber = "61"
             landmarkName = "segueToRecipeDetailViewController(_:sender:)"
@@ -62,11 +61,6 @@
             startingLineNumber = "116"
             endingLineNumber = "116"
             landmarkName = "staySignedIn()"
-=======
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "messaging(_:didReceiveRegistrationToken:)"
->>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -80,7 +74,6 @@
             filePath = "Recipes/Controller/UserControllerAuth.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-<<<<<<< Updated upstream
             startingLineNumber = "144"
             endingLineNumber = "144"
             landmarkName = "getStaySignedIn()"
@@ -228,11 +221,6 @@
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "getSignedInUser()"
-=======
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "applicationDidBecomeActive(_:)"
->>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
