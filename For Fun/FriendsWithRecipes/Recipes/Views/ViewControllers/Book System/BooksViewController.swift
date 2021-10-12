@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class BooksViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class BooksViewController: UIViewController {
         case pendingShare
     }
     
+    @IBOutlet weak var collectionBottomContstraint: NSLayoutConstraint!
     @IBOutlet weak var bookCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -24,6 +26,21 @@ class BooksViewController: UIViewController {
         getRecipeBookCovers()
         getShareRequests()
         getSharedBookCovers()
+<<<<<<< Updated upstream
+=======
+        updateToken()
+        let bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        view.addSubview(bannerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        let contraints = [
+            bannerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bookCollectionView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor)
+        ]
+        collectionBottomContstraint.isActive = false
+        NSLayoutConstraint.activate(contraints)
+        
+>>>>>>> Stashed changes
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,22 +57,6 @@ class BooksViewController: UIViewController {
             }
         }
     }
-    
-    //    func getSharedBook() {
-    //        guard let user = UserControllerAuth.shared.user else {return}
-    //        BookController.shared.getBooks(user: user, path: .sharedAlbum) { result in
-    //            switch result {
-    //            case .success(let books):
-    //                UserControllerAuth.shared.user?.sharedAlbum = books
-    //                print("got shared books")
-    //                DispatchQueue.main.async {
-    //                    self.bookCollectionView.reloadData()
-    //                }
-    //            case .failure(let err):
-    //                print(err.localizedDescription)
-    //            }
-    //        }
-    //    }
     
     func getSharedBookCovers() {
         guard let user = UserControllerAuth.shared.user else {return}

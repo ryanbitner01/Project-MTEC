@@ -14,6 +14,7 @@
 		1E17BF82270F4BAF008AF94C /* UserDefaultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E17BF81270F4BAF008AF94C /* UserDefaultExtension.swift */; };
 		1E340A2C26A0753600A65C09 /* NewNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E340A2B26A0753600A65C09 /* NewNameViewController.swift */; };
 		1E340A2E26A0826100A65C09 /* BookShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E340A2D26A0826100A65C09 /* BookShareRequest.swift */; };
+		1E3799982715D4AD00A4C619 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E3799972715D4AD00A4C619 /* AppTrackingTransparency.framework */; };
 		1E3976182680F61C00F72F0D /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3976172680F61C00F72F0D /* SectionHeader.swift */; };
 		1E39761A26822A4A00F72F0D /* SharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761926822A4A00F72F0D /* SharingController.swift */; };
 		1E39761C2683725F00F72F0D /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E39761B2683725F00F72F0D /* MigrationController.swift */; };
@@ -73,6 +74,7 @@
 		1E17BF81270F4BAF008AF94C /* UserDefaultExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultExtension.swift; sourceTree = "<group>"; };
 		1E340A2B26A0753600A65C09 /* NewNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewNameViewController.swift; path = "Recipes/Views/ViewControllers/User System/NewNameViewController.swift"; sourceTree = SOURCE_ROOT; };
 		1E340A2D26A0826100A65C09 /* BookShareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookShareRequest.swift; sourceTree = "<group>"; };
+		1E3799972715D4AD00A4C619 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		1E3976172680F61C00F72F0D /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		1E39761926822A4A00F72F0D /* SharingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingController.swift; sourceTree = "<group>"; };
 		1E39761B2683725F00F72F0D /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF663D1626AE4308CDE67E73 /* Pods_Recipes.framework in Frameworks */,
+				1E3799982715D4AD00A4C619 /* AppTrackingTransparency.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +307,7 @@
 		AC22540C96D89E20BC7376DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E3799972715D4AD00A4C619 /* AppTrackingTransparency.framework */,
 				687663DB92093DD9553B6147 /* Pods_Recipes.framework */,
 			);
 			name = Frameworks;

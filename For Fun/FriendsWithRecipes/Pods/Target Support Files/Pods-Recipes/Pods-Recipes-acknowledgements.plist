@@ -1759,6 +1759,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+<<<<<<< Updated upstream
+=======
+			<string>Copyright 2021 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
+			<key>Title</key>
+			<string>Google-Mobile-Ads-SDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2021 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
+			<key>Title</key>
+			<string>GoogleAppMeasurement</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+>>>>>>> Stashed changes
 			<string>
                                  Apache License
                            Version 2.0, January 2004
@@ -1966,6 +1989,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			<string>Apache</string>
 			<key>Title</key>
 			<string>GoogleDataTransport</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2021 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
+			<key>Title</key>
+			<string>GoogleUserMessagingPlatform</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -2223,6 +2256,16 @@ Fuller's blog&lt;/a&gt;
 			<string>Apache</string>
 			<key>Title</key>
 			<string>GoogleUtilities</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2018 Google LLC.</string>
+			<key>License</key>
+			<string>Apache 2.0</string>
+			<key>Title</key>
+			<string>PersonalizedAdConsent</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
