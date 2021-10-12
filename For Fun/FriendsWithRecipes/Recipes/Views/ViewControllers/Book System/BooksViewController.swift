@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class BooksViewController: UIViewController {
     
@@ -25,7 +26,24 @@ class BooksViewController: UIViewController {
         getShareRequests()
         getSharedBookCovers()
         updateToken()
+        let bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        let contraints = [
+            bannerView.topAnchor.constraint(equalTo: view.topAnchor),
+            bookCollectionView.topAnchor.constraint(equalTo: bannerView.bottomAnchor),
+            bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            
+        ]
+        NSLayoutConstraint.activate(contraints)
+        
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        
+        bannerView.load(GADRequest())
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

@@ -42,6 +42,7 @@
 		1EBA7861268B6C3800F6F07A /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBA785C268B6C3800F6F07A /* Step.swift */; };
 		1EBA7863268B74C400F6F07A /* PersonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBA7862268B74C400F6F07A /* PersonCollectionViewCell.swift */; };
 		1EBA7865268B794C00F6F07A /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBA7864268B794C00F6F07A /* UserSearchViewController.swift */; };
+		1EC0C2502715E90500053434 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EC0C24F2715E90500053434 /* AppTrackingTransparency.framework */; };
 		1ED0677C2666847E00A86F12 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED0677B2666847E00A86F12 /* BookDetailViewController.swift */; };
 		1ED06780266696BC00A86F12 /* StepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED0677F266696BC00A86F12 /* StepCell.swift */; };
 		1ED067842666972800A86F12 /* AddItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED067832666972800A86F12 /* AddItemCell.swift */; };
@@ -102,6 +103,7 @@
 		1EBA785C268B6C3800F6F07A /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		1EBA7862268B74C400F6F07A /* PersonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersonCollectionViewCell.swift; path = Recipes/PersonCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		1EBA7864268B794C00F6F07A /* UserSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserSearchViewController.swift; path = "Recipes/Views/ViewControllers/User System/UserSearchViewController.swift"; sourceTree = SOURCE_ROOT; };
+		1EC0C24F2715E90500053434 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		1ED0677B2666847E00A86F12 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		1ED0677F266696BC00A86F12 /* StepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCell.swift; sourceTree = "<group>"; };
 		1ED067832666972800A86F12 /* AddItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemCell.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF663D1626AE4308CDE67E73 /* Pods_Recipes.framework in Frameworks */,
+				1EC0C2502715E90500053434 /* AppTrackingTransparency.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +309,7 @@
 		AC22540C96D89E20BC7376DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1EC0C24F2715E90500053434 /* AppTrackingTransparency.framework */,
 				687663DB92093DD9553B6147 /* Pods_Recipes.framework */,
 			);
 			name = Frameworks;

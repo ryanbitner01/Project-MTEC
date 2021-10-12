@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import UserMessagingPlatform
+import GoogleMobileAds
 
 class LoginViewController: UIViewController {
     
@@ -25,6 +27,8 @@ class LoginViewController: UIViewController {
         getRememberedEmail()
         getSignedIn()
         clearBadge()
+        addConsent()
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,6 +46,54 @@ class LoginViewController: UIViewController {
             staySignedInButton.isSelected = true
             getSignedInUser()
         }
+    }
+    
+    func addConsent() {
+        
+        // Create a UMPRequestParameters object.
+        let parameters = UMPRequestParameters()
+        // Set tag for under age of consent. Here false means users are not under age.
+        parameters.tagForUnderAgeOfConsent = false
+        // Request an update to the consent information.
+        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(
+            with: parameters,
+            completionHandler: { [self] error in
+
+              // The consent information has updated.
+              if error != nil {
+                // Handle the error.
+              } else {
+                // The consent information state was updated.
+                // You are now ready to see if a form is available.
+                let formStatus = UMPConsentInformation.sharedInstance.formStatus
+                if formStatus == UMPFormStatus.available {
+                  loadForm()
+                }
+              }
+            })
+    }
+    
+    func loadForm() {
+      UMPConsentForm.load(completionHandler: { form, loadError in
+        if loadError != nil {
+          // Handle the error.
+        } else {
+          // Present the form. You can also hold on to the reference to present
+          // later.
+          if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.required {
+            form?.present(
+                from: self,
+                completionHandler: { dismissError in
+                  if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.obtained {
+                    // App can start requesting ads.
+                  }
+
+                })
+          } else {
+            // Keep the form available for changes to user consent.
+          }
+        }
+      })
     }
     
     func getSignedInUser() {
